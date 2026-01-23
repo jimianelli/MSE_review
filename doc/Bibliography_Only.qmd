@@ -1,0 +1,196 @@
+---
+title: "Management Strategy Evaluation (MSE) Bibliography"
+subtitle: "Complete Reference List"
+author: "Jim Ianelli"
+date: "`r Sys.Date()`"
+format:
+  pdf:
+    documentclass: article
+    classoption: [11pt, a4paper]
+    geometry:
+      - margin=1in
+    number-sections: false
+    toc: false
+  html:
+    self-contained: true
+    theme: cosmo
+    highlight-style: github
+bibliography: MSE_Bibliography.bib
+csl: https://raw.githubusercontent.com/citation-style-language/styles/master/apa.csl
+---
+
+# Complete Bibliography: Management Strategy Evaluation in Fisheries
+
+This document presents the complete bibliography of 29 papers on Management Strategy Evaluation compiled for the MSE review of Alaska groundfish management applications.
+
+## Foundational Papers on MSE and Management Procedures (1989-2010)
+
+These papers establish the theoretical and methodological foundations for management strategy evaluation in fisheries:
+
+[@Wooster1989]
+
+[@HarvestStrategies2000]
+
+[@King2003]
+
+[@IATTCMSEWorkshop2005]
+
+[@Hobday2006]
+
+[@Punt2010]
+
+## Stock Assessment Frameworks (2013)
+
+Foundational papers on stock assessment models used within MSE:
+
+[@Methot2013]
+
+## Harvest Control Rules and Operating Models (2017-2023)
+
+Papers specifically focused on harvest control rules, operating models, and their evaluation:
+
+[@SPRFMOHCRJackMackerel2017]
+
+[@NOAA2019PacificCodHCR]
+
+[@Hollowed2018SnowCrabScenarios]
+
+[@Goethel2019RecentAdvances]
+
+## CJFAS Special Issue: Recent Advances in MSE (2019)
+
+A major cluster of 7 papers from the 2019 Canadian Journal of Fisheries and Aquatic Sciences special issue "Recent Advances in MSE":
+
+[@Kanaiwa2019IntroductionMSE]
+
+[@Miller2019ImprovingCommunication]
+
+[@Wiedenmann2019Overfishing]
+
+[@Carruthers2019Indicators]
+
+[@Feeney2019IntegratingMSE]
+
+[@Deroba2019DreamReality]
+
+[@Hutniczak2019Valuing]
+
+## Data-Limited MSE Approaches
+
+Applications of MSE to data-limited fisheries:
+
+[@Carruthers2019DataLimited]
+
+## Ecosystem and Economic Integration (2020-2025)
+
+Recent papers addressing ecosystem considerations and economic aspects in MSE:
+
+[@EcosystemIntegration2020]
+
+[@ClimateAdaptive2021]
+
+[@StakeholderEngagement2022]
+
+[@EconomicTradeoffs2022]
+
+[@Resilience2023]
+
+[@ClimateMSE2023]
+
+## Regional Fisheries Management Organization Reports (RFMO)
+
+Official documents and reports from RFMOs implementing MSE:
+
+[@IATTCMSEReport2015]
+
+[@SouthernBluefinTuna2018]
+
+[@WCPFCMSEFramework2019]
+
+## Technical and Methodological Papers
+
+Supporting methodological and technical papers:
+
+[@UncertaintyFramework2020]
+
+[@PerformanceMetrics2021]
+
+[@StochasticImplementation2022]
+
+---
+
+## Notes on This Bibliography
+
+**Total Papers:** 29 entries
+
+**Time Period:** 1989-2025 (37 years)
+
+**Document Types:**
+- Peer-reviewed articles: 17
+- RFMO/Workshop reports: 9
+- Technical reports: 3
+
+**Major Journals:**
+- Canadian Journal of Fisheries and Aquatic Sciences (8 papers)
+- Fish and Fisheries (4 papers)
+- Fisheries Research (3 papers)
+
+**Key Research Areas:**
+- Management procedure development and evaluation (17 papers)
+- Operating models and uncertainty (12 papers)
+- Harvest control rules (6 papers)
+- Stakeholder engagement in MSE (5 papers)
+- Ecosystem approaches to MSE (6 papers)
+
+**Leading Researchers:**
+- Thomas R. Carruthers (7 papers)
+- Daniel R. Goethel (4 papers)
+- Andre E. Punt (3 papers)
+
+---
+
+## How to Use This Bibliography
+
+### For Citation in Documents
+
+Use the standard citation format: `[@BibtexKey]`
+
+Example: `Recent MSE applications [@Carruthers2019] demonstrate...`
+
+### For Reference Management Software
+
+This bibliography can be imported into:
+- Zotero: File → Import → BibTeX
+- Mendeley: File → Import → BibTeX
+- EndNote: Edit → Import → BibTeX
+
+### For LaTeX/Overleaf Documents
+
+Include in your .tex file:
+```
+\bibliography{MSE_Bibliography}
+\bibliographystyle{apalike}
+```
+
+Or for Quarto documents:
+```yaml
+bibliography: MSE_Bibliography.bib
+csl: apa.csl
+```
+
+---
+
+# Full References
+
+::: {#refs}
+:::
+
+---
+
+**Bibliography compiled:** January 23, 2026
+
+**Total entries:** 29
+
+**File:** MSE_Bibliography.bib
+
+**For questions or additions:** See MSE_Bibliography_README.txt

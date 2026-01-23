@@ -1,0 +1,249 @@
+---
+title: "Management Strategy Evaluation (MSE) Bibliography"
+subtitle: "Comprehensive Reference Collection"
+author: "Compiled by Jim Ianelli"
+date: "`r Sys.Date()`"
+format:
+  pdf:
+    documentclass: article
+    classoption: [11pt, a4paper]
+    geometry:
+      - margin=1in
+    number-sections: false
+    toc: true
+    toc-depth: 1
+  html:
+    self-contained: true
+    theme: cosmo
+    toc: true
+    toc-depth: 2
+bibliography: MSE_Bibliography_EXPANDED.bib
+csl: https://raw.githubusercontent.com/citation-style-language/styles/master/apa.csl
+---
+
+# Management Strategy Evaluation (MSE) Bibliography
+
+This document provides a comprehensive bibliography of 64 peer-reviewed papers and technical reports on Management Strategy Evaluation and related topics in fisheries management. References span foundational MSE methodology through recent applications in climate adaptation and ecosystem-based management.
+
+## How to Use This Bibliography
+
+This bibliography is organized by subject matter for easy navigation:
+
+1. **Foundational MSE Theory** - Core papers establishing MSE concepts and frameworks
+2. **Alaska Groundfish Applications** - Papers specific to Alaska groundfish fisheries management
+3. **Stock Assessment & Modeling** - Papers on assessment methods supporting MSE
+4. **Harvest Control Rules** - Papers on decision rules and management strategies
+5. **Ecosystem-Based & Multispecies MSE** - Papers addressing ecosystem considerations
+6. **Climate & Adaptation** - Papers on climate resilience and adaptive management
+7. **Data-Limited Methods** - Methods for data-limited fisheries
+8. **International RFMO Applications** - Global examples of MSE implementation
+9. **Foundational Management Theory** - Classic works in fisheries management
+
+Each entry includes complete author lists, publication details, and DOIs (where available) for easy access to the original papers.
+
+---
+
+# Foundational MSE and Management Procedure Papers
+
+[@Punt2016]
+
+[@PuntDonovan2007]
+
+[@Butterworth2007]
+
+[@Kell2007]
+
+[@KellDeOliveira2008]
+
+[@Thorson2019Recent]
+
+[@Walter2023MSEWhen]
+
+---
+
+# Alaska Groundfish and Pollock MSE Papers
+
+[@NMFS_2004_AlaskaGroundfishPSEIS]
+
+[@Goodman2002HarvestStrategy]
+
+[@Ianelli2011]
+
+[@Mueter2011]
+
+[@IanelliGOA2009]
+
+[@IanelliEcosystem2009]
+
+[@IanelliClimate2018]
+
+[@IanelliMultispecies2018]
+
+[@Barbeaux2020]
+
+[@BentleyHerring2024]
+
+[@Szuwalski2012SnowCrab]
+
+---
+
+# Stock Synthesis and Stock Assessment Papers
+
+[@Methot2013]
+
+[@Thorson2018]
+
+[@Thorson2019Spatial]
+
+---
+
+# Harvest Control Rules and Management Strategy Papers
+
+[@HurtadoFerro2014]
+
+[@DeMoor2011]
+
+[@Kvamsdal2016]
+
+[@Szuwalski2023HCR]
+
+[@Butterworth2024When]
+
+---
+
+# Ecosystem-Based and Multispecies MSE Papers
+
+[@Dichmont2008]
+
+[@Punt2021EcosystemMSE]
+
+[@Lehuta2016]
+
+[@LinkEBFM2012]
+
+[@IncreaseMultispecies2023]
+
+[@SmallPelagic2024]
+
+[@Journey2021Multispecies]
+
+[@Capelin2025]
+
+---
+
+# Fisheries Performance and Management Effectiveness Papers
+
+[@Hilborn2020]
+
+[@OceansPlenty2022]
+
+---
+
+# Climate and Ecosystem Assessment Papers
+
+[@Hollowed2019]
+
+[@Mueter2007]
+
+[@EcosystemBased2020Nature]
+
+[@ClimateReadiness2025]
+
+[@RobustUnderUncertainty2024]
+
+[@Embracing2025]
+
+---
+
+# Climate Resilience and Adaptation
+
+[@Mediterranean2025]
+
+[@Predator2025]
+
+[@History2025]
+
+---
+
+# Data-Limited Methods
+
+[@DLMtool2018]
+
+---
+
+# Ecosystem Modeling and MSE
+
+[@ReviewEcosystem2021]
+
+[@Swordfish2024]
+
+---
+
+# Stakeholder Engagement and Decision-Making
+
+[@StakeholderRFMO2023]
+
+[@SemiStructured2022]
+
+[@Redfish2023]
+
+---
+
+# International RFMO Applications
+
+[@NorthAlbacore2023]
+
+[@LimitReference2024]
+
+[@MSC2024]
+
+[@Tradeoffs2024]
+
+[@AreaBased2023]
+
+[@Adaptation2025]
+
+---
+
+# Foundational Fisheries Management Texts
+
+[@Walters1986]
+
+[@Hilborn1992]
+
+[@CochraneButterworthDeOliveira1998]
+
+[@DeOliveira1999]
+
+---
+
+# Ecosystem-Based Fisheries Management
+
+[@DeMoor2013Ecosystem]
+
+[@Dichmont2017]
+
+---
+
+# Recent Advances and Climate Adaptation (2023-2025)
+
+[@Enhancing2024]
+
+---
+
+# References
+
+::: {#refs}
+:::
+
+---
+
+**Document Statistics:**
+
+- **Total References:** 64 papers and reports
+- **Date Range:** 1986-2025
+- **Geographic Focus:** Global with emphasis on North Pacific and Alaska
+- **Topics:** MSE methodology, harvest control rules, ecosystem-based management, climate adaptation
+- **DOI Coverage:** 94% (60/64 entries with DOIs)
+
+**Generated:** `r format(Sys.time(), '%B %d, %Y')`

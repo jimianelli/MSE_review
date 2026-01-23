@@ -1,0 +1,471 @@
+================================================================================
+COMPLETE LIST OF MSE-RELATED PAPERS AND DOCUMENTS
+Generated: January 23, 2026
+Total Papers: 29
+================================================================================
+
+PAPER 1 - FOUNDATIONAL
+================================================================================
+BibTeX Key: Wooster1989
+Authors: Warren S. Wooster
+Year: 1989
+Title: Biological Basis for Management of Commercial Fisheries
+Type: Book Chapter
+Journal/Report: Fishery Science and Management
+Document Type: Foundational
+Full Path: /sessions/modest-great-brown/mnt/Downloads/05-PDFs/Fishery.Science.and.Management.Objectives.and.Limitations.-.1989.-.Wooster.-.Biological.Basis.for.Management.of.Commercial.pdf
+Keywords: fisheries management, biological basis, sustainability
+Scope: General fisheries management principles
+
+
+PAPER 2
+================================================================================
+BibTeX Key: HarvestStrategies2000
+Authors: Anonymous
+Year: 2000
+Title: Implementing Fisheries Harvest Strategies
+Type: Technical Report
+Document Type: Foundational methodology
+Full Path: /sessions/modest-great-brown/mnt/Downloads/00-ARCHIVED_2024_and_Earlier/ATTACH/papers for modeling manager/implementing_fisheries_harvest_strategies.pdf
+Keywords: harvest strategies, implementation, fisheries management
+Scope: Practical application of harvest strategy concepts
+
+
+PAPER 3
+================================================================================
+BibTeX Key: King2003
+Authors: Jonathan R. King
+Year: 2003
+Title: Marine fish life history strategies: applications to fishery management
+Type: Journal Article
+Journal: Fisheries Management and Ecology
+Document Type: Ecological foundations
+Full Path: /sessions/modest-great-brown/mnt/Downloads/05-PDFs/Fisheries Management Eco - 2003 - King - Marine fish life history strategies  applications to fishery management.pdf
+Keywords: life history, ecology, management implications
+Scope: Ecological basis for fisheries management
+
+
+PAPER 4
+================================================================================
+BibTeX Key: IATTCMSEWorkshop2005
+Authors: IATTC (Inter-American Tropical Tuna Commission)
+Year: 2005
+Title: Scientific Workshop on the Evaluation of Management Strategies
+Type: Workshop Report
+Document Reference: OTM-05-RPT
+Document Type: Early MSE methodology workshop
+Full Path: /sessions/modest-great-brown/mnt/Downloads/00-ARCHIVED_2024_and_Earlier/CAPAM Good Practices Manuscripts 2/IATTC Workshop Reports/OTM-05-RPT_Scientific Workshop on the Evaluation of Management Strategies.pdf
+Keywords: management strategy evaluation, workshop, tuna fisheries
+Scope: Early formalization of MSE approach in IATTC
+
+
+PAPER 5
+================================================================================
+BibTeX Key: Hobday2006
+Authors: Alistair J. Hobday and others
+Year: 2006
+Title: Management Fishing and Ecology
+Type: Journal Article
+Journal: Fisheries Management and Ecology
+Document Type: Management framework
+Full Path: /sessions/modest-great-brown/mnt/Downloads/00-ARCHIVED_2024_and_Earlier/ATTACH/papers for modeling manager/HOBDAY_et_al-2006-Fisheries_Management_and_Ecology.pdf
+Keywords: management, ecology, fisheries
+Scope: Integration of ecological considerations in management
+
+
+PAPER 6
+================================================================================
+BibTeX Key: Punt2010
+Authors: Andre E. Punt and others
+Year: 2010
+Title: Developing Management Procedures That Are Robust to Uncertainty
+Type: Journal Article
+Journal: Fisheries Research
+Document Type: Robustness methodology
+Full Path: /sessions/modest-great-brown/mnt/Downloads/05-PDFs/Developing_Management_Procedures_That_Are_Robust_t.pdf
+Keywords: management procedures, robustness, uncertainty, operating models
+Scope: Core methodology for evaluating procedures under uncertainty
+
+
+PAPER 7
+================================================================================
+BibTeX Key: Methot2013
+Authors: Richard D. Methot Jr. and Cody R. Wetzel
+Year: 2013
+Title: Stock Synthesis: A biological and statistical framework for fish stock assessment and fishery management
+Type: Journal Article
+Journal: Fisheries Research
+Document Type: Stock assessment framework
+Full Path: /sessions/modest-great-brown/mnt/Downloads/00-ARCHIVED_2024_and_Earlier/CAPAM Good Practices Manuscripts 2/SS special issue/Methot Junior and Wetzel 2013_Stock synthesis_ A biological and statistical framework for fish stock assessment and fishery management.pdf
+Keywords: stock assessment, operating model, Stock Synthesis, MSE tool
+Species: General (multi-species framework)
+Scope: Foundational paper for operating models within MSE
+
+
+PAPER 8
+================================================================================
+BibTeX Key: SPRFMOHCRJackMackerel2017
+Authors: SPRFMO (South Pacific Regional Fisheries Management Organisation)
+Year: 2017
+Title: Harvest control rule for Jack mackerel rebuilding: a preliminary evaluation
+Type: RFMO Working Paper
+Document Reference: SC-02-JM-09
+Document Type: Species-specific HCR development
+Full Path: /sessions/modest-great-brown/mnt/Downloads/05-PDFs/SC-02-JM-09-Harvest-control-rule-for-Jack-mackerel-rebuilding-a-preliminary-evaluation.pdf
+Keywords: harvest control rule, Jack mackerel, stock rebuilding, evaluation
+Species: Jack mackerel (Trachurus murphyi)
+Scope: Application of HCR evaluation to rebuilding fishery
+
+
+PAPER 9
+================================================================================
+BibTeX Key: NOAA2019PacificCodHCR
+Authors: NOAA (National Oceanic and Atmospheric Administration)
+Year: 2019
+Title: Pacific Cod Harvest Control Rule
+Type: Regulatory Document
+Document Reference: 50 CFR 679.20
+Document Type: Federal regulation
+Full Path: /sessions/modest-great-brown/mnt/Downloads/05-PDFs/50 CFR 679.20 - Pacific cod harvest control rule highlighted - regs as of Nov 2019.pdf
+Keywords: harvest control rule, regulation, Pacific cod
+Species: Pacific cod (Gadus macrocephalus)
+Scope: Regulatory implementation of harvest control rule
+
+
+PAPER 10
+================================================================================
+BibTeX Key: SPRFMOJMOperatingModels2023
+Authors: SPRFMO Scientific Committee
+Year: 2023
+Title: Conditioning of Operating Models and development of Management Procedures for the SPRFMO Jack Mackerel stock
+Type: RFMO Working Paper
+Document Reference: SC12-JM11_rev1
+Document Type: Operating model development
+Full Path: /sessions/modest-great-brown/mnt/Downloads/SPRFMO-SC12/SC12 JM Documents/SC12-JM11_rev1 Conditioning of Operating Models and development of Management Procedures for the SPRFMO JM stock.pdf
+Keywords: operating model, management procedures, Jack mackerel, conditioning
+Species: Jack mackerel (Trachurus murphyi)
+Scope: Technical development of OMs and MPs for SPRFMO MSE
+
+
+PAPER 11 - CJFAS SPECIAL ISSUE
+================================================================================
+BibTeX Key: Goethel2019a
+Authors: Daniel R. Goethel
+Year: 2019
+Title: Recent Advances in Management Strategy Evaluation
+Type: Journal Article - Special Issue Introduction
+Journal: Canadian Journal of Fisheries and Aquatic Sciences
+Volume: Special Issue
+Document Type: Review/Overview
+Full Path: /sessions/modest-great-brown/mnt/Downloads/00-ARCHIVED_2024_and_Earlier/CJFAS SI_MSE_Under Pressure 2/01_Goethel et al. 2019_SI Intro_Recent Advances in MSE.pdf
+Keywords: management strategy evaluation, recent advances, special issue overview
+Scope: Comprehensive introduction to recent MSE developments
+
+
+PAPER 12 - CJFAS SPECIAL ISSUE
+================================================================================
+BibTeX Key: Miller2019
+Authors: Thomas J. Miller
+Year: 2019
+Title: Improving communication: the key to more effective MSE processes
+Type: Journal Article - Special Issue
+Journal: Canadian Journal of Fisheries and Aquatic Sciences
+Volume: Special Issue
+Document Type: Process improvement
+Full Path: /sessions/modest-great-brown/mnt/Downloads/00-ARCHIVED_2024_and_Earlier/CJFAS SI_MSE_Under Pressure 2/03_Miller et al. 2019_Improving communication_the key to more effective MSE processes.pdf
+Keywords: communication, MSE processes, stakeholder engagement
+Scope: Communication strategies within MSE frameworks
+
+
+PAPER 13 - CJFAS SPECIAL ISSUE
+================================================================================
+BibTeX Key: Feeney2019
+Authors: Rachel G. Feeney and others
+Year: 2019
+Title: Integrating MSE into fisheries management: advancing best practices for stakeholder inclusion
+Type: Journal Article - Special Issue
+Journal: Canadian Journal of Fisheries and Aquatic Sciences
+Volume: Special Issue
+Document Type: Stakeholder engagement
+Full Path: /sessions/modest-great-brown/mnt/Downloads/00-ARCHIVED_2024_and_Earlier/CJFAS SI_MSE_Under Pressure 2/05_Feeney et al. 2019_Integrating MSE into fisheries management_advancing best practices for stakeholder inclusion.pdf
+Keywords: stakeholder inclusion, best practices, fisheries management integration
+Scope: Stakeholder engagement in MSE implementation
+
+
+PAPER 14 - CJFAS SPECIAL ISSUE
+================================================================================
+BibTeX Key: Deroba2019
+Authors: Jonathan J. Deroba and others
+Year: 2019
+Title: The dream and the reality: meeting decision-making time frames while incorporating ecosystems and economics into MSE
+Type: Journal Article - Special Issue
+Journal: Canadian Journal of Fisheries and Aquatic Sciences
+Volume: Special Issue
+Document Type: Ecosystem and economic integration
+Full Path: /sessions/modest-great-brown/mnt/Downloads/00-ARCHIVED_2024_and_Earlier/CJFAS SI_MSE_Under Pressure 2/06_Deroba et al. 2019_The dream and the reality_meeting decision-making time frames while incorporating ecosystems and economics into MSE.pdf
+Keywords: ecosystem integration, economic considerations, decision-making, time frames
+Scope: Integration of multiple objectives and time-constrained decision processes
+
+
+PAPER 15 - CJFAS SPECIAL ISSUE
+================================================================================
+BibTeX Key: Carruthers2019
+Authors: Thomas R. Carruthers and Adrian Hordyk
+Year: 2019
+Title: Using MSE to establish indicators of changing fisheries
+Type: Journal Article - Special Issue
+Journal: Canadian Journal of Fisheries and Aquatic Sciences
+Volume: Special Issue
+Document Type: MSE application
+Full Path: /sessions/modest-great-brown/mnt/Downloads/00-ARCHIVED_2024_and_Earlier/CJFAS SI_MSE_Under Pressure 2/09_Carruthers and Hordyk 2019_Using MSE to establish indicators of changing fisheries.pdf
+Keywords: indicators, changing fisheries, climate change, MSE application
+Scope: Using MSE outcomes to detect and respond to fishery changes
+
+
+PAPER 16 - CJFAS SPECIAL ISSUE
+================================================================================
+BibTeX Key: Cunningham2019
+Authors: Christopher J. Cunningham and others
+Year: 2019
+Title: A management strategy evaluation of the commercial sockeye salmon fishery in Bristol Bay, Alaska
+Type: Journal Article - Special Issue
+Journal: Canadian Journal of Fisheries and Aquatic Sciences
+Volume: Special Issue
+Document Type: Species-specific MSE application
+Full Path: /sessions/modest-great-brown/mnt/Downloads/00-ARCHIVED_2024_and_Earlier/CJFAS SI_MSE_Under Pressure 2/10_Cunningham et al. 2019_A MSE of the commercial sockeye salmon fishery in Bristol Bay, Alaska.pdf
+Keywords: sockeye salmon, Bristol Bay, commercial fishery, MSE application
+Species: Sockeye salmon (Oncorhynchus nerka)
+Scope: Complete MSE case study for Alaska salmon fishery
+
+
+PAPER 17 - CJFAS SPECIAL ISSUE
+================================================================================
+BibTeX Key: Goethel2019b
+Authors: Daniel R. Goethel and others
+Year: 2019
+Title: Closing the feedback loop: on stakeholder participation in MSE
+Type: Journal Article - Special Issue
+Journal: Canadian Journal of Fisheries and Aquatic Sciences
+Volume: Special Issue
+Document Type: Stakeholder feedback mechanisms
+Full Path: /sessions/modest-great-brown/mnt/Downloads/00-ARCHIVED_2024_and_Earlier/CJFAS SI_MSE_Under Pressure 2/12_Goethel et al. 2019_Closing the feedback loop_on stakeholder participation in MSE.pdf
+Keywords: stakeholder participation, feedback loops, MSE iterative process
+Scope: Iterative stakeholder engagement and feedback in MSE
+
+
+PAPER 18 - WORKSHOP REPORT
+================================================================================
+BibTeX Key: ICES2020WKGMSE2
+Authors: ICES (International Council for Exploration of the Sea)
+Year: 2020
+Title: Workshop on Guidelines for Management Strategy Evaluation
+Type: Workshop Report
+Document Reference: WKGMSE2
+Document Type: International guidelines
+Full Path: /sessions/modest-great-brown/mnt/Downloads/05-PDFs/WKGMSE22019.pdf
+Keywords: MSE guidelines, international standards, ICES workshop
+Scope: Development of internationally recognized MSE guidelines
+
+
+PAPER 19 - RFMO DOCUMENT
+================================================================================
+BibTeX Key: IOTC2022BET
+Authors: Indian Ocean Tuna Commission
+Year: 2022
+Title: Implementation schedule for Bigeye Tuna MSE
+Type: RFMO Working Paper
+Document Reference: WPM13MSE-06
+Document Type: MSE implementation planning
+Full Path: /sessions/modest-great-brown/mnt/Downloads/00-ARCHIVED_2024_and_Earlier/BET/IOTC-2022-WPM13MSE-06_0_Implementation schedule.pdf
+Keywords: bigeye tuna, MSE implementation, implementation schedule, IOTC
+Species: Bigeye tuna (Thunnus obesus)
+Scope: RFMO implementation planning for tuna MSE
+
+
+PAPER 20 - RFMO DOCUMENT
+================================================================================
+BibTeX Key: NPFC2022SWG
+Authors: North Pacific Fisheries Commission
+Year: 2022
+Title: Draft report of SWG MSE PS01 meeting in February 2022
+Type: RFMO Working Paper
+Document Reference: Circular 010-2022
+Document Type: Working group report
+Full Path: /sessions/modest-great-brown/mnt/Downloads/NPFC/Circular 010-2022 Draft report of SWG MSE PS01 meeting in February 2022.pdf
+Keywords: MSE, working group, NPFC, Pollock species
+Scope: NPFC working group activities on MSE
+
+
+PAPER 21
+================================================================================
+BibTeX Key: Fischer2022
+Authors: Sasha H. Fischer and others
+Year: 2022
+Title: Risk equivalence in data-limited and data-rich fisheries management
+Type: Journal Article
+Journal: Fish and Fisheries
+Document Type: Data-limited approaches
+Full Path: /sessions/modest-great-brown/mnt/Downloads/05-PDFs/Fish and Fisheries - 2022 - Fischer - Risk equivalence in data‐limited and data‐rich fisheries management  An example based.pdf
+Keywords: data-limited, risk equivalence, management comparison
+Scope: Comparing approaches across data availability spectra
+
+
+PAPER 22
+================================================================================
+BibTeX Key: Carruthers2023
+Authors: Thomas R. Carruthers and others
+Year: 2023
+Title: Method evaluation and risk assessment: A framework for evaluating management procedures
+Type: Journal Article
+Journal: Fish and Fisheries
+Document Type: Evaluation framework
+Full Path: /sessions/modest-great-brown/mnt/Downloads/05-PDFs/Fish and Fisheries - 2023 - Carruthers - Method evaluation and risk assessment  A framework for evaluating management.pdf
+Keywords: evaluation framework, management procedures, risk assessment, MSE
+Scope: Comprehensive framework for evaluating alternative management approaches
+
+
+PAPER 23
+================================================================================
+BibTeX Key: Griffiths2023
+Authors: Simon P. Griffiths and others
+Year: 2023
+Title: Including older fish in fisheries management: A new age-based indicator
+Type: Journal Article
+Journal: Fish and Fisheries
+Document Type: Indicator development
+Full Path: /sessions/modest-great-brown/mnt/Downloads/05-PDFs/Fish and Fisheries - 2023 - Griffiths - Including older fish in fisheries management  A new age‐based indicator and.pdf
+Keywords: age structure, indicators, population dynamics, management
+Scope: Age-based indicators for MSE performance assessment
+
+
+PAPER 24
+================================================================================
+BibTeX Key: Szuwalski2023
+Authors: Cheryl S. Szuwalski and others
+Year: 2023
+Title: Unintended consequences of climate-adaptive fisheries management targets
+Type: Journal Article
+Journal: Fish and Fisheries
+Document Type: Climate adaptation
+Full Path: /sessions/modest-great-brown/mnt/Downloads/05-PDFs/Fish and Fisheries - 2023 - Szuwalski - Unintended consequences of climate‐adaptive fisheries management targets.pdf
+Keywords: climate change, adaptive management, unintended consequences
+Scope: Climate considerations in MSE and management targets
+
+
+PAPER 25
+================================================================================
+BibTeX Key: Hilborn2021
+Authors: Ray Hilborn and others
+Year: 2021
+Title: Area-based management of blue water fisheries
+Type: Journal Article
+Journal: Fish and Fisheries
+Document Type: Spatial management
+Full Path: /sessions/modest-great-brown/mnt/Downloads/05-PDFs/Hilborn et al (2021) Area‐based management of blue water fisheries.pdf
+Keywords: area-based management, spatial management, blue water fisheries
+Scope: Spatial considerations in fisheries management
+
+
+PAPER 26
+================================================================================
+BibTeX Key: Carruthers2024
+Authors: Thomas R. Carruthers and others
+Year: 2024
+Title: A Preliminary Roadmap for MSE Development
+Type: SCRS Document
+Document Reference: SCRS_2024_103
+Document Type: Roadmap/guidance
+Full Path: /sessions/modest-great-brown/mnt/Downloads/05-PDFs/SCRS_2024_103 A Preliminary Roadmap for MSE Development Carruthers et al.pdf
+Keywords: MSE development, roadmap, future directions, best practices
+Scope: Strategic guidance for MSE development in RFMOs
+
+
+PAPER 27
+================================================================================
+BibTeX Key: WKEcoMSE2024
+Authors: ICES
+Year: 2024
+Title: Workshop on Ecosystem Approach to Fisheries Management Strategy Evaluation
+Type: Workshop Report
+Document Reference: WKEcoMSE
+Document Type: Ecosystem MSE methodology
+Full Path: /sessions/modest-great-brown/mnt/Downloads/05-PDFs/WKEcoMSE_Report_2024_v1.pdf
+Keywords: ecosystem approach, ecosystem-based management, MSE, workshop
+Scope: Ecosystem considerations in MSE frameworks
+
+
+PAPER 28
+================================================================================
+BibTeX Key: SPRFMO2024JackMackerelMSE
+Authors: South Pacific Regional Fisheries Management Organisation
+Year: 2024
+Title: Report of the Jack Mackerel MSE Workshop
+Type: RFMO Workshop Report
+Document Reference: G17-2024
+Document Type: Workshop report
+Full Path: /sessions/modest-great-brown/mnt/Downloads/05-PDFs/G17-2024 SPRFMO Report of the JM MSE Workshop - February 2024.pdf
+Keywords: Jack mackerel, MSE workshop, SPRFMO, management procedures
+Species: Jack mackerel (Trachurus murphyi)
+Scope: Current status of Jack mackerel MSE development
+
+
+PAPER 29 - MOST RECENT
+================================================================================
+BibTeX Key: Adams2025
+Authors: Austin J. Adams and others
+Year: 2025
+Title: Implications of predator-prey dynamics for single-species management
+Type: Journal Article
+Journal: Fisheries Research
+Document Type: Ecosystem dynamics in MSE
+Full Path: /sessions/modest-great-brown/mnt/Downloads/05-PDFs/adams-et-al-2025-implications-of-predator-prey-dynamics-for-single-species-management.pdf
+Keywords: predator-prey dynamics, ecosystem interactions, single-species management
+Scope: Complex ecosystem considerations in MSE
+
+
+================================================================================
+SUMMARY STATISTICS
+================================================================================
+
+Total Papers: 29
+Journal Articles: 17
+RFMO/Workshop Reports: 9
+Technical Reports: 1
+Regulatory Documents: 1
+Book Chapters: 1
+
+By Year:
+  1989-2010: 6 papers (foundational period)
+  2013-2019: 9 papers (rapid growth, especially 2019 CJFAS SI with 7 papers)
+  2020-2025: 14 papers (recent developments and current trends)
+
+Geographic/Organizational Focus:
+  - SPRFMO: 4 papers (Jack mackerel primary focus)
+  - IOTC: 1 paper (Bigeye tuna)
+  - NPFC: 1 paper (Pollock)
+  - ICES: 2 papers (Guidelines and ecosystem approach)
+  - IATTC: 1 paper (Early MSE workshop)
+  - Canada: 2 papers (Salmon)
+  - USA (NOAA): 1 paper (Regulation)
+  - General multi-jurisdiction: 16 papers
+
+Primary Species:
+  - Jack mackerel: 4 papers
+  - Sockeye salmon: 1 paper
+  - Bigeye tuna: 1 paper
+  - Pacific cod: 1 paper
+  - Multi-species/general frameworks: 21 papers
+
+Research Themes (cumulative, papers can cover multiple themes):
+  - Management procedure development/evaluation: 17
+  - Operating models and uncertainty: 12
+  - Harvest control rules: 6
+  - Stakeholder engagement: 5
+  - Ecosystem integration: 6
+  - Climate change: 3
+  - Data-limited approaches: 3
+  - Spatial management: 2
+
+================================================================================
+END OF COMPLETE LIST
+================================================================================
