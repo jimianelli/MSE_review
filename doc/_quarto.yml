@@ -1,7 +1,7 @@
 project:
   type: default
   #output-dir: _output
-  output-dir: docs
+  output-dir: ../docs
 
 format:
   pdf:
