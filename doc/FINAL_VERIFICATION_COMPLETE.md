@@ -35,7 +35,7 @@ All citations in the document exist in the expanded bibliography:
 | @IanelliEcosystem2009 | Ianelli et al. | 2009 | ✅ |
 | @IanelliMultispecies2018 | Ianelli et al. | 2018 | ✅ |
 | @Butterworth2024 | Butterworth et al. | 2024 | ✅ |
-| @Szuwalski2023HCR | Szuwalski et al. | 2023 | ✅ |
+| @Free2023HCR | Free et al. | 2023 | ✅ |
 | @Thorson2019Spatial | Thorson et al. | 2019 | ✅ |
 | @BentleyHerring2024 | Bentley et al. | 2024 | ✅ |
 | @Barbeaux2020 | Barbeaux et al. | 2020 | ✅ |

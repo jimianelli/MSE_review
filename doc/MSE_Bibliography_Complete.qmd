@@ -1,6 +1,6 @@
 ---
 title: "Management Strategy Evaluation (MSE) Bibliography"
-subtitle: "Comprehensive Reference Collection"
+subtitle: "Reference Collection"
 author: "Compiled by Jim Ianelli"
 date: "`r Sys.Date()`"
 format:
@@ -17,7 +17,7 @@ format:
     theme: cosmo
     toc: true
     toc-depth: 2
-bibliography: MSE_Bibliography_EXPANDED.bib
+bibliography: MSE_references.bib
 csl: https://raw.githubusercontent.com/citation-style-language/styles/master/apa.csl
 ---
 
@@ -105,7 +105,7 @@ Each entry includes complete author lists, publication details, and DOIs (where 
 
 [@Kvamsdal2016]
 
-[@Szuwalski2023HCR]
+[@Free2023HCR]
 
 [@Butterworth2024When]
 

@@ -44,7 +44,7 @@ Extensive online research was conducted to identify recent, high-quality papers 
 
 #### **Harvest Control Rules & Management Procedures** (5 papers)
 - Kvamsdal et al. 2016 - HCR design review
-- Szuwalski et al. 2023 - US federal HCRs and climate resilience
+- Free et al. 2023 - US federal HCRs and climate resilience
 - Hurtado-Ferro & Punt 2014 - Pacific sardine case study
 - De Moor et al. 2011 - Short-lived pelagic species
 - Butterworth et al. 2024 - When to conduct MSE
@@ -113,7 +113,7 @@ Extensive online research was conducted to identify recent, high-quality papers 
 7. Lindegren et al. 2023 - Multispecies model uptake
 8. Koivisto et al. 2023 - Stakeholder preferences
 9. Steptoe et al. 2023 - RFMO stakeholder engagement
-10. Szuwalski et al. 2023 - US federal HCRs
+10. Free et al. 2023 - US federal HCRs
 11. Miller et al. 2025 - Climate-readiness assessment
 12. Spence & Thorson 2025 - Computational efficiency
 13. Vitale et al. 2025 - Mediterranean climate-informed MSE
@@ -240,7 +240,7 @@ All papers identified:
 - Bentley et al. 2024 - Recent herring example
 
 **For Climate Adaptation:**
-- Szuwalski et al. 2023 - US federal HCRs & climate
+- Free et al. 2023 - US federal HCRs & climate
 - Miller et al. 2025 - Climate-readiness framework
 - Kaplan et al. 2020 - Ecosystem-based approach
 
