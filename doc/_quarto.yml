@@ -10,6 +10,10 @@ format:
       - margin=1in
     number-sections: true
     toc: true
+    include-in-header:
+      text: |
+        \usepackage{lineno}
+        \linenumbers
   html:
     theme: cosmo
     toc: true
