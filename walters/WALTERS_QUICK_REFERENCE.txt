@@ -1,0 +1,243 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                     WALTERS MSE QUICK REFERENCE CARD                       ║
+║                    Closed-Loop Management Strategy Evaluation               ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+FILE: walters_closedloop_mse.R (20 KB)
+LOCATION: ~/._mymods/MSE_review/doc/
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ONE-MINUTE SUMMARY
+
+The Walters (2004) implementation provides full-feedback Management Strategy
+Evaluation for testing harvest control rules with realistic assessment error.
+
+Key components:
+  1. Operating Model  → True population dynamics
+  2. Observation Model → Survey data with error
+  3. Assessment Model → Kalman filter estimates
+  4. Management Rule → Convert estimates to catch
+  5. Feedback Loop    → Repeat for multiple years
+  6. Performance Eval → Calculate risk/yield metrics
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+BASIC USAGE (3 LINES)
+
+    source("walters_closedloop_mse.R")
+    mse <- closed_loop_mse(n_years=50, n_scenarios=100)
+    plot_mse_results(mse)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+KEY FUNCTIONS
+
+┌─ MAIN MSE ENGINE ─────────────────────────────────────────────────────────┐
+│ closed_loop_mse(n_years=50, n_scenarios=100, hcr_rule="proportional")    │
+│   → Runs full feedback simulation                                          │
+│   → Returns: lists of B_true, B_est, catch, TAC, I_obs                    │
+└───────────────────────────────────────────────────────────────────────────┘
+
+┌─ ANALYSIS ────────────────────────────────────────────────────────────────┐
+│ mse_performance(mse_results)                                              │
+│   → Calculates risk/yield metrics across all scenarios                    │
+│   → Returns: collapse_prob, mean_catch, RMSE, etc.                       │
+│                                                                            │
+│ plot_mse_results(mse_results)                                             │
+│   → Creates 4-panel diagnostic plot                                       │
+│   → Biomass trajectories, assessment accuracy, catch, performance         │
+└───────────────────────────────────────────────────────────────────────────┘
+
+┌─ COMPONENTS (if building custom MSE) ──────────────────────────────────────┐
+│ operating_model(B_init=1000, n_years=50, M=0.15, g=0.95)                 │
+│   → Simulates population dynamics                                         │
+│                                                                            │
+│ observation_model(B_true, q_param=0.001, survey_cv=0.3)                 │
+│   → Generates survey data with observation error                         │
+│                                                                            │
+│ kalman_filter_update(B_pred_prev, I_obs, q_assumed, K_gain=0.5)        │
+│   → Updates biomass estimate from survey                                 │
+│                                                                            │
+│ harvest_control_rule(B_est, B_ref, F_ref=0.2, rule="proportional")     │
+│   → Converts estimate to catch recommendation                            │
+└───────────────────────────────────────────────────────────────────────────┘
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+COMMON TASKS
+
+┌─ COMPARE MANAGEMENT STRATEGIES ───────────────────────────────────────────┐
+│ mse_const <- closed_loop_mse(hcr_rule="proportional", F_ref=0.2)        │
+│ mse_thresh <- closed_loop_mse(hcr_rule="threshold", F_ref=0.2)          │
+│                                                                            │
+│ perf_const <- mse_performance(mse_const)                                  │
+│ perf_thresh <- mse_performance(mse_thresh)                                │
+│                                                                            │
+│ cat("Collapse prob - Constant F:", round(perf_const$prob_collapse, 3)) │
+│ cat("Collapse prob - Threshold:", round(perf_thresh$prob_collapse, 3))  │
+└───────────────────────────────────────────────────────────────────────────┘
+
+┌─ TEST ASSESSMENT SENSITIVITY ─────────────────────────────────────────────┐
+│ # Perfect knowledge of q                                                  │
+│ mse_perfect <- closed_loop_mse(q_true=0.001, q_assumed=0.001)          │
+│                                                                            │
+│ # Misspecified q                                                          │
+│ mse_misspec <- closed_loop_mse(q_true=0.001, q_assumed=0.0015)         │
+│                                                                            │
+│ perf_perfect <- mse_performance(mse_perfect)                              │
+│ perf_misspec <- mse_performance(mse_misspec)                              │
+│                                                                            │
+│ cat("Perfect assessment RMSE:", round(perf_perfect$rmse, 0))            │
+│ cat("Misspecified assessment RMSE:", round(perf_misspec$rmse, 0))      │
+└───────────────────────────────────────────────────────────────────────────┘
+
+┌─ TEST OBSERVATION ERROR IMPACT ───────────────────────────────────────────┐
+│ mse_low_error <- closed_loop_mse(survey_cv=0.1)   # 10% error           │
+│ mse_high_error <- closed_loop_mse(survey_cv=0.5)  # 50% error           │
+│                                                                            │
+│ perf_low <- mse_performance(mse_low_error)                                │
+│ perf_high <- mse_performance(mse_high_error)                              │
+└───────────────────────────────────────────────────────────────────────────┘
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+KEY PARAMETERS
+
+Population Dynamics:
+  B_init        Initial biomass (default: 1000)
+  n_years       Projection period in years (default: 50)
+  M             Natural mortality (default: 0.15)
+  g             Growth-survival constant (default: 0.95)
+  w_k           Weight at recruitment (default: 5)
+
+Survey & Assessment:
+  q_true        True catchability (default: 0.001)
+  q_assumed     Assumed catchability (default: 0.001)
+  survey_cv     Observation error as CV (default: 0.3 = 30%)
+  K_gain        Kalman filter gain (default: 0.5)
+
+Management:
+  hcr_rule      Rule type: "proportional", "threshold", "fixed_catch"
+  F_ref         Target fishing mortality (default: 0.2 = 20%)
+  n_scenarios   Monte Carlo replicates (default: 100)
+
+Simulation:
+  recruitment_sd  Log-scale recruitment variability (default: 0.5)
+  hyperstable    Enable range-contraction in index? (default: FALSE)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+PERFORMANCE METRICS EXPLAINED
+
+mse_performance() returns:
+
+  B_final_mean       Mean final biomass across scenarios
+  B_final_sd         Uncertainty in final biomass
+  B_final_q05/q95    5th and 95th percentiles (90% confidence interval)
+
+  catch_total        Mean annual catch across all years
+  catch_var_cv       Catch variability (coefficient of variation)
+
+  prob_collapse      Risk of ever dropping below B_limit
+  prob_low_final     Risk of being low at end of projection
+
+  mae                Mean absolute estimation error
+  rmse               Root mean squared estimation error (size of errors)
+  bias               Systematic estimation bias (over/underestimate)
+  prob_overestimate  Fraction of years where estimate > true
+
+For management:
+  High B_final_mean + Low prob_collapse = Good strategy
+  Low catch_var_cv = Stable catch (fishery likes this)
+  Low rmse = Good assessment performance
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+EQUATIONS IMPLEMENTED
+
+Population:     B(t+1) = g * (B(t) - H(t)) + w_k * R(t)
+                R(t) ~ LogNormal(mean, sd) or stock-recruitment
+
+Observation:    I(t) = q * B(t)  [or I(t) = q * B(t)^β for hyperstable]
+
+Assessment:     B_est = B_pred + K* * (B* - B_pred)
+                where B* = I_obs / q_assumed
+
+Management:     TAC = f(B_est)  [specific form depends on HCR type]
+
+All from: Walters, C.J. (2004). Canadian Journal Fisheries Aquatic Sciences
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TROUBLESHOOTING
+
+Problem: Plot doesn't show
+Solution: Make sure you ran plot.new() first or window already exists
+
+Problem: Results don't change when I change parameters
+Solution: Make sure you re-source the file after editing parameters
+
+Problem: Getting very high collapse probability
+Solution: Try using "threshold" rule instead of "proportional"
+
+Problem: Want to save figures
+Solution: Before plotting, run:
+          pdf("my_figure.pdf", width=10, height=8)
+          plot_mse_results(mse)
+          dev.off()
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+HARVEST CONTROL RULES EXPLAINED
+
+PROPORTIONAL (Constant Fishing Mortality):
+  TAC = F_ref * B_est
+  → Same fishing rate regardless of biomass
+  → Simple, aggressive, higher yield
+  → Higher collapse risk if assessment wrong
+
+THRESHOLD (Risk-Averse):
+  TAC = 0 if B < B_limit
+  TAC = ramp from 0 to F*B as B goes from B_limit to B_ref
+  TAC = F_ref*B if B ≥ B_ref
+  → Reduces catch when biomass low
+  → Conservative, lower yield, lower collapse risk
+  → Better for uncertain assessments
+
+FIXED_CATCH:
+  TAC = constant (e.g., 200 tons)
+  → Predictable catch for fishery
+  → Can be risky if assessment fails
+  → Usually not recommended for MSE
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+DOCUMENTATION GUIDE
+
+Need...                              Read...
+─────────────────────────────────────────────────────────────────────────────
+How to use functions                 WALTERS_IMPLEMENTATION_GUIDE.md
+How equations map to code            WALTERS_EQUATIONS_REFERENCE.md
+Quick overview of everything         WALTERS_IMPLEMENTATION_SUMMARY.md
+Project status and checklist         WALTERS_IMPLEMENTATION_COMPLETE.txt
+Step-by-step examples               Inline in closed_loop_mse.R (lines 582-626)
+Theory and assumptions              Walters (2004) original paper
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+SAVE THIS CARD!
+
+Print this and keep it by your desk, or save as a bookmark:
+  ~/._mymods/MSE_review/doc/WALTERS_QUICK_REFERENCE.txt
+
+For deeper dives, use the comprehensive guides in the same directory.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+IMPLEMENTATION: January 24, 2026
+STATUS: COMPLETE AND OPERATIONAL
+READY FOR: Research, Publication, Teaching, Collaboration
+
+Created for: Jim Ianelli
+NMFS Alaska Fisheries Science Center
