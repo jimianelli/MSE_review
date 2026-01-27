@@ -111,7 +111,7 @@ A comprehensive, production-ready implementation of the Management Strategy Eval
 - Example usage code block provided
 
 ### ✅ Production Ready
-- No external package dependencies (base R only)
+- Core MSE uses base R; plotting uses ggplot2
 - Robust error handling (ensures non-negative biomass)
 - Constrains parameters to valid ranges automatically
 - Numerical stability tested across wide parameter ranges
@@ -122,7 +122,8 @@ A comprehensive, production-ready implementation of the Management Strategy Eval
 
 ### Basic Usage (3 lines)
 
-```r
+```{r}
+ls()
 source("walters_closedloop_mse.R")
 
 mse_results <- closed_loop_mse(n_years = 50, n_scenarios = 100)
@@ -294,7 +295,7 @@ Once tested and validated, push to repository for colleague collaboration and op
 - ✅ Performance metrics calculated correctly
 - ✅ Visualization function operational
 - ✅ Documentation complete and accurate
-- ✅ Code is production-ready (no dependencies, robust error handling)
+- ✅ Code is production-ready (core MSE base R; plotting uses ggplot2)
 - ✅ Syntax validated by R interpreter
 - ✅ Parameter ranges tested and stable
 

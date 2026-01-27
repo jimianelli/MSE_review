@@ -512,6 +512,10 @@ rowMins <- function(x) apply(x, 1, min)
 
 plot_mse_results <- function(mse_results, scenario_subset = NULL) {
 
+  if (!requireNamespace("ggplot2", quietly = TRUE)) {
+    stop("plot_mse_results requires ggplot2. Install with install.packages('ggplot2').")
+  }
+
   B_true <- mse_results$B_true
   B_est <- mse_results$B_est
   catch <- mse_results$catch
@@ -531,48 +535,97 @@ plot_mse_results <- function(mse_results, scenario_subset = NULL) {
 
   years <- 1:n_years
 
-  # Set up layout
-  par(mfrow = c(2, 2), mar = c(4, 4, 3, 2))
-
   # Plot 1: Biomass trajectories
-  plot(years, B_true[1, ], type = "l", ylim = c(0, max(B_true) * 1.1),
-       xlab = "Year", ylab = "Exploitable Biomass",
-       main = "True Biomass Trajectories (sample scenarios)")
-  for (i in plot_scenarios[-1]) {
-    lines(years, B_true[i, ], col = rgb(0, 0, 0, 0.3))
-  }
+  df_biomass <- data.frame(
+    year = rep(years, times = length(plot_scenarios)),
+    biomass = as.vector(t(B_true[plot_scenarios, , drop = FALSE])),
+    scenario = factor(rep(plot_scenarios, each = n_years))
+  )
+
+  p1 <- ggplot2::ggplot(df_biomass, ggplot2::aes(x = year, y = biomass, group = scenario)) +
+    ggplot2::geom_line(alpha = 0.3, color = "black") +
+    ggplot2::labs(
+      title = "True Biomass Trajectories (sample scenarios)",
+      x = "Year",
+      y = "Exploitable Biomass"
+    ) +
+    ggplot2::theme_minimal()
 
   # Plot 2: Estimated vs True (last year distribution)
-  plot(B_true[, n_years], B_est[, n_years],
-       xlab = "True Biomass (Year 50)", ylab = "Estimated Biomass (Year 50)",
-       main = "Assessment Accuracy")
-  abline(0, 1, lty = 2, col = "red")
+  df_accuracy <- data.frame(
+    true = B_true[, n_years],
+    est = B_est[, n_years]
+  )
+
+  p2 <- ggplot2::ggplot(df_accuracy, ggplot2::aes(x = true, y = est)) +
+    ggplot2::geom_point(alpha = 0.5) +
+    ggplot2::geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "red") +
+    ggplot2::labs(
+      title = "Assessment Accuracy",
+      x = "True Biomass (Year 50)",
+      y = "Estimated Biomass (Year 50)"
+    ) +
+    ggplot2::theme_minimal()
 
   # Plot 3: Catch time series
   catch_means <- colMeans(catch)
   catch_sd <- apply(catch, 2, sd)
 
-  plot(years, catch_means, type = "l", ylim = c(0, max(catch_means + catch_sd) * 1.1),
-       xlab = "Year", ylab = "Catch",
-       main = "Mean Catch with 1 SD bounds")
-  polygon(c(years, rev(years)),
-          c(catch_means - catch_sd, rev(catch_means + catch_sd)),
-          col = rgb(0, 0, 1, 0.2), border = NA)
-  lines(years, catch_means)
+  df_catch <- data.frame(
+    year = years,
+    mean = catch_means,
+    sd = catch_sd,
+    lo = catch_means - catch_sd,
+    hi = catch_means + catch_sd
+  )
+
+  p3 <- ggplot2::ggplot(df_catch, ggplot2::aes(x = year, y = mean)) +
+    ggplot2::geom_ribbon(ggplot2::aes(ymin = lo, ymax = hi), fill = "steelblue", alpha = 0.2) +
+    ggplot2::geom_line(color = "steelblue4") +
+    ggplot2::labs(
+      title = "Mean Catch with 1 SD bounds",
+      x = "Year",
+      y = "Catch"
+    ) +
+    ggplot2::theme_minimal()
 
   # Plot 4: Performance summary
   perf <- mse_performance(mse_results)
+  perf_df <- data.frame(
+    label = c("Mean Final B", "Mean Total Catch", "Prob Collapse", "RMSE (B_est)", "Bias (B_est)"),
+    value = c(
+      round(perf$B_final_mean, 0),
+      round(perf$catch_total, 0),
+      round(perf$prob_collapse, 2),
+      round(perf$rmse, 0),
+      round(perf$bias, 0)
+    )
+  )
+  perf_df$text <- paste(perf_df$label, ":", perf_df$value)
+  perf_df$y <- rev(seq_len(nrow(perf_df)))
 
-  text(0.1, 0.9, "Performance Metrics:", adj = c(0, 1), cex = 1.2, font = 2)
-  text(0.1, 0.75, paste("Mean Final B:", round(perf$B_final_mean, 0)), adj = c(0, 1))
-  text(0.1, 0.65, paste("Mean Total Catch:", round(perf$catch_total, 0)), adj = c(0, 1))
-  text(0.1, 0.55, paste("Prob Collapse:", round(perf$prob_collapse, 2)), adj = c(0, 1))
-  text(0.1, 0.45, paste("RMSE (B_est):", round(perf$rmse, 0)), adj = c(0, 1))
-  text(0.1, 0.35, paste("Bias (B_est):", round(perf$bias, 0)), adj = c(0, 1))
+  p4 <- ggplot2::ggplot(perf_df, ggplot2::aes(x = 0, y = y, label = text)) +
+    ggplot2::geom_text(hjust = 0, size = 4) +
+    ggplot2::labs(title = "Performance Metrics") +
+    ggplot2::xlim(0, 1) +
+    ggplot2::ylim(0, nrow(perf_df) + 1) +
+    ggplot2::theme_void() +
+    ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0, face = "bold"))
 
-  plot.new()
+  # Arrange plots in a 2x2 grid
+  grid::grid.newpage()
+  grid::pushViewport(grid::viewport(layout = grid::grid.layout(2, 2)))
+  print(p1, vp = grid::viewport(layout.pos.row = 1, layout.pos.col = 1))
+  print(p2, vp = grid::viewport(layout.pos.row = 1, layout.pos.col = 2))
+  print(p3, vp = grid::viewport(layout.pos.row = 2, layout.pos.col = 1))
+  print(p4, vp = grid::viewport(layout.pos.row = 2, layout.pos.col = 2))
 
-  par(mfrow = c(1, 1))
+  invisible(list(
+    biomass = p1,
+    accuracy = p2,
+    catch = p3,
+    performance = p4
+  ))
 }
 
 # ============================================================================

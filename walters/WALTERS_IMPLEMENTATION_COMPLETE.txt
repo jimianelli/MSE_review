@@ -149,7 +149,7 @@ FUNCTIONAL COMPLETENESS:
      - Performance metrics summary ✓
 
 CODE QUALITY:
-  ✅ No external package dependencies (base R only)
+  ✅ Core MSE uses base R; plotting uses ggplot2
   ✅ Comprehensive inline comments explaining equations
   ✅ Robust error handling (ensures non-negative biomass)
   ✅ Parameter constraints enforced (K* in [0,1], etc.)
@@ -411,7 +411,7 @@ The Walters (2004) closed-loop MSE implementation is:
   ✅ Fully documented (3 detailed guides + inline comments)
   ✅ Mathematically verified (all equations implemented correctly)
   ✅ Functionally tested (all components working together)
-  ✅ Production-ready (no dependencies, robust error handling)
+  ✅ Production-ready (core MSE base R; plotting uses ggplot2)
   ✅ Ready for integration (clear usage patterns)
   ✅ Ready for publication (reproducible, well-cited)
   ✅ Ready for sharing (clear instructions, examples)

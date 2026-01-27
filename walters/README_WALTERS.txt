@@ -105,7 +105,7 @@ KEY FEATURES
 ✓ COMPLETE
   7 integrated functional components
   630 lines of well-documented R code
-  Base R only (no dependencies)
+  Core MSE uses base R; plotting uses ggplot2
 
 ✓ MATHEMATICALLY VERIFIED
   All Walters (2004) equations implemented correctly

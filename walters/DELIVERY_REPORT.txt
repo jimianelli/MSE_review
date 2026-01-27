@@ -21,7 +21,7 @@ PRIMARY DELIVERABLE:
    - Complete R implementation of Walters (2004) framework
    - 7 integrated functional components
    - 600+ lines of well-documented code
-   - No external package dependencies
+   - Core MSE uses base R; plotting uses ggplot2
    - Production-ready and validated
 
 DOCUMENTATION (5 complementary guides):
@@ -79,7 +79,7 @@ MATHEMATICAL CORRECTNESS:
 ✅ Performance metrics - Standard MSE calculations
 
 CODE QUALITY:
-✅ No external dependencies (base R only)
+✅ Core MSE uses base R; plotting uses ggplot2
 ✅ Comprehensive inline comments
 ✅ Roxygen-style function documentation
 ✅ Robust error handling
@@ -107,7 +107,7 @@ METHODOLOGICAL STRENGTHS:
 • Computationally efficient (100+ scenarios in hours)
 
 PRACTICAL ADVANTAGES:
-• No package dependencies - works anywhere
+• Core MSE uses base R; plotting uses ggplot2
 • Simple Kalman filter - fast computation
 • Multiple harvest control rules included
 • Easy parameter sensitivity testing

@@ -115,8 +115,8 @@ Plus: `plot_mse_results()` for visualization
 - Enables 100+ scenario MSE in minutes
 - Suitable for testing multiple strategies
 
-✅ **No Complex Dependencies**
-- Base R only (no packages needed)
+✅ **Minimal Dependencies**
+- Core MSE uses base R; plotting uses ggplot2
 - Works on any system with R installed
 - Reproducible and portable
 
