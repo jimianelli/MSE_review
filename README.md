@@ -24,7 +24,7 @@ MSE_review/
 ### 1. Render the Document
 
 ```bash
-cd ~/._mymods/MSE_review/doc
+cd ~/_mymods/MSE_review/doc
 
 # Render both PDF and HTML
 make all
@@ -134,10 +134,10 @@ make help
 
 ### Output Files
 
-After building, check the `_output/` directory:
+After building, outputs are written to the repo-level `docs/` directory (Quarto `output-dir: ../docs`):
 
 ```
-_output/
+docs/
 ├── MSE_Review_Alaska_Groundfish.pdf     # PDF version
 └── MSE_Review_Alaska_Groundfish.html    # HTML version (self-contained)
 ```
@@ -273,7 +273,7 @@ quarto install tinytex
 
 ```bash
 # Manually open the file
-open _output/MSE_Review_Alaska_Groundfish.html
+open ../docs/MSE_Review_Alaska_Groundfish.html
 ```
 
 ### Quarto not found

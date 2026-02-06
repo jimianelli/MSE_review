@@ -104,7 +104,7 @@ Each of these sources of uncertainty should be represented in a suite of operati
 
 # Projection-based scenarios and full-feedback MSE: a complementary approach
 
-Full-feedback MSE explicitly links assessment, management decisions, and population dynamics across repeated simulation cycles. A related but distinct approach—projection-based scenario analysis—has long been used in Alaska to evaluate alternative assumptions and management actions. The two approaches are complementary: scenarios provide rapid, transparent decision support, while full-feedback MSE evaluates the robustness of decision rules over longer horizons [@walter].
+Full-feedback MSE explicitly links assessment, management decisions, and population dynamics across repeated simulation cycles. A related but distinct approach—projection-based scenario analysis—has long been used in Alaska to evaluate alternative assumptions and management actions. The two approaches are complementary: scenarios provide rapid, transparent decision support, while full-feedback MSE evaluates the robustness of decision rules over longer horizons [@Walter2023MSEWhen].
 
 ## What are projection-based scenarios?
 

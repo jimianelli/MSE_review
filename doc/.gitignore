@@ -1,0 +1,6 @@
+**/*.quarto_ipynb
+/.quarto/
+# Ignore Quarto build artifacts
+doc/.DS_Store
+doc/.quarto/
+doc/*_files/
