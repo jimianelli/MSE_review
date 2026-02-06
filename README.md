@@ -6,17 +6,19 @@ A Quarto-based research review examining Management Strategy Evaluation (MSE) ap
 
 ```
 MSE_review/
-├── doc/
-│   ├── MSE_Review_Alaska_Groundfish.qmd    # Main review document (Quarto)
-│   ├── MSE_Bibliography.bib                # BibTeX bibliography (29 papers)
-│   ├── _quarto.yml                         # Quarto configuration
-│   ├── Makefile                            # Build automation
-│   ├── README.md                           # This file
-│   ├── MSE_Bibliography_README.txt         # Bibliography documentation
-│   ├── MSE_Bibliography_Summary.txt        # Literature summary
-│   ├── MSE_Papers_Complete_List.txt        # Complete paper metadata
-│   └── _output/                            # Generated documents (PDF/HTML)
-└── (other project files)
+├── README.md                         # Repo overview (this file)
+├── doc/                              # Source + build tooling
+│   ├── MSE_Review_Alaska_Groundfish.qmd   # Main review document (Quarto)
+│   ├── _quarto.yml                        # Quarto config (outputs → ../docs)
+│   ├── Makefile                           # Build automation
+│   ├── MSE_Bibliography.bib               # Main BibTeX bibliography (~33 entries)
+│   ├── MSE_Bibliography_README.txt        # Bibliography documentation
+│   ├── MSE_Bibliography_Summary.txt       # Literature summary
+│   ├── MSE_Papers_Complete_List.txt       # Complete paper metadata
+│   ├── figures/                           # Figures/scripts
+│   └── (additional notes + supporting .qmd/.md)
+├── docs/                             # Rendered outputs (HTML/PDF)
+└── walters/                          # Related materials
 ```
 
 ## Quick Start
@@ -168,7 +170,7 @@ Citation example: [@Author2020]
 
 The document uses BibTeX citations through `MSE_Bibliography.bib`:
 
-- 29 entries covering MSE papers from 1989-2025
+- ~33 entries covering MSE papers from 1989-2025
 - Includes peer-reviewed articles, RFMO reports, and technical documents
 - All papers located with full file paths in bibliography
 
@@ -353,6 +355,6 @@ For questions about:
 ---
 
 **Document Status**: Draft - In Progress
-**Last Updated**: January 23, 2026
+**Last Updated**: February 5, 2026
 **Author**: Jim Ianelli
-**Project Location**: ~/._mymods/MSE_review/doc/
+**Project Location**: ~/_mymods/MSE_review/doc/
