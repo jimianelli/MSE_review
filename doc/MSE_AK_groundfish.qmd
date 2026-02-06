@@ -1,0 +1,693 @@
+---
+title: "Management strategy evaluation for Alaska groundfish fisheries"
+subtitle: "From scenario projections to full-feedback MSE in a science-rich management system"
+author: "James Ianelli, others..."
+date: "`r Sys.Date()`"
+format:
+  html:
+    self-contained: true
+    theme: cosmo
+    toc: true
+    toc-depth: 2
+    lightbox: true
+    embed-resources: true
+  pdf:
+    documentclass: article
+    classoption: [11pt, a4paper]
+    geometry:
+      - margin=1in
+    number-sections: true
+    toc: true
+    toc-depth: 2
+bibliography: MSE_references.bib
+csl: https://raw.githubusercontent.com/citation-style-language/styles/master/apa.csl
+---
+
+# Title page
+
+**Title (proposed):** Management strategy evaluation for Alaska groundfish fisheries\
+**Alternative title 1:** \[Add alternative title here\]\
+**Alternative title 2:** \[Add alternative title here\]\
+**Running title (≤40 characters):** \[Add running title here\]\
+**Authors:** \[Full author names\]\
+**Affiliations:** \[Institutional affiliations for each author\]\
+**Corresponding author:** \[Name, address, email\]
+
+# Abstract
+
+Management strategy evaluation (MSE) has become a central tool for testing fisheries policies under uncertainty, yet its uptake varies across regions and management systems. Alaska groundfish fisheries provide a compelling case for MSE because they combine long data series, sophisticated stock assessments, and formal harvest control rules embedded in two federal Fishery Management Plans. This review synthesizes how Alaska’s assessment and projection practices align with MSE concepts, distinguishes projection-based scenario analysis from full-feedback MSE, and outlines a practical pathway for implementation. We describe the core MSE components—operating, observation, assessment, and management procedure models—and show how existing Stock Synthesis–based infrastructure can support both scenario testing and full-feedback simulation. Building on Alaska’s history of scenario evaluation, we identify barriers (computational demands, institutional inertia, and expertise gaps) and enabling factors (data richness, established assessment models, and prior multispecies MSE work). We argue that an incremental, phased approach is most appropriate: systematizing scenario frameworks for near-term decision support while piloting full-feedback MSE for representative stocks to inform longer-term policy. The Alaska case illustrates how a mature assessment program can transition toward more formal, transparent strategy testing, with broader relevance for fisheries governance under climate change and structural uncertainty. [@Punt2016; @Butterworth2007; @Methot2013; @Free2023HCR]
+
+**Keywords:** climate change; decision rules; harvest control rules; operating models; projection scenarios; stock assessment
+
+# Introduction
+
+Management strategy evaluation (MSE) provides a structured way to test fisheries management procedures against uncertainty before they are implemented [@Punt2016; @Butterworth2007]. Foundational simulation studies, guidance on management procedure design, and practical early applications underpin modern MSE practice [@deLaMare1986; @Rademeyer2007Tips; @ButterworthCochraneDeOliveira1997]. Its growing use internationally reflects a shift from single-scenario projections toward explicit robustness testing of management rules. Alaska groundfish fisheries are well positioned for this shift because they are data rich, supported by mature assessment models, and managed under formal harvest control rules embedded in federal Fishery Management Plans (FMPs). At the same time, Alaska’s long history of projection-based scenario analysis offers a practical bridge between current practice and full-feedback MSE.
+
+Recent historical synthesis of global stock assessment methods highlights how regional traditions diverged and later converged toward integrated statistical models, providing context for how Alaska’s assessment framework fits within broader methodological evolution [@CadrinGoethel2026]. This review has three objectives: (1) summarize the conceptual elements of MSE with emphasis on their relevance to Alaska groundfish; (2) contrast projection-based scenario analysis with full-feedback MSE and document how both are used in Alaska’s management system; and (3) propose a realistic, phased pathway for broader MSE adoption that aligns with existing institutional processes and data resources including features for climate resiliance.
+ 
+# Alaska groundfish management context
+
+Alaska's groundfish fisheries are among the most valuable and scientifically sophisticated fisheries in the world. The North Pacific Fishery Management Council (NPFMC) manages these fisheries under two primary Fishery Management Plans (FMPs): the Bering Sea and Aleutian Islands (BSAI) Groundfish FMP and the Gulf of Alaska (GOA) Groundfish FMP. These management regimes employ sophisticated stock assessment models, notably Stock Synthesis, to provide annual scientific advice on sustainable catch levels.
+
+The current management approach relies on regular stock assessments and annual catch advice based on static harvest control rules. While this framework has been effective, there is growing recognition that more formal evaluation of management procedures—through Management Strategy Evaluation (MSE)—could enhance decision-making by explicitly testing the robustness of management strategies across different future scenarios and uncertainties [@Walter2023MSEWhen].
+
+An early Alaska application illustrates this logic: A'mar et al. used MSE to evaluate the Gulf of Alaska walleye pollock management strategy under uncertainty in data and stock–recruitment dynamics, focusing on objectives to avoid low stock size while maintaining high, stable catches [@Amar2008GOAPollock].
+
+# Management strategy evaluation: theory and practice
+
+## Conceptual framework
+
+A complete MSE framework includes several interconnected components [@Punt2016; @PuntDonovan2007]:
+
+### Core MSE equations (operating model, observation model, and HCRs)
+
+For the case‑study simulations in this manuscript, we use a compact delay‑difference operating model with observation error and a deterministic harvest control rule. The key equations are:
+
+**Operating model (female SSB):**
+$$
+B_{t+1} = g\,(B_t - C^{f}_t) + w_k R_t
+$$
+where $B_t$ is female SSB, $g$ is the growth‑survival constant, $C^{f}_t$ is female catch, $w_k$ is mean weight at age‑1, and $R_t$ is age‑1 recruitment.
+
+**Recruitment deviations (lognormal):**
+$$
+R_t = R_{\text{ref}}\,\epsilon_t,\quad \epsilon_t \sim \text{LogNormal}\!\left(-\tfrac{\sigma_R^2}{2},\,\sigma_R^2\right)
+$$
+
+**Observation model (survey index):**
+$$
+I_t = B_t \exp(\varepsilon_t),\quad \varepsilon_t \sim \mathcal{N}\!\left(-\tfrac{\tau^2}{2},\,\tau^2\right)
+$$
+
+**Assessment update (Kalman‑style):**
+$$
+\hat B_t = \hat B_{t|t-1} + K^*(I_t - \hat B_{t|t-1})
+$$
+
+**Harvest control rule (NPFMC‑like ramp):**
+$$
+TAC_t =
+\begin{cases}
+0, & \hat B_t < B_{20} \\
+\dfrac{F_{\text{ref}}\,\hat B_t\,(\hat B_t - B_{20})}{B_{40} - B_{20}}, & B_{20} \le \hat B_t < B_{40} \\
+F_{\text{ref}}\,\hat B_t, & \hat B_t \ge B_{40}
+\end{cases}
+$$
+with proportional and threshold rules implemented as constant‑$F$ or risk‑averse ramps, and the fixed‑catch rule $TAC_t = C^*$.
+
+These equations are applied in the EBS pollock case study below, with HCR structures shown in @fig-ak-ebs-hcrs and projections summarized in @fig-ak-ebs-projections.
+
+### Operating Model (OM)
+
+The operating model represents the "true" population dynamics, including stock growth, recruitment, selectivity, and other biological processes. In practice, an MSE includes multiple operating models, each representing a different set of assumptions about how the fish population actually behaves. This plurality of models captures structural uncertainty—the unknown aspects of stock biology.
+
+### Observation Model
+
+The observation model represents how imperfectly we observe the stock. It includes observation error in surveys, aging error in fishery samples, and uncertainty in effort estimates. This component captures the reality that managers make decisions with incomplete information.
+
+### Stock Assessment Model
+
+Within each simulation cycle, a stock assessment is conducted using the simulated data. The assessment model (often Stock Synthesis) estimates current stock status based on the simulated observations, just as actual assessments do. The assessment model may differ from the true operating model, representing model misspecification risk.
+
+### Management Procedure (MP)
+
+The management procedure is the decision rule that translates assessment results into management recommendations. For example: "Set catch equal to F_MSY times the current estimate of exploitable biomass." The procedure is deterministic—given an assessment result, it always produces the same recommendation.
+
+### Performance Metrics
+
+These are the objectives we care about: sustainable yield, probability of rebuilding, variability in catch, risk of overfishing, etc. MSE quantifies how well different MPs achieve these objectives across operating models and scenarios.
+
+## Operating models
+
+### Stock Synthesis as an Operating Model Platform
+
+@Methot2013 describe Stock Synthesis (SS3), the primary assessment model used in Alaska groundfish fisheries. While SS3 was developed as an assessment platform, it can be configured as an operating model by setting specific parameter values and generating population dynamics without observation error. This dual use—assessment and OM configuration—makes it an efficient platform for MSE in data-rich fisheries.
+
+### Evolution of assessment software and integrated modeling frameworks
+
+Over the last two decades, assessment software has moved toward integrated modeling frameworks that combine multiple data sources within a single likelihood, enabling consistent estimation across surveys, fisheries, and biological data. This evolution has supported more realistic simulation testing in MSE by making complex assessment and operating model configurations computationally feasible. Many of these advances trace to the ADMB/TMB lineage of automatic differentiation tools, which expanded access to flexible, high-dimensional estimation workflows. These developments paralleled calls for standardized computational frameworks for MSE and integrated assessment (e.g., @Schnute2007).
+
+### Uncertainty in Operating Models
+
+For Alaska groundfish, relevant sources of structural uncertainty include [@Mueter2011; @Hollowed2019]:
+
+-   **Recruitment regimes**: Historical analysis suggests shifts in recruitment productivity, potentially linked to climate variability
+-   **Selectivity patterns**: Future changes in fleet composition could alter effective selectivity at age
+-   **Stock structure**: Some stocks may consist of multiple populations; uncertainty about mixing and migration
+-   **Life history**: Growth rates, maturity, and natural mortality may vary with environmental conditions
+-   **Survey catchability**: Index catchability could vary with stock distribution or survey timing
+
+Each of these sources of uncertainty should be represented in a suite of operating models that test management procedure robustness.
+
+------------------------------------------------------------------------
+
+# Projection-based scenarios and full-feedback MSE: a complementary approach
+
+Full-feedback MSE explicitly links assessment, management decisions, and population dynamics across repeated simulation cycles. A related but distinct approach—projection-based scenario analysis—has long been used in Alaska to evaluate alternative assumptions and management actions. The two approaches are complementary: scenarios provide rapid, transparent decision support, while full-feedback MSE evaluates the robustness of decision rules over longer horizons [@Walter2023MSEWhen].
+
+## What are projection-based scenarios?
+
+Simulation scenarios represent a more flexible, less prescriptive approach to evaluating management outcomes under uncertainty [@DeMoor2011; @Butterworth2007]. Rather than implementing a specific management procedure and observing its performance through repeated simulation cycles, scenario-based simulation typically involves:
+
+1.  **Projecting** the fish population forward under assumed conditions
+2.  **Varying key assumptions** (recruitment, selectivity, environmental conditions)
+3.  **Testing alternative management actions** (catch levels, allocation schemes, regulations)
+4.  **Evaluating outcomes** against management objectives
+
+The key distinction from full MSE is that scenario-based approaches may not include: - Explicit management decision rules that are tested repeatedly - Full feedback loops where assessment uncertainty feeds back into decisions - Formal stakeholder engagement in defining objectives and tradeoffs - Systematic evaluation of robustness across scenarios
+
+However, simulation scenarios offer important advantages in terms of flexibility, computational efficiency, and suitability for exploratory analysis.
+
+## Alaska groundfish experience: scenarios in practice
+
+### Early Applications
+
+Alaska groundfish management has a strong history of using projection models and simulation scenarios to evaluate management alternatives. These approaches have provided decision makers with quantitative information about the implications of different management choices.
+
+#### Scenario Analysis for Decision Support
+
+In Alaska groundfish fisheries, scientists have routinely used simulation-based projections to evaluate:
+
+-   **Alternative catch levels**: "What happens if we reduce catch by 10%? By 20%?"
+-   **Different allocation schemes**: Comparing fixed vs. dynamic allocation approaches
+-   **Rebuilding strategies**: Projecting recovery time under various catch restrictions
+-   **Bycatch mitigation**: Evaluating impacts of selectivity changes on target and non-target species
+
+This approach has the advantage of being computationally tractable and relatively easy to communicate to managers and stakeholders: "Here's what we think will happen if we implement this policy."
+
+### Examples
+
+@Ianelli2011 and related work [@IanelliGOA2009; @IanelliEcosystem2009; @IanelliMultispecies2018] by Ianelli and colleagues have exemplified the use of simulation scenarios for groundfish management. These analyses typically involve:
+
+1.  **Starting from the current stock assessment** (e.g., using Stock Synthesis models)
+2.  **Specifying alternative future conditions** (recruitment scenarios, environmental states)
+3.  **Projecting forward** using the assessment model
+4.  **Evaluating different management decisions** within each scenario
+5.  **Summarizing results** in terms of probability distributions of outcomes
+
+**Key advantages of this approach:** - Directly uses existing stock assessment models (Stock Synthesis, etc.) - Transparent about assumptions and scenarios - Relatively quick to implement compared to full MSE - Easy to communicate results to decision makers - Allows for exploratory "what-if" analysis
+
+**Limitations:** - Does not explicitly model how assessment uncertainty would influence future decisions - May not capture full range of structural uncertainty - Less suitable for evaluating the long-term performance of specific decision rules - Does not include feedback loops where current decisions influence future assessments
+
+### Integration into Alaska groundfish management
+
+The Alaska groundfish management framework is established through Fishery Management Plans (FMPs) for both the Gulf of Alaska (GOA) and the Bering Sea/Aleutian Islands (BSAI), which form the legal foundation for simulation scenario analysis [@NMFS_2004_AlaskaGroundfishPSEIS]. The harvest strategy and associated management procedures used in these FMPs were subjected to rigorous scientific review [@Goodman2002HarvestStrategy], ensuring that simulation-based scenario analysis is integrated into the decision-making framework. Within this framework, projection scenarios have been used routinely in Alaska groundfish stock assessments to:
+
+-   **Evaluate catch implications**: "What catch level maintains SSB above 40% unfished?"
+-   **Assess rebuilding timeframes**: "How long until this stock rebuilds?"
+-   **Test alternative regulations**: "What selectivity changes would reduce bycatch?"
+-   **Examine trade-offs**: "What is the cost (in foregone catch) of stricter bycatch limits?"
+
+These analyses provide key inputs to the NPFMC decision-making process, even though they may not constitute a formal "MSE" in the contemporary sense of that term.
+
+### Methodological evolution: from SEIS scenarios to full-feedback MSE
+
+The methodological progression in Alaska groundfish management illustrates how simulation approaches have evolved. The 2004 Groundfish SEIS [@NMFS_2004_AlaskaGroundfishPSEIS] established the foundation for projection-based scenario analysis within the current management framework. This approach projects population dynamics forward under alternative assumptions but does not include explicit feedback loops where assessment uncertainty influences future management decisions.
+
+A critical advancement is represented by Ono et al. [@IanelliMultispecies2018], which develops a multispecies management strategy analysis framework that incorporates full feedback simulation. In this framework:
+
+-   The operating model generates population dynamics
+-   Simulated data are created with observation error
+-   A stock assessment is conducted on the simulated data
+-   Management decisions are made based on assessment results
+-   These decisions feed back into the next simulation cycle
+-   Performance is evaluated across multiple feedback cycles
+
+This represents a transition from the projection-based scenarios of the 2004 SEIS era toward the full feedback MSE approach now being adopted internationally. The Ono et al. framework demonstrates that Alaska groundfish science has the capacity and expertise to implement more sophisticated MSE approaches while building directly on existing assessment infrastructure.
+
+## Evolution of analytical approaches in fisheries management
+
+The trajectory of fisheries management evolution demonstrates a general pattern:
+
+1.  **Era 1 (1970s-1990s): Deterministic projections**
+    -   Single point estimates of future outcomes
+    -   Limited uncertainty representation
+    -   Reactive management
+2.  **Era 2 (1990s-2010s): Probabilistic scenarios and simulation**
+    -   Multiple scenarios representing uncertainty
+    -   More sophisticated projections
+    -   Better uncertainty communication
+    -   Examples: Ianelli et al. approaches to groundfish evaluation, NMFS 2004 Groundfish SEIS [@NMFS_2004_AlaskaGroundfishPSEIS]
+    -   **Key foundation:** The 2004 Alaska groundfish SEIS established the scientific basis for scenario-based analysis under the current FMPs
+3.  **Era 3 (2010s-present): Full MSE implementation**
+    -   Explicit feedback loops where assessment uncertainty feeds back into management decisions
+    -   Operating models with alternative assumptions
+    -   Management procedure testing through repeated simulation cycles
+    -   More sophisticated uncertainty treatment
+    -   Alaska example: Evolution of Ono et al. (2017) [@IanelliMultispecies2018] multispecies framework—advancing from projection-based scenarios to full feedback simulation
+    -   Other examples: Jack Mackerel (SPRFMO), Tuna fisheries
+4.  **Era 4 (Emerging): Adaptive MSE and ecosystem integration**
+    -   Ecosystem considerations formally incorporated
+    -   Dynamic learning and adjustment
+    -   Stakeholder-centered objectives
+    -   Climate-adaptive strategies
+
+Each phase builds on the previous, adding sophistication and better capturing uncertainty and decision-making realism.
+
+## Detailed comparison: scenarios vs. full-feedback MSE
+
+Recent research [@Walter2023MSEWhen] shows that both approaches have complementary strengths.
+
+### Simulation Scenarios
+
+**Structure:**
+
+```         
+Assessment Model → Project Forward → Evaluate Outcomes
+                    ↓
+                Vary Assumptions
+                    ↓
+                Summarize Results
+```
+
+**Characteristics:** - Linear progression (usually) - Open-ended: user defines what to test - Flexible: can change assumptions easily - Quick to implement and compute - Results easy to interpret and communicate
+
+**Best Uses:** - Exploratory analysis ("What if...?") - Supporting immediate management decisions - Testing assumptions - Comparing alternatives for communication - Rapid response to new information
+
+**Examples:** - "Under recruitment regime shift, what catch is sustainable?" - "If we increase trawl selectivity by X%, what is bycatch reduction?" - "What allocation maximizes yield to both sectors?"
+
+### Full-Feedback MSE
+
+**Structure:**
+
+```         
+Operating Model → Management Procedure → Feedback
+     ↓                    ↓
+Assessment  ← Decision Rule ← Feedback to Assessment
+     ↓
+Evaluate Management Procedure Performance
+```
+
+**Characteristics:** - Circular feedback loops - Prescriptive: testing specific MPs - Formal: systematic evaluation protocol - Computationally intensive - Results capture realistic decision-making processes - More rigorous robustness testing - Suitable for long-term strategy evaluation
+
+**Best Uses:** - Evaluating robustness of decision rules - Testing performance under different operating models - Formal strategy comparison - Long-term planning (5-50 years) - Stakeholder engagement on objectives and tradeoffs - Policy development
+
+**Examples:** - "How does this harvest control rule perform across 100 different recruitment scenarios?" - "What is the probability we stay above limit reference point under 20% change in productivity?" - "Which management strategy best balances conservation and economic objectives?"
+
+## Complementary, Not Competing, Approaches
+
+An important point: simulation scenarios and full MSE are not necessarily competing approaches. Rather, they represent different points on a spectrum of analytical sophistication, each with appropriate uses:
+
+### Simulation Scenarios Are Appropriate For:
+
+-   **Immediate decisions**: "What should we do next year?"
+-   **Operational management**: Evaluating specific catch recommendations
+-   **Exploratory analysis**: Testing ideas and assumptions
+-   **Communication**: Explaining implications to non-technical audiences
+-   **Rapid assessment**: Responding quickly to changing conditions
+
+### Full MSE Is Appropriate For:
+
+-   **Strategic decisions**: "What is our long-term management strategy?"
+-   **Policy development**: Establishing harvest control rules and frameworks
+-   **Robustness testing**: Ensuring strategies work across range of scenarios
+-   **Formal evaluation**: Providing structure for stakeholder engagement
+-   **Institutional change**: Supporting major modifications to management approach
+
+## Why both approaches matter for Alaska groundfish
+
+For Alaska groundfish management, both simulation scenarios and full MSE have roles:
+
+### Simulation Scenarios Provide:
+
+-   **Operational flexibility**: Can rapidly evaluate different catch recommendations
+-   **Decision support**: Directly answering manager questions ("If we do X, what happens?")
+-   **Existing infrastructure use**: Built on current Stock Synthesis assessments
+-   **Stakeholder communication**: Easier to explain to fishery participants
+-   **Adaptive management**: Can respond to new information quickly
+
+### Full MSE Would Provide:
+
+-   **Strategic perspective**: Long-term implications of different approaches
+-   **Robustness assurance**: Testing across broader range of uncertainties
+-   **Formal tradeoff analysis**: Explicit evaluation of conservation vs. economic objectives
+-   **Institutional learning**: Structured framework for improving management over time
+-   **Policy development**: Rigorous basis for updating FMP management procedures
+
+# Alignment with Alaska groundfish management frameworks
+
+## Current FMP structure
+
+The BSAI and GOA Groundfish FMPs already embody many MSE principles [@Free2023HCR]:
+
+-   **Operating objectives**: Defined in terms of spawning stock biomass, fishing mortality, and other biological reference points
+-   **Harvest control rules**: Already specified in Amendment 56 (BSAI) and the GOA FMP
+-   **Assessment procedures**: Annual assessments provide basis for management advice
+-   **Uncertainty consideration**: Councils consider multiple scenarios and robustness in setting catch levels
+
+## How MSE Enhances Current Framework
+
+A formal MSE in Alaska groundfish would:
+
+1.  **Systematically test** current harvest control rules against multiple sources of uncertainty
+2.  **Compare alternatives** to current procedures in a structured framework
+3.  **Engage stakeholders** formally in defining objectives and evaluating tradeoffs
+4.  **Document assumptions** underlying management procedures
+5.  **Identify vulnerabilities** of current procedures and potential improvements
+
+## Barriers to MSE implementation and enabling factors
+
+1.  **Computational demands**: A full MSE requires substantial computing resources and expertise
+2.  **Data and modeling requirements**: Multiple operating models require different parameterizations
+3.  **Institutional inertia**: Current procedures are established and understood
+4.  **Stakeholder uncertainty**: Concerns about process and implications
+5.  **Expertise gaps**: Limited MSE experience in the Alaska groundfish assessment program
+
+## Enabling factors
+
+1.  **Existing infrastructure**: Stock Synthesis models are already configured and understood [@Methot2013]
+2.  **Strong data foundation**: Multiple surveys and long time series provide robust operating models
+3.  **Scientific expertise**: Alaska groundfish program has sophisticated modelers [@Thorson2019Spatial]
+4.  **Demonstrated value**: Other regions (SPRFMO, tuna RFMOs) show MSE value [@BentleyHerring2024]
+5.  **Council interest**: Expressed interest in more formal evaluation procedures
+
+## Practical recommendation: phased implementation
+
+Rather than attempting a complete MSE transition immediately, a phased approach leveraging both simulation scenarios and full MSE would be optimal:
+
+### Phase 1: Enhanced Simulation Scenarios (Years 1-2)
+
+**Objectives:** - Expand existing projection capabilities - Develop systematic scenario framework - Improve communication of scenario results
+
+**Actions:** - Systematize climate-change scenario analysis for all stocks - Develop recruitment regime scenarios based on historical data - Create scenario-based decision support tools - Improve visualization and documentation of scenario assumptions
+
+**Outcomes:** - Enhanced operational decision-making capability - Better stakeholder understanding of uncertainty - Foundation for transition to full MSE
+
+### Phase 2: Pilot Full MSE (Years 2-4)
+
+**Objectives:** - Develop MSE framework for representative stocks - Test current harvest control rules formally - Compare MSE results with scenario-based analysis
+
+**Actions:** - Select pilot stocks (e.g., Bering Sea Pollock, GOA Walleye Pollock) - Develop operating models representing key uncertainties - Formalize management procedures as decision rules - Conduct MSE trials and document results
+
+**Outcomes:** - Demonstrated MSE framework - Understanding of how MSE alters management recommendations - Institutional learning about MSE processes
+
+### Phase 3: Integrated Approach (Years 4+)
+
+**Objectives:** - Integrate simulation scenarios and full MSE into routine decision-making - Expand to ecosystem considerations - Develop climate-adaptive strategies
+
+**Actions:** - Implement annual scenario analysis for operational decisions - Conduct full MSE reviews every 5-10 years for strategic policy - Integrate ecosystem indicators and projections - Develop explicit climate adaptation strategies
+
+**Outcomes:** - Formalized MSE-informed management - Enhanced robustness of management procedures - Improved stakeholder engagement and transparency
+
+# EBS pollock case study: HCRs and 50-year projections (1964–2024 baseline)
+
+To complement the Alaska-wide synthesis, we include an EBS walleye pollock case study that uses the same closed‑loop MSE logic as in the Walters framework. We summarize the historical assessment series (1964–2024), specify the harvest control rules used in the Walters implementation (NPFMC‑like, proportional, threshold, fixed catch), and project forward 50 years from the 2024 endpoint. This section is intended to provide a concrete, data‑grounded example that connects the review narrative to an explicit simulation workflow.
+
+## Harvest control rules used in the EBS pollock case
+
+We apply the same four HCRs used in `EBS_pollock_MSE_Walters.qmd`:  
+(1) **NPFMC‑like (ramped)**, (2) **Proportional (constant F)**, (3) **Threshold (risk‑averse ramp)**, and (4) **Fixed catch**. The rules are implemented on estimated biomass, scaled by selectivity and sex ratio to convert TAC to female removals. The resulting TAC–biomass relationships are shown in @fig-ak-ebs-hcrs.
+
+```{r}
+#| label: fig-ak-ebs-hcrs
+#| fig-cap: "Harvest control rules (HCRs) used in the EBS pollock case study (illustrative)"
+#| fig-width: 6.5
+#| fig-height: 4
+
+library(ggplot2)
+
+B_ref <- 2400
+B20 <- 0.50 * B_ref
+B40 <- B_ref
+F_ref_plot <- 0.20
+fixed_catch_plot <- F_ref_plot * B_ref
+
+B_grid <- seq(0, 1.5 * B_ref, length.out = 200)
+
+hcr_tier1 <- ifelse(B_grid < B20, 0,
+                    ifelse(B_grid < B40,
+                           F_ref_plot * B_grid * (B_grid - B20) / (B40 - B20),
+                           F_ref_plot * B_grid))
+hcr_prop <- F_ref_plot * B_grid
+hcr_thresh <- ifelse(B_grid < B20, 0,
+                     ifelse(B_grid < B40,
+                            F_ref_plot * B40 * (B_grid - B20) / (B40 - B20),
+                            F_ref_plot * B_grid))
+hcr_fixed <- rep(fixed_catch_plot, length(B_grid))
+
+hcr_df <- data.frame(
+  B = rep(B_grid, times = 4),
+  TAC = c(hcr_tier1, hcr_prop, hcr_thresh, hcr_fixed),
+  HCR = rep(c("NPFMC-like", "Proportional", "Threshold", "Fixed Catch"),
+            each = length(B_grid))
+)
+
+ggplot(hcr_df, aes(x = B, y = TAC, color = HCR)) +
+  geom_line(linewidth = 1.1) +
+  geom_vline(xintercept = B20, linetype = "dashed", color = "gray50") +
+  geom_vline(xintercept = B40, linetype = "dashed", color = "gray50") +
+  labs(x = "Female SSB (1000 t)", y = "TAC (1000 t)") +
+  theme_minimal(base_size = 12) +
+  theme(panel.grid.minor = element_blank())
+```
+
+## Historical pollock series (1964–2024)
+
+The historical female SSB and catch series for EBS pollock provide the baseline conditions and scale for the projections. The time series below uses the assessment-derived 1964–2024 values (female SSB and total catch, 1000 t) and sets the initial condition for forward simulation from the 2024 endpoint (@fig-ak-ebs-historical).
+
+```{r}
+#| label: fig-ak-ebs-historical
+#| fig-cap: "EBS pollock historical female SSB and catch (1964–2024)"
+#| fig-width: 8
+#| fig-height: 4.5
+
+years <- 1964:2024
+
+ssb <- c(
+  530.368, 621.969, 718.679, 903.221, 1120.23, 1371.65, 1530.53, 1673.83,
+  1590.06, 1364.05, 1026.54, 966.292, 926.939, 1111.11, 989.917, 906.761,
+  1071.62, 1653.19, 2310.31, 3121.24, 3252.82, 3778.90, 3727.19, 3794.67,
+  3607.06, 3130.60, 2648.47, 2119.04, 2019.33, 2682.09, 3127.23, 3344.74,
+  3282.19, 3185.41, 2699.72, 2821.77, 2722.38, 2762.51, 2566.43, 2602.80,
+  2898.55, 2551.29, 2326.13, 1893.64, 1432.93, 1515.44, 1554.75, 1916.05,
+  2345.99, 2675.43, 2620.05, 2447.87, 2716.45, 3165.77, 3025.99, 2938.37,
+  2258.90, 2464.21, 3406.88, 3333.77, 3389.48
+)
+
+catch_hist <- c(
+  174.792, 230.551, 261.678, 550.362, 702.181, 862.789, 1256.57, 1743.76,
+  1874.53, 1758.92, 1588.39, 1356.74, 1177.82, 978.370, 979.431, 935.714,
+  958.280, 973.502, 955.964, 981.450, 1092.06, 1139.68, 1141.99, 859.416,
+  1228.72, 1229.60, 1455.19, 1195.66, 1390.31, 1326.61, 1329.37, 1264.25,
+  1192.78, 1124.43, 1102.16, 989.680, 1132.71, 1387.20, 1480.78, 1490.78,
+  1480.55, 1483.02, 1488.03, 1354.50, 990.578, 810.784, 810.186, 1199.04,
+  1205.22, 1270.77, 1297.42, 1321.58, 1352.68, 1359.18, 1379.29, 1409.34,
+  1367.23, 1376.26, 1105.42, 1310.72, 1300.00
+)
+
+hist_df <- data.frame(
+  year = years,
+  ssb = ssb,
+  catch = catch_hist
+)
+
+ggplot(hist_df, aes(x = year)) +
+  geom_line(aes(y = ssb), color = "steelblue", linewidth = 1.0) +
+  geom_line(aes(y = catch), color = "darkorange", linewidth = 1.0) +
+  labs(x = "Year", y = "1000 t",
+       caption = "Blue = female SSB; orange = total catch") +
+  theme_minimal(base_size = 12) +
+  theme(panel.grid.minor = element_blank())
+```
+
+## 50-year closed-loop projections (2025–2074)
+
+We implement a compact closed‑loop MSE to project 50 years forward from the 2024 state, using the four HCRs above and a simplified observation model. The projection uses age‑specific selectivity, maturity, and weight‑at‑age consistent with the EBS pollock assessment, and recruitment variability derived from the historical series. The median and 10–90% ranges of projected female SSB are shown in @fig-ak-ebs-projections.
+
+```{r}
+#| label: fig-ak-ebs-projections
+#| fig-cap: "EBS pollock 50-year projections under four HCRs (median and 10–90% range)"
+#| fig-width: 9
+#| fig-height: 6
+
+set.seed(2024)
+
+## Age schedules (assessment-based)
+ages <- 1:15
+M_at_age <- c(0.90, 0.45, 0.30, 0.30, 0.30, 0.30, 0.30, 0.30, 0.30, 0.30,
+              0.30, 0.30, 0.30, 0.30, 0.30)
+maturity <- c(0.00, 0.008, 0.29, 0.64, 0.84, 0.90, 0.95, 0.96, 0.97, 1.00,
+              1.00, 1.00, 1.00, 1.00, 1.00)
+selectivity <- c(8.62083e-05, 0.02029507, 0.093016273, 0.267321389,
+                 0.519301334, 0.739274559, 0.891984017, 1,
+                 0.977409551, 0.967745538, 0.96205758, 0.943931426,
+                 0.943931426, 0.943931426, 0.943931426)
+weight_kg <- c(0.007, 0.18, 0.318, 0.462, 0.603,
+               0.731, 0.844, 0.954, 1.052, 1.126,
+               1.195, 1.249, 1.285, 1.307, 1.33)
+
+selectivity_scalar <- sum(weight_kg * maturity * selectivity) /
+  sum(weight_kg * maturity)
+
+## Recruitment mean and SD from pm.std
+pm_std_path <- "/Users/jim/_mymods/noaa-afsc/EBS_pollock/runs/lastyr/pm.std"
+pm_std <- read.table(pm_std_path, header = TRUE, stringsAsFactors = FALSE)
+pm_std$value <- as.numeric(pm_std$value)
+log_avgrec <- pm_std$value[pm_std$name == "log_avgrec"][1]
+log_rec_devs <- pm_std$value[pm_std$name == "log_rec_devs"]
+rec_years <- 1964:2024
+rec_age1_mil <- exp(log_avgrec + log_rec_devs)  # millions of fish
+rec_sel <- rec_years >= 1977 & rec_years <= 2024
+recruitment_mean_bil <- mean(rec_age1_mil[rec_sel]) / 1000
+recruitment_sd <- sd(log_rec_devs[rec_sel])
+recruitment_mean_bil_init <- recruitment_mean_bil
+recruitment_sd_init <- recruitment_sd
+
+ebs_pollock_mse_simple <- function(
+    n_years = 50,
+    n_scenarios = 200,
+    B_init = 3389,
+    g = 0.75,
+    w_k = 0.05,
+    recruitment_mean_bil = recruitment_mean_bil_init,
+    recruitment_sd = recruitment_sd_init,
+    hcr_rule = "tier1_npfmc",
+    F_ref = 0.20,
+    B_ref = 2400,
+    selectivity_scalar = 1.0,
+    sex_ratio = 0.5,
+    fixed_catch = 1200,
+    survey_cv = 0.15) {
+
+  sex_scalar <- 1 / sex_ratio
+  B_list <- vector("list", n_scenarios)
+
+  for (s in 1:n_scenarios) {
+    B_true <- numeric(n_years + 1)
+    B_est <- numeric(n_years + 1)
+    B_pred <- numeric(n_years + 1)
+    TAC <- numeric(n_years)
+
+    B_true[1] <- B_init
+    B_est[1] <- B_init
+    B_pred[1] <- B_init
+
+    rec_dev <- rlnorm(n_years + 1, meanlog = -0.5 * recruitment_sd^2,
+                      sdlog = recruitment_sd)
+    R_ref <- recruitment_mean_bil * 1000
+
+    for (t in 1:n_years) {
+      ## Observation
+      tau <- sqrt(log(1 + survey_cv^2))
+      I_t <- B_true[t] * exp(rnorm(1, -tau^2/2, tau))
+      K_gain <- 0.5
+      B_est[t] <- B_pred[t] + K_gain * (I_t - B_pred[t])
+
+      ## HCR
+      B_limit <- 0.50 * B_ref
+      if (hcr_rule == "tier1_npfmc") {
+        if (B_est[t] < B_limit) {
+          TAC[t] <- 0
+        } else if (B_est[t] < B_ref) {
+          TAC[t] <- F_ref * B_est[t] * (B_est[t] - B_limit) / (B_ref - B_limit)
+          TAC[t] <- TAC[t] * selectivity_scalar * sex_scalar
+        } else {
+          TAC[t] <- F_ref * B_est[t] * selectivity_scalar * sex_scalar
+        }
+      } else if (hcr_rule == "proportional") {
+        TAC[t] <- F_ref * B_est[t] * selectivity_scalar * sex_scalar
+      } else if (hcr_rule == "threshold") {
+        if (B_est[t] < B_limit) {
+          TAC[t] <- 0
+        } else if (B_est[t] < B_ref) {
+          TAC[t] <- F_ref * B_ref * (B_est[t] - B_limit) / (B_ref - B_limit)
+          TAC[t] <- TAC[t] * selectivity_scalar * sex_scalar
+        } else {
+          TAC[t] <- F_ref * B_est[t] * selectivity_scalar * sex_scalar
+        }
+      } else if (hcr_rule == "fixed_catch") {
+        TAC[t] <- fixed_catch
+      }
+
+      ## Population dynamics (female SSB)
+      C_female <- TAC[t] * sex_ratio
+      R_t <- R_ref * rec_dev[t]
+      B_true[t + 1] <- g * (B_true[t] - C_female) + w_k * R_t
+      B_true[t + 1] <- max(B_true[t + 1], 100)
+      B_pred[t + 1] <- g * (B_est[t] - C_female) + w_k * R_ref
+    }
+
+    B_list[[s]] <- B_true[1:n_years]
+  }
+
+  do.call(rbind, B_list)
+}
+
+## Calibrate F_ref to historical mean catch
+catch_target <- mean(catch_hist[years >= 1977])
+B_current <- ssb[length(ssb)]
+F_ref <- catch_target / (B_current * (1 / 0.5) * selectivity_scalar)
+
+mse_tier1 <- ebs_pollock_mse_simple(hcr_rule = "tier1_npfmc", F_ref = F_ref,
+                                   selectivity_scalar = selectivity_scalar,
+                                   fixed_catch = catch_target)
+mse_prop <- ebs_pollock_mse_simple(hcr_rule = "proportional", F_ref = F_ref,
+                                  selectivity_scalar = selectivity_scalar,
+                                  fixed_catch = catch_target)
+mse_thresh <- ebs_pollock_mse_simple(hcr_rule = "threshold", F_ref = F_ref,
+                                    selectivity_scalar = selectivity_scalar,
+                                    fixed_catch = catch_target)
+mse_fixed <- ebs_pollock_mse_simple(hcr_rule = "fixed_catch", F_ref = F_ref,
+                                   selectivity_scalar = selectivity_scalar,
+                                   fixed_catch = catch_target)
+
+proj_summary <- function(mse, label) {
+  data.frame(
+    year = 2025:2074,
+    median = apply(mse, 2, median),
+    q10 = apply(mse, 2, quantile, 0.10),
+    q90 = apply(mse, 2, quantile, 0.90),
+    HCR = label
+  )
+}
+
+proj_df <- rbind(
+  proj_summary(mse_tier1, "NPFMC-like"),
+  proj_summary(mse_prop, "Proportional"),
+  proj_summary(mse_thresh, "Threshold"),
+  proj_summary(mse_fixed, "Fixed Catch")
+)
+
+ggplot(proj_df, aes(x = year)) +
+  geom_ribbon(aes(ymin = q10, ymax = q90), fill = "gray85") +
+  geom_line(aes(y = median), color = "steelblue", linewidth = 1.0) +
+  facet_wrap(~HCR, ncol = 2) +
+  labs(x = "Year", y = "Female SSB (1000 t)") +
+  theme_minimal(base_size = 12) +
+  theme(panel.grid.minor = element_blank())
+```
+
+# Implications for fisheries governance and climate adaptation
+
+The Alaska case illustrates how a data-rich, assessment-driven management system can transition toward formal MSE without discarding existing practices. This has implications beyond the region: scenario-based projection analyses can provide immediate decision support, while full-feedback MSE offers a transparent framework for evaluating harvest control rules and other policy choices against climate-driven uncertainty [@Hollowed2019; @EcosystemBased2020Nature]. In governance terms, MSE formalizes trade-off discussions by linking objectives to measurable performance metrics and by making model assumptions explicit [@Punt2016]. This transparency can support stakeholder engagement and institutional learning, particularly when management choices involve competing ecological and economic objectives.
+
+For Alaska groundfish specifically, climate change and shifting productivity regimes heighten the value of structured scenario frameworks and adaptive policy testing [@Hollowed2019; @Thorson2019Spatial]. A near-term research priority is to expand operating models to include plausible recruitment and distributional shifts, while a longer-term priority is to integrate ecosystem indicators and multispecies interactions into management procedures [@IanelliMultispecies2018]. These priorities align with broader calls for ecosystem-based fisheries management and climate-ready harvest strategies.
+
+------------------------------------------------------------------------
+
+# Conclusions
+
+Management Strategy Evaluation offers a systematic framework for evaluating the robustness of fisheries management procedures. For Alaska groundfish, the sophisticated state of stock assessments, the richness of available data, and the expressed interest in more formal evaluation procedures create an opportune moment to develop MSE capacity.
+
+A phased implementation that leverages both scenario analysis (for operational decisions) and full-feedback MSE (for strategic policy) would provide the most value [@Barbeaux2020; @Free2023HCR]. This approach recognizes that projection scenarios, as exemplified by work of Ianelli and colleagues [@Ianelli2011; @IanelliMultispecies2018], have an important role in operational management and rapid decision support, while formal MSE provides complementary value for longer-term policy development and robustness assurance [@Punt2016; @EcosystemBased2020Nature].
+
+Positioned as a review for Fish and Fisheries, the Alaska groundfish experience demonstrates how mature assessment programs can progressively adopt MSE to strengthen transparency, robustness, and climate readiness. The central message is not replacement but integration: building on existing scenario tools while expanding toward full-feedback MSE offers a pragmatic route to improved decision-making under uncertainty.
+
+------------------------------------------------------------------------
+
+# Acknowledgements
+
+\[Add acknowledgements and funding sources here.\]
+
+# Data Availability Statement
+
+\[Add data availability statement here. For example: "No new data were generated or analysed in this study."\]
+
+# Conflict of Interest Statement
+
+\[Add conflict of interest statement here.\]
+
+# References
+
+::: {#refs}
+:::
