@@ -72,11 +72,11 @@ Within each simulation cycle, a stock assessment is conducted using the simulate
 
 ### Management Procedure (MP)
 
-The management procedure is the decision rule that translates assessment results into management recommendations. For example: "Set catch equal to F_MSY times the current estimate of exploitable biomass." The procedure is deterministic—given an assessment result, it always produces the same recommendation.
+The management procedure is the decision rule that translates assessment results into management recommendations. For example: "Set catch equal to F_MSY times the current estimate of exploitable biomass." The procedure is deterministic—given an assessment result, it always produces the same recommendation. Importantly, in real fisheries the outcomes of an MP also depend on how fleets respond to regulations (e.g., effort reallocation, targeting shifts, and participation), so including behavioral feedbacks can be essential when evaluating MP robustness (see multispecies Alaska example in [@IanelliMultispecies2018]).
 
 ### Performance Metrics
 
-These are the objectives we care about: sustainable yield, probability of rebuilding, variability in catch, risk of overfishing, etc. MSE quantifies how well different MPs achieve these objectives across operating models and scenarios.
+These are the objectives we care about: sustainable yield, probability of rebuilding, variability in catch, risk of overfishing, etc. MSE quantifies how well different MPs achieve these objectives across operating models and scenarios, and can make explicit trade-offs when human behavior mediates how rules translate into realized fishing mortality [@IanelliMultispecies2018].
 
 ## Operating models
 
@@ -97,8 +97,9 @@ For Alaska groundfish, relevant sources of structural uncertainty include [@Muet
 -   **Stock structure**: Some stocks may consist of multiple populations; uncertainty about mixing and migration
 -   **Life history**: Growth rates, maturity, and natural mortality may vary with environmental conditions
 -   **Survey catchability**: Index catchability could vary with stock distribution or survey timing
+-   **Fleet behavior and regulatory response**: effort redistribution, targeting, and participation can change in response to management measures, affecting realized fishing mortality and technical interactions
 
-Each of these sources of uncertainty should be represented in a suite of operating models that test management procedure robustness.
+Each of these sources of uncertainty should be represented in a suite of operating models that test management procedure robustness, including sensitivity to plausible behavioral responses (e.g., [@IanelliMultispecies2018]).
 
 ------------------------------------------------------------------------
 
