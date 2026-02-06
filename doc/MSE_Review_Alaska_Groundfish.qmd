@@ -358,17 +358,13 @@ Positioned as a review for Fish and Fisheries, the Alaska groundfish experience 
 
 ------------------------------------------------------------------------
 
-# Acknowledgements
+# Declarations
 
-\[Add acknowledgements and funding sources here.\]
+**Acknowledgements.** \[Add acknowledgements and funding sources here.\]
 
-# Data Availability Statement
+**Data Availability Statement.** \[Add data availability statement here. For example: "No new data were generated or analysed in this study."\]
 
-\[Add data availability statement here. For example: "No new data were generated or analysed in this study."\]
-
-# Conflict of Interest Statement
-
-\[Add conflict of interest statement here.\]
+**Conflict of Interest Statement.** \[Add conflict of interest statement here.\]
 
 # References
 
