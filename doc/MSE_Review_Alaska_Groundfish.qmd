@@ -24,19 +24,19 @@ csl: https://raw.githubusercontent.com/citation-style-language/styles/master/apa
 
 # Title page
 
-**Title (proposed):** Management strategy evaluation for Alaska groundfish fisheries\
-**Alternative title 1:** \[Add alternative title here\]\
-**Alternative title 2:** \[Add alternative title here\]\
-**Running title (≤40 characters):** \[Add running title here\]\
-**Authors:** \[Full author names\]\
-**Affiliations:** \[Institutional affiliations for each author\]\
-**Corresponding author:** \[Name, address, email\]
+Title (proposed): Management strategy evaluation for Alaska groundfish fisheries\
+Alternative title 1: \[Add alternative title here\]\
+Alternative title 2: \[Add alternative title here\]\
+Running title (≤40 characters): \[Add running title here\]\
+Authors: \[Full author names\]\
+Affiliations: \[Institutional affiliations for each author\]\
+Corresponding author: \[Name, address, email\]
 
 # Abstract
 
 Management strategy evaluation (MSE) has become a central tool for testing fisheries policies under uncertainty, yet its uptake varies across regions and management systems. Alaska groundfish fisheries provide a compelling case for MSE because they combine long data series, sophisticated stock assessments, and formal harvest control rules embedded in two federal Fishery Management Plans. This review synthesizes how Alaska’s assessment and projection practices align with MSE concepts, distinguishes projection-based scenario analysis from full-feedback MSE, and outlines a practical pathway for implementation. We describe the core MSE components—operating, observation, assessment, and management procedure models—and show how existing Stock Synthesis–based infrastructure can support both scenario testing and full-feedback simulation. Building on Alaska’s history of scenario evaluation, we identify barriers (computational demands, institutional inertia, and expertise gaps) and enabling factors (data richness, established assessment models, and prior multispecies MSE work). We argue that an incremental, phased approach is most appropriate: systematizing scenario frameworks for near-term decision support while piloting full-feedback MSE for representative stocks to inform longer-term policy. The Alaska case illustrates how a mature assessment program can transition toward more formal, transparent strategy testing, with broader relevance for fisheries governance under climate change and structural uncertainty. [@Punt2016; @Butterworth2007; @Methot2013; @Free2023HCR]
 
-**Keywords:** climate change; decision rules; harvest control rules; operating models; projection scenarios; stock assessment
+Keywords: climate change; decision rules; harvest control rules; operating models; projection scenarios; stock assessment
 
 # Introduction
 
@@ -44,7 +44,7 @@ Management strategy evaluation (MSE) provides a structured way to test fisheries
 
 Recent historical synthesis of global stock assessment methods highlights how regional traditions diverged and later converged toward integrated statistical models, providing context for how Alaska’s assessment framework fits within broader methodological evolution [@CadrinGoethel2026]. This review has three objectives: (1) summarize the conceptual elements of MSE with emphasis on their relevance to Alaska groundfish; (2) contrast projection-based scenario analysis with full-feedback MSE and document how both are used in Alaska’s management system; and (3) propose a realistic, phased pathway for broader MSE adoption that aligns with existing institutional processes and data resources including features for climate resiliance.
 
-To keep the discussion organized, the paper is structured as follows. The **Alaska groundfish management context** section provides just enough institutional and scientific background (FMPs, assessment cadence, and how advice is generated) to make the later MSE discussion interpretable; if it turns into a generic description of Alaska management, it will be doing low-value work and should be cut back. The **MSE framework and components** section is a short primer that defines the moving parts (OM, observation, assessment, MP, and performance metrics) and clarifies what “full-feedback” implies; its purpose is not to re-teach MSE, but to establish shared language for Alaska-specific arguments. The section on **scenario projections and full-feedback MSE in Alaska** is the core bridge: it distinguishes common projection/scenario practice from true management procedure testing, and makes explicit what is gained (and what remains missing) when moving to feedback simulations. The **implementation pathway** section then translates that conceptual distinction into a practical plan (fit to the existing FMP process, barriers/enablers, and an incremental rollout). Finally, **implications for governance and climate adaptation** links the technical choices to decision-making under climate-driven uncertainty, and the **conclusions** restate the few take-home claims that should survive peer review.
+To keep the discussion organized, the paper is structured as follows. The Alaska groundfish management context section provides just enough institutional and scientific background (FMPs, assessment cadence, and how advice is generated) to make the later MSE discussion interpretable; if it turns into a generic description of Alaska management, it will be doing low-value work and should be cut back. The MSE framework and components section is a short primer that defines the moving parts (OM, observation, assessment, MP, and performance metrics) and clarifies what “full-feedback” implies; its purpose is not to re-teach MSE, but to establish shared language for Alaska-specific arguments. The section on scenario projections and full-feedback MSE in Alaska is the core bridge: it distinguishes common projection/scenario practice from true management procedure testing, and makes explicit what is gained (and what remains missing) when moving to feedback simulations. The implementation pathway section then translates that conceptual distinction into a practical plan (fit to the existing FMP process, barriers/enablers, and an incremental rollout). Finally, implications for governance and climate adaptation links the technical choices to decision-making under climate-driven uncertainty, and the conclusions restate the few take-home claims that should survive peer review.
  
 # Alaska groundfish management context
 
@@ -58,15 +58,15 @@ An early Alaska application illustrates this logic: A'mar et al. used MSE to eva
 
 A complete MSE framework includes several interconnected components [@Punt2016; @PuntDonovan2007]:
 
-**Operating Model (OM).** The operating model represents the "true" population dynamics, including stock growth, recruitment, selectivity, and other biological processes. In practice, an MSE includes multiple operating models, each representing a different set of assumptions about how the fish population actually behaves. This plurality of models captures structural uncertainty—the unknown aspects of stock biology.
+Operating Model (OM). The operating model represents the "true" population dynamics, including stock growth, recruitment, selectivity, and other biological processes. In practice, an MSE includes multiple operating models, each representing a different set of assumptions about how the fish population actually behaves. This plurality of models captures structural uncertainty—the unknown aspects of stock biology.
 
-**Observation model.** The observation model represents how imperfectly we observe the stock. It includes observation error in surveys, aging error in fishery samples, and uncertainty in effort estimates. This component captures the reality that managers make decisions with incomplete information.
+Observation model. The observation model represents how imperfectly we observe the stock. It includes observation error in surveys, aging error in fishery samples, and uncertainty in effort estimates. This component captures the reality that managers make decisions with incomplete information.
 
-**Stock assessment model.** Within each simulation cycle, a stock assessment is conducted using the simulated data. The assessment model (often Stock Synthesis) estimates current stock status based on the simulated observations, just as actual assessments do. The assessment model may differ from the true operating model, representing model misspecification risk.
+Stock assessment model. Within each simulation cycle, a stock assessment is conducted using the simulated data. The assessment model (often Stock Synthesis) estimates current stock status based on the simulated observations, just as actual assessments do. The assessment model may differ from the true operating model, representing model misspecification risk.
 
-**Management procedure (MP).** The management procedure is the decision rule that translates assessment results into management recommendations. For example: "Set catch equal to F_MSY times the current estimate of exploitable biomass." The procedure is deterministic—given an assessment result, it always produces the same recommendation. Importantly, in real fisheries the outcomes of an MP also depend on how fleets respond to regulations (e.g., effort reallocation, targeting shifts, and participation), so including behavioral feedbacks can be essential when evaluating MP robustness (see multispecies Alaska example in [@IanelliMultispecies2018]).
+Management procedure (MP). The management procedure is the decision rule that translates assessment results into management recommendations. For example: "Set catch equal to F_MSY times the current estimate of exploitable biomass." The procedure is deterministic—given an assessment result, it always produces the same recommendation. Importantly, in real fisheries the outcomes of an MP also depend on how fleets respond to regulations (e.g., effort reallocation, targeting shifts, and participation), so including behavioral feedbacks can be essential when evaluating MP robustness (see multispecies Alaska example in [@IanelliMultispecies2018]).
 
-**Performance metrics.** These are the objectives we care about: sustainable yield, probability of rebuilding, variability in catch, risk of overfishing, etc. MSE quantifies how well different MPs achieve these objectives across operating models and scenarios, and can make explicit trade-offs when human behavior mediates how rules translate into realized fishing mortality [@IanelliMultispecies2018].
+Performance metrics. These are the objectives we care about: sustainable yield, probability of rebuilding, variability in catch, risk of overfishing, etc. MSE quantifies how well different MPs achieve these objectives across operating models and scenarios, and can make explicit trade-offs when human behavior mediates how rules translate into realized fishing mortality [@IanelliMultispecies2018].
 
 ## Operating models and uncertainty
 
@@ -74,22 +74,13 @@ A complete MSE framework includes several interconnected components [@Punt2016; 
 
 @Methot2013 describe Stock Synthesis (SS3), the primary assessment model used in Alaska groundfish fisheries. While SS3 was developed as an assessment platform, it can be configured as an operating model by setting specific parameter values and generating population dynamics without observation error. This dual use—assessment and OM configuration—makes it an efficient platform for MSE in data-rich fisheries.
 
-**Evolution of integrated assessment frameworks.**
+Evolution of integrated assessment frameworks.
 
 Over the last two decades, assessment software has moved toward integrated modeling frameworks that combine multiple data sources within a single likelihood, enabling consistent estimation across surveys, fisheries, and biological data. This evolution has supported more realistic simulation testing in MSE by making complex assessment and operating model configurations computationally feasible. Many of these advances trace to the ADMB/TMB lineage of automatic differentiation tools, which expanded access to flexible, high-dimensional estimation workflows. These developments paralleled calls for standardized computational frameworks for MSE and integrated assessment (e.g., @Schnute2007).
 
 ### Key uncertainties to represent
 
-For Alaska groundfish, relevant sources of structural uncertainty include [@Mueter2011; @Hollowed2019]:
-
--   **Recruitment regimes**: Historical analysis suggests shifts in recruitment productivity, potentially linked to climate variability
--   **Selectivity patterns**: Future changes in fleet composition could alter effective selectivity at age
--   **Stock structure**: Some stocks may consist of multiple populations; uncertainty about mixing and migration
--   **Life history**: Growth rates, maturity, and natural mortality may vary with environmental conditions
--   **Survey catchability**: Index catchability could vary with stock distribution or survey timing
--   **Fleet behavior and regulatory response**: effort redistribution, targeting, and participation can change in response to management measures, affecting realized fishing mortality and technical interactions
-
-Each of these sources of uncertainty should be represented in a suite of operating models that test management procedure robustness, including sensitivity to plausible behavioral responses (e.g., [@IanelliMultispecies2018]).
+For Alaska groundfish, relevant sources of structural uncertainty include recruitment regime shifts, selectivity changes, stock structure, life‑history variation, survey catchability, and fleet behavioral responses to regulation [@Mueter2011; @Hollowed2019]. These sources should be represented in a suite of operating models that test management procedure robustness, including sensitivity to plausible behavioral responses (e.g., [@IanelliMultispecies2018]).
 
 ------------------------------------------------------------------------
 
@@ -99,111 +90,40 @@ Full-feedback MSE explicitly links assessment, management decisions, and populat
 
 ## Definitions and Alaska context
 
-Simulation scenarios represent a more flexible, less prescriptive approach to evaluating management outcomes under uncertainty [@DeMoor2011; @Butterworth2007]. Rather than implementing a specific management procedure and observing its performance through repeated simulation cycles, scenario-based simulation typically involves:
-
-1.  **Projecting** the fish population forward under assumed conditions
-2.  **Varying key assumptions** (recruitment, selectivity, environmental conditions)
-3.  **Testing alternative management actions** (catch levels, allocation schemes, regulations)
-4.  **Evaluating outcomes** against management objectives
-
-The key distinction from full MSE is that scenario-based approaches may not include: - Explicit management decision rules that are tested repeatedly - Full feedback loops where assessment uncertainty feeds back into decisions - Formal stakeholder engagement in defining objectives and tradeoffs - Systematic evaluation of robustness across scenarios
-
-However, simulation scenarios offer important advantages in terms of flexibility, computational efficiency, and suitability for exploratory analysis.
-
-**Alaska groundfish experience: scenarios in practice.**
-
-**Alaska experience: scenarios in practice.**
-
+Simulation scenarios represent a more flexible, less prescriptive approach to evaluating management outcomes under uncertainty [@DeMoor2011; @Butterworth2007]. In practice, they project the population forward under assumed conditions, vary key assumptions (e.g., recruitment, selectivity, environmental states), test alternative management actions, and evaluate outcomes against objectives. The key distinction from full MSE is that scenarios often omit explicit decision rules tested repeatedly, full feedback loops where assessment uncertainty drives decisions, formal stakeholder engagement in defining objectives, and systematic robustness evaluation across operating models. Their value is flexibility and computational efficiency for exploratory analysis.
 
 Alaska groundfish management has a strong history of using projection models and simulation scenarios to evaluate management alternatives. These approaches have provided decision makers with quantitative information about the implications of different management choices.
-
-**Scenario analysis for decision support.**
-
-In Alaska groundfish fisheries, scientists have routinely used simulation-based projections to evaluate:
-
--   **Alternative catch levels**: "What happens if we reduce catch by 10%? By 20%?"
--   **Different allocation schemes**: Comparing fixed vs. dynamic allocation approaches
--   **Rebuilding strategies**: Projecting recovery time under various catch restrictions
--   **Bycatch mitigation**: Evaluating impacts of selectivity changes on target and non-target species
+In Alaska groundfish fisheries, simulation-based projections have routinely evaluated alternative catch levels, allocation schemes, rebuilding strategies, and bycatch mitigation options.
 
 This approach has the advantage of being computationally tractable and relatively easy to communicate to managers and stakeholders: "Here's what we think will happen if we implement this policy."
 
-**Examples.**
 
-@Ianelli2011 and related work [@IanelliGOA2009; @IanelliEcosystem2009; @IanelliMultispecies2018] by Ianelli and colleagues have exemplified the use of simulation scenarios for groundfish management. These analyses typically involve:
+@Ianelli2011 and related work [@IanelliGOA2009; @IanelliEcosystem2009; @IanelliMultispecies2018] by Ianelli and colleagues have exemplified the use of simulation scenarios for groundfish management. These analyses typically start from the current stock assessment, specify alternative future conditions, project forward with the assessment model, evaluate management decisions within each scenario, and summarize outcomes as probability distributions. Their key advantages are that they build directly on existing Stock Synthesis models, remain transparent about assumptions, are relatively quick to implement, and are easy to communicate. Limitations are that they do not explicitly propagate assessment uncertainty into future decisions, may miss structural uncertainty, are less suited to long‑term performance testing of fixed decision rules, and omit feedback loops where current decisions influence future assessments.
 
-1.  **Starting from the current stock assessment** (e.g., using Stock Synthesis models)
-2.  **Specifying alternative future conditions** (recruitment scenarios, environmental states)
-3.  **Projecting forward** using the assessment model
-4.  **Evaluating different management decisions** within each scenario
-5.  **Summarizing results** in terms of probability distributions of outcomes
+Integration into Alaska groundfish management.
 
-**Key advantages of this approach:** - Directly uses existing stock assessment models (Stock Synthesis, etc.) - Transparent about assumptions and scenarios - Relatively quick to implement compared to full MSE - Easy to communicate results to decision makers - Allows for exploratory "what-if" analysis
-
-**Limitations:** - Does not explicitly model how assessment uncertainty would influence future decisions - May not capture full range of structural uncertainty - Less suitable for evaluating the long-term performance of specific decision rules - Does not include feedback loops where current decisions influence future assessments
-
-**Integration into Alaska groundfish management.**
-
-The Alaska groundfish management framework is established through Fishery Management Plans (FMPs) for both the Gulf of Alaska (GOA) and the Bering Sea/Aleutian Islands (BSAI), which form the legal foundation for simulation scenario analysis [@NMFS_2004_AlaskaGroundfishPSEIS]. The harvest strategy and associated management procedures used in these FMPs were subjected to rigorous scientific review [@Goodman2002HarvestStrategy], ensuring that simulation-based scenario analysis is integrated into the decision-making framework. Within this framework, projection scenarios have been used routinely in Alaska groundfish stock assessments to:
-
--   **Evaluate catch implications**: "What catch level maintains SSB above 40% unfished?"
--   **Assess rebuilding timeframes**: "How long until this stock rebuilds?"
--   **Test alternative regulations**: "What selectivity changes would reduce bycatch?"
--   **Examine trade-offs**: "What is the cost (in foregone catch) of stricter bycatch limits?"
+The Alaska groundfish management framework is established through Fishery Management Plans (FMPs) for both the Gulf of Alaska (GOA) and the Bering Sea/Aleutian Islands (BSAI), which form the legal foundation for simulation scenario analysis [@NMFS_2004_AlaskaGroundfishPSEIS]. The harvest strategy and associated management procedures used in these FMPs were subjected to rigorous scientific review [@Goodman2002HarvestStrategy], ensuring that simulation-based scenario analysis is integrated into the decision-making framework. Within this framework, projection scenarios are routinely used to evaluate catch implications, rebuilding timeframes, alternative regulations, and trade‑offs (e.g., foregone catch vs. bycatch reduction).
 
 These analyses provide key inputs to the NPFMC decision-making process, even though they may not constitute a formal "MSE" in the contemporary sense of that term.
 
-**Methodological evolution: from SEIS scenarios to full-feedback MSE.**
+Methodological evolution: from SEIS scenarios to full-feedback MSE.
 
 The methodological progression in Alaska groundfish management illustrates how simulation approaches have evolved. The 2004 Groundfish SEIS [@NMFS_2004_AlaskaGroundfishPSEIS] established the foundation for projection-based scenario analysis within the current management framework. This approach projects population dynamics forward under alternative assumptions but does not include explicit feedback loops where assessment uncertainty influences future management decisions.
 
-A critical advancement is represented by Ono et al. [@IanelliMultispecies2018], which develops a multispecies management strategy analysis framework that incorporates full feedback simulation. In this framework:
-
--   The operating model generates population dynamics
--   Simulated data are created with observation error
--   A stock assessment is conducted on the simulated data
--   Management decisions are made based on assessment results
--   These decisions feed back into the next simulation cycle
--   Performance is evaluated across multiple feedback cycles
+A critical advancement is represented by Ono et al. [@IanelliMultispecies2018], which develops a multispecies management strategy analysis framework that incorporates full feedback simulation. In this framework, the operating model generates population dynamics, simulated observations are produced with error, assessments are conducted on those data, management decisions are made from assessment outputs, and those decisions feed back into subsequent simulation cycles where performance is evaluated.
 
 This represents a transition from the projection-based scenarios of the 2004 SEIS era toward the full feedback MSE approach now being adopted internationally. The Ono et al. framework demonstrates that Alaska groundfish science has the capacity and expertise to implement more sophisticated MSE approaches while building directly on existing assessment infrastructure.
 
 ## What each approach is for
 
-The trajectory of fisheries management evolution demonstrates a general pattern:
+The trajectory of fisheries management evolution follows a general pattern: deterministic projections in the 1970s–1990s, probabilistic scenarios in the 1990s–2010s (with the 2004 Alaska Groundfish SEIS as a key foundation), full‑feedback MSE in the 2010s–present (including the multispecies framework in Ono et al. [@IanelliMultispecies2018]), and emerging adaptive, ecosystem‑integrated approaches. Each phase builds on the previous, adding sophistication and better capturing uncertainty and decision‑making realism.
 
-1.  **Era 1 (1970s-1990s): Deterministic projections**
-    -   Single point estimates of future outcomes
-    -   Limited uncertainty representation
-    -   Reactive management
-2.  **Era 2 (1990s-2010s): Probabilistic scenarios and simulation**
-    -   Multiple scenarios representing uncertainty
-    -   More sophisticated projections
-    -   Better uncertainty communication
-    -   Examples: Ianelli et al. approaches to groundfish evaluation, NMFS 2004 Groundfish SEIS [@NMFS_2004_AlaskaGroundfishPSEIS]
-    -   **Key foundation:** The 2004 Alaska groundfish SEIS established the scientific basis for scenario-based analysis under the current FMPs
-3.  **Era 3 (2010s-present): Full MSE implementation**
-    -   Explicit feedback loops where assessment uncertainty feeds back into management decisions
-    -   Operating models with alternative assumptions
-    -   Management procedure testing through repeated simulation cycles
-    -   More sophisticated uncertainty treatment
-    -   Alaska example: Evolution of Ono et al. (2017) [@IanelliMultispecies2018] multispecies framework—advancing from projection-based scenarios to full feedback simulation
-    -   Other examples: Jack Mackerel (SPRFMO), Tuna fisheries
-4.  **Era 4 (Emerging): Adaptive MSE and ecosystem integration**
-    -   Ecosystem considerations formally incorporated
-    -   Dynamic learning and adjustment
-    -   Stakeholder-centered objectives
-    -   Climate-adaptive strategies
-
-Each phase builds on the previous, adding sophistication and better capturing uncertainty and decision-making realism.
 
 <!-- merged into 'What each approach is for' -->
 
 Recent research [@Walter2023MSEWhen] shows that both approaches have complementary strengths.
 
-**Simulation scenarios (projection-based).**
-
-**Structure:**
+Simulation scenarios (projection-based) use a linear structure:
 
 ```         
 Assessment Model → Project Forward → Evaluate Outcomes
@@ -213,15 +133,9 @@ Assessment Model → Project Forward → Evaluate Outcomes
                 Summarize Results
 ```
 
-**Characteristics:** - Linear progression (usually) - Open-ended: user defines what to test - Flexible: can change assumptions easily - Quick to implement and compute - Results easy to interpret and communicate
+They are open‑ended and flexible (assumptions can change quickly), computationally light, and easy to interpret and communicate. Typical uses are exploratory analysis, immediate management decisions, assumption testing, and rapid response to new information. Examples include questions such as: under a recruitment regime shift, what catch is sustainable; if trawl selectivity increases by X%, what bycatch reduction follows; or what allocation maximizes yield across sectors.
 
-**Best Uses:** - Exploratory analysis ("What if...?") - Supporting immediate management decisions - Testing assumptions - Comparing alternatives for communication - Rapid response to new information
-
-**Examples:** - "Under recruitment regime shift, what catch is sustainable?" - "If we increase trawl selectivity by X%, what is bycatch reduction?" - "What allocation maximizes yield to both sectors?"
-
-**Full-feedback MSE.**
-
-**Structure:**
+Full-feedback MSE uses a circular feedback structure:
 
 ```         
 Operating Model → Management Procedure → Feedback
@@ -231,88 +145,37 @@ Assessment  ← Decision Rule ← Feedback to Assessment
 Evaluate Management Procedure Performance
 ```
 
-**Characteristics:** - Circular feedback loops - Prescriptive: testing specific MPs - Formal: systematic evaluation protocol - Computationally intensive - Results capture realistic decision-making processes - More rigorous robustness testing - Suitable for long-term strategy evaluation
-
-**Best Uses:** - Evaluating robustness of decision rules - Testing performance under different operating models - Formal strategy comparison - Long-term planning (5-50 years) - Stakeholder engagement on objectives and tradeoffs - Policy development
-
-**Examples:** - "How does this harvest control rule perform across 100 different recruitment scenarios?" - "What is the probability we stay above limit reference point under 20% change in productivity?" - "Which management strategy best balances conservation and economic objectives?"
-
-<!-- merged into 'What each approach is for' -->
+It is prescriptive and formal (testing specific MPs under repeated feedback cycles), more computationally intensive, and designed for long‑term strategy evaluation and robustness testing. Typical uses include assessing performance across multiple operating‑model assumptions, formal strategy comparisons, and stakeholder‑focused trade‑off analysis. Examples include questions such as: how does a harvest control rule perform across 100 recruitment scenarios; what is the probability of staying above a limit reference point under a 20% productivity change; or which strategy best balances conservation and economic objectives.
 
 An important point: simulation scenarios and full MSE are not necessarily competing approaches. Rather, they represent different points on a spectrum of analytical sophistication, each with appropriate uses:
 
-**Simulation scenarios are appropriate for:**
+Simulation scenarios are appropriate for immediate decisions, operational management (evaluating specific catch recommendations), exploratory analysis, communication with non‑technical audiences, and rapid assessment when conditions change.
 
--   **Immediate decisions**: "What should we do next year?"
--   **Operational management**: Evaluating specific catch recommendations
--   **Exploratory analysis**: Testing ideas and assumptions
--   **Communication**: Explaining implications to non-technical audiences
--   **Rapid assessment**: Responding quickly to changing conditions
-
-**Full-feedback MSE is appropriate for:**
-
--   **Strategic decisions**: "What is our long-term management strategy?"
--   **Policy development**: Establishing harvest control rules and frameworks
--   **Robustness testing**: Ensuring strategies work across range of scenarios
--   **Formal evaluation**: Providing structure for stakeholder engagement
--   **Institutional change**: Supporting major modifications to management approach
-
-<!-- merged into 'What each approach is for' -->
+Full‑feedback MSE is appropriate for strategic decisions, policy development, robustness testing across scenarios, formal evaluation processes with stakeholders, and institutional change.
 
 For Alaska groundfish management, both simulation scenarios and full MSE have roles:
 
-**Simulation scenarios provide:**
+For Alaska groundfish management, simulation scenarios provide operational flexibility, rapid decision support built on existing Stock Synthesis infrastructure, and communication‑friendly outputs that can adapt quickly to new information.
 
--   **Operational flexibility**: Can rapidly evaluate different catch recommendations
--   **Decision support**: Directly answering manager questions ("If we do X, what happens?")
--   **Existing infrastructure use**: Built on current Stock Synthesis assessments
--   **Stakeholder communication**: Easier to explain to fishery participants
--   **Adaptive management**: Can respond to new information quickly
-
-**Full-feedback MSE provides:**
-
--   **Strategic perspective**: Long-term implications of different approaches
--   **Robustness assurance**: Testing across broader range of uncertainties
--   **Formal tradeoff analysis**: Explicit evaluation of conservation vs. economic objectives
--   **Institutional learning**: Structured framework for improving management over time
--   **Policy development**: Rigorous basis for updating FMP management procedures
+Full‑feedback MSE provides a strategic, long‑term perspective with explicit robustness testing, formal trade‑off analysis, and a rigorous basis for updating FMP management procedures.
 
 # Implementation pathway for Alaska groundfish MSE
 
 ## Fit to current FMP structure
 
-The BSAI and GOA Groundfish FMPs already embody many MSE principles [@Free2023HCR]:
+The BSAI and GOA Groundfish FMPs already embody many MSE principles [@Free2023HCR], including explicit operating objectives, formal harvest control rules (Amendment 56 and the GOA FMP), annual assessment procedures, and routine consideration of uncertainty via scenario evaluation.
 
--   **Operating objectives**: Defined in terms of spawning stock biomass, fishing mortality, and other biological reference points
--   **Harvest control rules**: Already specified in Amendment 56 (BSAI) and the GOA FMP
--   **Assessment procedures**: Annual assessments provide basis for management advice
--   **Uncertainty consideration**: Councils consider multiple scenarios and robustness in setting catch levels
+How MSE enhances the current framework.
 
-**How MSE enhances the current framework.**
-
-A formal MSE in Alaska groundfish would:
-
-1.  **Systematically test** current harvest control rules against multiple sources of uncertainty
-2.  **Compare alternatives** to current procedures in a structured framework
-3.  **Engage stakeholders** formally in defining objectives and evaluating tradeoffs
-4.  **Document assumptions** underlying management procedures
-5.  **Identify vulnerabilities** of current procedures and potential improvements
+A formal MSE in Alaska groundfish would systematically test current harvest control rules against multiple sources of uncertainty, compare alternatives in a structured framework, engage stakeholders in defining objectives and trade‑offs, document assumptions, and identify vulnerabilities and potential improvements.
 
 ## Barriers and enabling factors
 
-1.  **Computational demands**: A full MSE requires substantial computing resources and expertise
-2.  **Data and modeling requirements**: Multiple operating models require different parameterizations
-3.  **Institutional inertia**: Current procedures are established and understood
-4.  **Stakeholder uncertainty**: Concerns about process and implications
-5.  **Expertise gaps**: Limited MSE experience in the Alaska groundfish assessment program
+Key barriers include computational demands, data/modeling requirements for multiple operating models, institutional inertia, stakeholder uncertainty about process implications, and expertise gaps in formal MSE implementation.
 
-**Enabling factors.**
+Enabling factors.
 
-1.  **Existing infrastructure**: Stock Synthesis models are already configured and understood [@Methot2013]
-2.  **Strong data foundation**: Multiple surveys and long time series provide robust operating models
-3.  **Scientific expertise**: Alaska groundfish program has sophisticated modelers [@Thorson2019Spatial]
-4.  **Demonstrated value**: Other regions (SPRFMO, tuna RFMOs) show MSE value [@BentleyHerring2024]
-5.  **Council interest**: Expressed interest in more formal evaluation procedures
+Enabling factors include existing Stock Synthesis infrastructure, strong data foundations with long time series and multiple surveys, substantial scientific expertise, demonstrated value from other regions (e.g., SPRFMO and tuna RFMOs), and council interest in more formal evaluation procedures.
 
 ## Practical recommendation: phased implementation
 
@@ -320,27 +183,15 @@ Rather than attempting a complete MSE transition immediately, a phased approach 
 
 ### Phase 1: Enhanced Simulation Scenarios (Years 1-2)
 
-**Objectives:** - Expand existing projection capabilities - Develop systematic scenario framework - Improve communication of scenario results
-
-**Actions:** - Systematize climate-change scenario analysis for all stocks - Develop recruitment regime scenarios based on historical data - Create scenario-based decision support tools - Improve visualization and documentation of scenario assumptions
-
-**Outcomes:** - Enhanced operational decision-making capability - Better stakeholder understanding of uncertainty - Foundation for transition to full MSE
+Objectives focus on expanding projection capabilities, building a systematic scenario framework, and improving communication. Actions include systematizing climate-change scenarios, developing recruitment‑regime scenarios, creating decision‑support tools, and improving visualization and documentation. Expected outcomes are stronger operational decision support, better stakeholder understanding of uncertainty, and a foundation for transition to full MSE.
 
 ### Phase 2: Pilot Full MSE (Years 2-4)
 
-**Objectives:** - Develop MSE framework for representative stocks - Test current harvest control rules formally - Compare MSE results with scenario-based analysis
-
-**Actions:** - Select pilot stocks (e.g., Bering Sea Pollock, GOA Walleye Pollock) - Develop operating models representing key uncertainties - Formalize management procedures as decision rules - Conduct MSE trials and document results
-
-**Outcomes:** - Demonstrated MSE framework - Understanding of how MSE alters management recommendations - Institutional learning about MSE processes
+Objectives are to develop an MSE framework for representative stocks, formally test current HCRs, and compare MSE results with scenario‑based analysis. Actions include selecting pilot stocks (e.g., Bering Sea and GOA pollock), developing operating models for key uncertainties, formalizing management procedures as decision rules, and running MSE trials. Outcomes are a demonstrated MSE framework, clearer understanding of how MSE alters advice, and institutional learning.
 
 ### Phase 3: Integrated Approach (Years 4+)
 
-**Objectives:** - Integrate simulation scenarios and full MSE into routine decision-making - Expand to ecosystem considerations - Develop climate-adaptive strategies
-
-**Actions:** - Implement annual scenario analysis for operational decisions - Conduct full MSE reviews every 5-10 years for strategic policy - Integrate ecosystem indicators and projections - Develop explicit climate adaptation strategies
-
-**Outcomes:** - Formalized MSE-informed management - Enhanced robustness of management procedures - Improved stakeholder engagement and transparency
+Objectives are to integrate scenario analysis and full MSE into routine decision‑making, expand to ecosystem considerations, and develop climate‑adaptive strategies. Actions include annual scenario analyses for operational decisions, full MSE reviews every 5–10 years for strategic policy, integration of ecosystem indicators, and explicit climate‑adaptation strategies. Outcomes are formalized MSE‑informed management, enhanced robustness, and improved stakeholder engagement and transparency.
 
 # Implications for fisheries management and climate adaptation
 
@@ -362,11 +213,11 @@ Positioned as a review for Fish and Fisheries, the Alaska groundfish experience 
 
 # Declarations
 
-**Acknowledgements.** \[Add acknowledgements and funding sources here.\]
+Acknowledgements. \[Add acknowledgements and funding sources here.\]
 
-**Data Availability Statement.** \[Add data availability statement here. For example: "No new data were generated or analysed in this study."\]
+Data Availability Statement. \[Add data availability statement here. For example: "No new data were generated or analysed in this study."\]
 
-**Conflict of Interest Statement.** \[Add conflict of interest statement here.\]
+Conflict of Interest Statement. \[Add conflict of interest statement here.\]
 
 # References
 
