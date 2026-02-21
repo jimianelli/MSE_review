@@ -354,7 +354,7 @@
         <!-- ABC line: slightly below F_msy, flat from B_tgt rightward -->
         <line x1="240" y1="75" x2="370" y2="75" stroke="#2a5c8a" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.7"/>
         <text x="372" y="78" font-size="9" fill="#2a5c8a" font-family="sans-serif">ABC</text>
-        <text x="372" y="63" font-size="9" fill="#2a5c8a" font-family="sans-serif">OFL (F&#x2098;&#x2093;&#x1D466;)</text>
+        <text x="372" y="63" font-size="9" fill="#2a5c8a" font-family="sans-serif">OFL (F<tspan baseline-shift="sub" font-size="7">MSY</tspan>)</text>
 
         <!-- B_lim vertical reference -->
         <line x1="130" y1="195" x2="130" y2="60" stroke="#c0392b" stroke-width="1" stroke-dasharray="4,3"/>
@@ -366,7 +366,7 @@
 
         <!-- F_msy y-axis tick and label -->
         <line x1="46" y1="60" x2="54" y2="60" stroke="#999" stroke-width="1"/>
-        <text x="43" y="63" text-anchor="end" font-size="9.5" fill="#2a5c8a" font-family="sans-serif">F&#x2098;&#x2093;&#x1D466;</text>
+        <text x="43" y="63" text-anchor="end" font-size="9.5" fill="#2a5c8a" font-family="sans-serif">F<tspan baseline-shift="sub" font-size="7">MSY</tspan></text>
 
         <!-- ABC buffer shading between OFL and ABC lines (above B_tgt) -->
         <rect x="240" y="60" width="130" height="15" fill="#d6e8f5" opacity="0.6"/>
@@ -378,7 +378,7 @@
         <!-- Zero fishing label -->
         <text x="90" y="185" text-anchor="middle" font-size="8.5" fill="#888" font-family="sans-serif">no fishing</text>
       </svg>
-      <p class="caption">Schematic HCR: harvest rate is zero below B&#x2097;&#x1D5F;&#x2098;, ramps linearly to F&#x2098;&#x2093;&#x1D466; between B&#x2097;&#x1D5F;&#x2098; and B&#x209C;&#x2090;&#x1D5F;, and is held constant above B&#x209C;&#x2090;&#x1D5F;. ABC is set below OFL; the buffer width depends on how fully uncertainty is characterized.</p>
+      <p class="caption">Schematic HCR: harvest rate is zero below B<sub>lim</sub>, ramps linearly to F<sub>MSY</sub> between B<sub>lim</sub> and B<sub>tgt</sub>, and is held constant above B<sub>tgt</sub>. ABC is set below OFL; the buffer width depends on how fully uncertainty is characterized.</p>
     </div>
   </div>
   <div class="notes">
@@ -396,7 +396,7 @@
         <p>Model structure — growth form, selectivity shape, stock-recruit relationship, natural mortality — is <strong>chosen by the analyst</strong>, not estimated from data.</p>
         <p>These choices are prior commitments that constrain what the likelihood surface can express.</p>
       </div>
-      <div class="eq">ABC = f( B̂, F̂&#x2098;&#x2093;&#x1D466;, σ&#x0302; )<br><span style="color:#c0392b;">where B̂ ← model structure + data</span></div>
+      <div class="eq">ABC = f( B̂, F̂<sub>MSY</sub>, σ̂ )<br><span style="color:#c0392b;">where B̂ ← model structure + data</span></div>
     </div>
     <div class="fig-col">
       <!-- Assumption taxonomy diagram -->
@@ -478,7 +478,7 @@
 
         <!-- Row 2: estimated quantities -->
         <rect x="120" y="105" width="160" height="32" rx="3" fill="#f0efe9" stroke="#888" stroke-width="1.2"/>
-        <text x="200" y="125" text-anchor="middle" font-size="10" fill="#333" font-family="sans-serif" font-weight="700">B̂&#x2080;, B̂&#x2098;&#x2093;&#x1D466;, F̂&#x2098;&#x2093;&#x1D466;</text>
+        <text x="200" y="125" text-anchor="middle" font-size="10" fill="#333" font-family="sans-serif" font-weight="700">B̂&#x2080;, B̂<tspan baseline-shift="sub" font-size="7.5">MSY</tspan>, F̂<tspan baseline-shift="sub" font-size="7.5">MSY</tspan></text>
 
         <!-- Row 3: derived quantities -->
         <rect x="80" y="175" width="120" height="30" rx="3" fill="#f0efe9" stroke="#888" stroke-width="1.2"/>
@@ -575,10 +575,10 @@
   <div class="content-area">
     <div class="text-col">
       <div class="body">
-        <p>Small differences in assumed recruitment steepness produce large differences in estimated B&#x2098;&#x2093;&#x1D466; and, therefore, in the calculated ABC.</p>
+        <p>Small differences in assumed recruitment steepness produce large differences in estimated B<sub>MSY</sub> and, therefore, in the calculated ABC.</p>
         <p>The relationship is <strong>nonlinear</strong>: uncertainty does not cancel — it compounds across the model structure.</p>
       </div>
-      <div class="eq">ABC &#x221d; OFL &middot; (1 &minus; P[F > F&#x2098;&#x2093;&#x1D466;])<br><span style="color:#c0392b;">OFL = F&#x2098;&#x2093;&#x1D466;(h) &middot; B&#x2098;&#x2093;&#x1D466;(h) — both depend on h</span></div>
+      <div class="eq">ABC &#x221d; OFL &middot; (1 &minus; P[F > F<sub>MSY</sub>])<br><span style="color:#c0392b;">OFL = F<sub>MSY</sub>(h) &middot; B<sub>MSY</sub>(h) — both depend on h</span></div>
     </div>
     <div class="fig-col">
       <!-- Recruitment assumption -> ABC figure -->
@@ -627,7 +627,7 @@
         <line x1="269" y1="56" x2="269" y2="64" stroke="#888" stroke-width="1"/>
         <text x="206" y="54" text-anchor="middle" font-size="8.5" fill="#555" font-family="sans-serif">&#x394;ABC &#x2248; 40&#x2013;60%</text>
       </svg>
-      <p class="caption">Stylized relationship: a 0.2-unit change in assumed steepness can shift the calculated ABC by 40–60% via its effect on both F&#x2098;&#x2093;&#x1D466; and B&#x2098;&#x2093;&#x1D466;. Shaded band reflects parameter uncertainty within each h assumption.</p>
+      <p class="caption">Stylized relationship: a 0.2-unit change in assumed steepness can shift the calculated ABC by 40–60% via its effect on both F<sub>MSY</sub> and B<sub>MSY</sub>. Shaded band reflects parameter uncertainty within each h assumption.</p>
     </div>
   </div>
   <div class="notes">
@@ -642,7 +642,7 @@
   <div class="content-area">
     <div class="text-col">
       <div class="body">
-        <p>The HCR receives a single B̂ and a single F̂&#x2098;&#x2093;&#x1D466;. Structural uncertainty — across model configurations — is not formally represented.</p>
+        <p>The HCR receives a single B̂ and a single F̂<sub>MSY</sub>. Structural uncertainty — across model configurations — is not formally represented.</p>
         <p>The <strong>ABC buffer</strong> is calibrated to within-model parameter uncertainty (σ), not to cross-model structural divergence.</p>
       </div>
       <div class="chain">
@@ -664,29 +664,26 @@
             <polygon points="0 0, 7 3.5, 0 7" fill="#555"/>
           </marker>
         </defs>
-        <text x="170" y="18" text-anchor="middle" font-size="10.5" fill="#333" font-family="sans-serif" font-weight="700">ABC distributions: within-model vs. structural</text>
+        <text x="170" y="14" text-anchor="middle" font-size="10.5" fill="#333" font-family="sans-serif" font-weight="700">ABC distributions: within-model vs. structural</text>
         <!-- Axes -->
-        <line x1="35" y1="180" x2="320" y2="180" stroke="#999" stroke-width="1.2" marker-end="url(#ah4)"/>
-        <line x1="35" y1="180" x2="35" y2="30" stroke="#999" stroke-width="1.2" marker-end="url(#ah4)"/>
-        <text x="178" y="198" text-anchor="middle" font-size="9.5" fill="#666" font-family="sans-serif">ABC (t)</text>
+        <line x1="35" y1="185" x2="320" y2="185" stroke="#999" stroke-width="1.2" marker-end="url(#ah4)"/>
+        <line x1="35" y1="185" x2="35" y2="22" stroke="#999" stroke-width="1.2" marker-end="url(#ah4)"/>
+        <text x="178" y="202" text-anchor="middle" font-size="9.5" fill="#666" font-family="sans-serif">ABC (t)</text>
         <text x="12" y="108" text-anchor="middle" font-size="9.5" fill="#666" font-family="sans-serif" transform="rotate(-90,12,108)">Density</text>
 
-        <!-- Narrow distribution (within-model) -->
-        <!-- Gaussian-like curve, narrow, centered ~150 -->
-        <path d="M 100,178 C 110,177 120,168 130,145 C 138,122 142,85 148,55 C 151,38 153,32 155,30 C 157,32 159,38 162,55 C 168,85 172,122 180,145 C 190,168 200,177 210,178"
-              fill="#d6e8f5" stroke="#2a5c8a" stroke-width="1.8" fill-opacity="0.6"/>
-        <text x="155" y="25" text-anchor="middle" font-size="8.5" fill="#1a3d5c" font-family="sans-serif">Within-model σ</text>
-
-        <!-- Wide distribution (structural) -->
-        <path d="M 45,177 C 65,175 85,165 100,148 C 118,128 130,105 148,85 C 160,70 168,62 178,58 C 190,55 200,58 215,68 C 235,82 250,105 265,130 C 280,155 295,172 315,178"
+        <!-- Wide distribution (structural) — draw first so narrow sits on top -->
+        <path d="M 45,183 C 65,180 85,170 100,153 C 118,133 130,110 148,90 C 160,75 168,67 178,63 C 190,60 200,63 215,73 C 235,87 250,110 265,135 C 280,160 295,177 315,183"
               fill="#f5d6d4" stroke="#c0392b" stroke-width="1.8" fill-opacity="0.5"/>
-        <text x="178" y="50" text-anchor="middle" font-size="8.5" fill="#8b1a12" font-family="sans-serif">Structural uncertainty</text>
 
-        <!-- Legend -->
-        <rect x="38" y="140" width="12" height="8" fill="#d6e8f5" stroke="#2a5c8a" stroke-width="1"/>
-        <text x="54" y="148" font-size="8.5" fill="#333" font-family="sans-serif">Reported uncertainty</text>
-        <rect x="38" y="153" width="12" height="8" fill="#f5d6d4" stroke="#c0392b" stroke-width="1"/>
-        <text x="54" y="161" font-size="8.5" fill="#333" font-family="sans-serif">True (structural) uncertainty</text>
+        <!-- Narrow distribution (within-model) — centered ~155, peak at y=35 -->
+        <path d="M 100,183 C 110,182 120,173 130,150 C 138,127 142,90 148,60 C 151,43 153,37 155,35 C 157,37 159,43 162,60 C 168,90 172,127 180,150 C 190,173 200,182 210,183"
+              fill="#d6e8f5" stroke="#2a5c8a" stroke-width="1.8" fill-opacity="0.7"/>
+
+        <!-- Legend (top-left corner, above the distributions) -->
+        <rect x="38" y="22" width="11" height="8" fill="#d6e8f5" stroke="#2a5c8a" stroke-width="1"/>
+        <text x="53" y="30" font-size="8.5" fill="#333" font-family="sans-serif">Reported uncertainty</text>
+        <rect x="38" y="34" width="11" height="8" fill="#f5d6d4" stroke="#c0392b" stroke-width="1"/>
+        <text x="53" y="42" font-size="8.5" fill="#333" font-family="sans-serif">True (structural) uncertainty</text>
 
         <!-- Current practice marker -->
         <line x1="155" y1="180" x2="155" y2="165" stroke="#2a5c8a" stroke-width="1.5" stroke-dasharray="3,2"/>
@@ -707,10 +704,10 @@
   <div class="content-area">
     <div class="text-col">
       <div class="body">
-        <p>If structural assumptions are systematically biased and unaccounted, the <strong>realized probability of exceeding F&#x2098;&#x2093;&#x1D466;</strong> will exceed the nominal P* target.</p>
+        <p>If structural assumptions are systematically biased and unaccounted, the <strong>realized probability of exceeding F<sub>MSY</sub></strong> will exceed the nominal P* target.</p>
         <p>The management system is calibrated to a model, not to the stock. Deviations between model and reality accumulate silently.</p>
       </div>
-      <div class="eq">P[F<sub>actual</sub> > F&#x2098;&#x2093;&#x1D466;] &gg; P*<br><span style="color:#c0392b;">when structural bias is present and unmodeled</span></div>
+      <div class="eq">P[F<sub>actual</sub> > F<sub>MSY</sub>] &gg; P*<br><span style="color:#c0392b;">when structural bias is present and unmodeled</span></div>
     </div>
     <div class="fig-col">
       <!-- Realized vs nominal risk -->
@@ -749,7 +746,7 @@
               fill="#f5d6d4" opacity="0.5"/>
 
         <!-- Labels -->
-        <text x="220" y="60" font-size="8.5" fill="#c0392b" font-family="sans-serif">Realized P[F > F&#x2098;&#x2093;&#x1D466;]</text>
+        <text x="220" y="60" font-size="8.5" fill="#c0392b" font-family="sans-serif">Realized P[F > F<tspan baseline-shift="sub" font-size="6.5">MSY</tspan>]</text>
         <text x="220" y="72" font-size="8" fill="#c0392b" font-family="sans-serif">(retrospective, sim-based)</text>
 
         <!-- Excess risk label -->
@@ -826,7 +823,7 @@
 
         <!-- LAYER 2: Intermediate -->
         <rect x="50" y="80" width="90" height="30" rx="3" fill="#f0efe9" stroke="#888" stroke-width="1.1"/>
-        <text x="95" y="99" text-anchor="middle" font-size="8.5" fill="#333" font-family="sans-serif" font-weight="600">B&#x2098;&#x2093;&#x1D466;, F&#x2098;&#x2093;&#x1D466;</text>
+        <text x="95" y="99" text-anchor="middle" font-size="8.5" fill="#333" font-family="sans-serif" font-weight="600">B<tspan baseline-shift="sub" font-size="6.5">MSY</tspan>, F<tspan baseline-shift="sub" font-size="6.5">MSY</tspan></text>
 
         <rect x="185" y="80" width="90" height="30" rx="3" fill="#f0efe9" stroke="#888" stroke-width="1.1"/>
         <text x="230" y="92" text-anchor="middle" font-size="8.5" fill="#333" font-family="sans-serif" font-weight="600">B̂ (current</text>
@@ -834,7 +831,7 @@
 
         <!-- LAYER 3: OFL/ABC -->
         <rect x="115" y="155" width="140" height="30" rx="3" fill="#f0efe9" stroke="#888" stroke-width="1.2"/>
-        <text x="185" y="174" text-anchor="middle" font-size="9" fill="#333" font-family="sans-serif" font-weight="700">OFL = F&#x2098;&#x2093;&#x1D466; &middot; B̂</text>
+        <text x="185" y="174" text-anchor="middle" font-size="9" fill="#333" font-family="sans-serif" font-weight="700">OFL = F<tspan baseline-shift="sub" font-size="6.5">MSY</tspan> &middot; B̂</text>
 
         <!-- LAYER 4: ABC / Decision -->
         <rect x="120" y="215" width="130" height="28" rx="3" fill="#d6e8f5" stroke="#2a5c8a" stroke-width="1.4"/>
@@ -884,59 +881,68 @@
     </div>
     <div class="fig-col">
       <!-- Tornado / sensitivity bar chart -->
-      <svg viewBox="0 0 360 230" xmlns="http://www.w3.org/2000/svg" style="max-height:87%;">
-        <text x="180" y="16" text-anchor="middle" font-size="10.5" fill="#333" font-family="sans-serif" font-weight="700">Sensitivity of OFL to assumption changes</text>
-        <text x="180" y="28" text-anchor="middle" font-size="8.5" fill="#888" font-family="sans-serif">% change from base case OFL</text>
+      <!-- Layout: labels in left column x=0–140, chart area x=145–420
+           Center axis at x=270 (= 0% change)
+           Scale: 60% = 100px, so 1% = 1.67px
+           -60% => x=270-100=170, +60% => x=270+100=370 -->
+      <svg viewBox="0 0 420 230" xmlns="http://www.w3.org/2000/svg" style="max-height:87%;">
+        <text x="280" y="14" text-anchor="middle" font-size="10.5" fill="#333" font-family="sans-serif" font-weight="700">Sensitivity of OFL to assumption changes</text>
+        <text x="280" y="26" text-anchor="middle" font-size="8.5" fill="#888" font-family="sans-serif">% change from base case OFL</text>
 
-        <!-- Center axis -->
-        <line x1="180" y1="35" x2="180" y2="210" stroke="#999" stroke-width="1.2"/>
-        <!-- x-axis -->
-        <line x1="40" y1="210" x2="330" y2="210" stroke="#999" stroke-width="1"/>
-        <!-- x-axis labels -->
-        <text x="40" y="220" text-anchor="middle" font-size="8" fill="#888" font-family="sans-serif">&#x2212;60%</text>
-        <text x="90" y="220" text-anchor="middle" font-size="8" fill="#888" font-family="sans-serif">&#x2212;30%</text>
-        <text x="180" y="220" text-anchor="middle" font-size="8" fill="#888" font-family="sans-serif">0%</text>
-        <text x="255" y="220" text-anchor="middle" font-size="8" fill="#888" font-family="sans-serif">+30%</text>
-        <text x="320" y="220" text-anchor="middle" font-size="8" fill="#888" font-family="sans-serif">+60%</text>
-        <!-- gridlines -->
-        <line x1="90" y1="35" x2="90" y2="210" stroke="#eee" stroke-width="1"/>
-        <line x1="255" y1="35" x2="255" y2="210" stroke="#eee" stroke-width="1"/>
+        <!-- Center axis (0% line) -->
+        <line x1="270" y1="32" x2="270" y2="210" stroke="#aaa" stroke-width="1.2"/>
+        <!-- x-axis baseline -->
+        <line x1="168" y1="210" x2="372" y2="210" stroke="#aaa" stroke-width="1"/>
+        <!-- x-axis tick labels -->
+        <text x="170" y="220" text-anchor="middle" font-size="8" fill="#888" font-family="sans-serif">&#x2212;60%</text>
+        <text x="220" y="220" text-anchor="middle" font-size="8" fill="#888" font-family="sans-serif">&#x2212;30%</text>
+        <text x="270" y="220" text-anchor="middle" font-size="8" fill="#888" font-family="sans-serif">0%</text>
+        <text x="320" y="220" text-anchor="middle" font-size="8" fill="#888" font-family="sans-serif">+30%</text>
+        <text x="370" y="220" text-anchor="middle" font-size="8" fill="#888" font-family="sans-serif">+60%</text>
+        <!-- Subtle gridlines at ±30% -->
+        <line x1="220" y1="32" x2="220" y2="210" stroke="#eee" stroke-width="1"/>
+        <line x1="320" y1="32" x2="320" y2="210" stroke="#eee" stroke-width="1"/>
 
-        <!-- Rows: label, low bar (left of center), high bar (right of center) -->
-        <!-- Row 1: Steepness h -->
-        <text x="175" y="60" text-anchor="end" font-size="9" fill="#333" font-family="sans-serif" font-weight="600">Steepness (h)</text>
-        <rect x="80" y="47" width="100" height="14" rx="2" fill="#f5d6d4" stroke="#c0392b" stroke-width="0.8"/>
-        <rect x="180" y="47" width="85" height="14" rx="2" fill="#d6e8f5" stroke="#2a5c8a" stroke-width="0.8"/>
-        <text x="75" y="59" text-anchor="end" font-size="8" fill="#c0392b" font-family="sans-serif">&#x2212;56%</text>
-        <text x="268" y="59" font-size="8" fill="#2a5c8a" font-family="sans-serif">+47%</text>
+        <!-- ── Row 1: Steepness h ──
+             low: -56% => bar from x=176 to x=270, width=94
+             high: +47% => bar from x=270 to x=348, width=78 -->
+        <text x="135" y="60" text-anchor="end" font-size="9" fill="#333" font-family="sans-serif" font-weight="600">Steepness (h)</text>
+        <rect x="176" y="47" width="94" height="14" rx="2" fill="#f5d6d4" stroke="#c0392b" stroke-width="0.8"/>
+        <rect x="270" y="47" width="78" height="14" rx="2" fill="#d6e8f5" stroke="#2a5c8a" stroke-width="0.8"/>
+        <text x="172" y="59" text-anchor="end" font-size="8" fill="#c0392b" font-family="sans-serif">&#x2212;56%</text>
+        <text x="352" y="59" font-size="8" fill="#2a5c8a" font-family="sans-serif">+47%</text>
 
-        <!-- Row 2: Natural mortality M -->
-        <text x="175" y="90" text-anchor="end" font-size="9" fill="#333" font-family="sans-serif" font-weight="600">Natural mortality (M)</text>
-        <rect x="112" y="77" width="68" height="14" rx="2" fill="#f5d6d4" stroke="#c0392b" stroke-width="0.8"/>
-        <rect x="180" y="77" width="62" height="14" rx="2" fill="#d6e8f5" stroke="#2a5c8a" stroke-width="0.8"/>
-        <text x="107" y="89" text-anchor="end" font-size="8" fill="#c0392b" font-family="sans-serif">&#x2212;38%</text>
-        <text x="244" y="89" font-size="8" fill="#2a5c8a" font-family="sans-serif">+34%</text>
+        <!-- ── Row 2: Natural mortality M ──
+             low: -38% => width=63; high: +34% => width=57 -->
+        <text x="135" y="90" text-anchor="end" font-size="9" fill="#333" font-family="sans-serif" font-weight="600">Natural mortality (M)</text>
+        <rect x="207" y="77" width="63" height="14" rx="2" fill="#f5d6d4" stroke="#c0392b" stroke-width="0.8"/>
+        <rect x="270" y="77" width="57" height="14" rx="2" fill="#d6e8f5" stroke="#2a5c8a" stroke-width="0.8"/>
+        <text x="203" y="89" text-anchor="end" font-size="8" fill="#c0392b" font-family="sans-serif">&#x2212;38%</text>
+        <text x="331" y="89" font-size="8" fill="#2a5c8a" font-family="sans-serif">+34%</text>
 
-        <!-- Row 3: Selectivity form -->
-        <text x="175" y="120" text-anchor="end" font-size="9" fill="#333" font-family="sans-serif" font-weight="600">Selectivity form</text>
-        <rect x="132" y="107" width="48" height="14" rx="2" fill="#f5d6d4" stroke="#c0392b" stroke-width="0.8"/>
-        <rect x="180" y="107" width="38" height="14" rx="2" fill="#d6e8f5" stroke="#2a5c8a" stroke-width="0.8"/>
-        <text x="127" y="119" text-anchor="end" font-size="8" fill="#c0392b" font-family="sans-serif">&#x2212;27%</text>
-        <text x="221" y="119" font-size="8" fill="#2a5c8a" font-family="sans-serif">+21%</text>
+        <!-- ── Row 3: Selectivity form ──
+             low: -27% => width=45; high: +21% => width=35 -->
+        <text x="135" y="120" text-anchor="end" font-size="9" fill="#333" font-family="sans-serif" font-weight="600">Selectivity form</text>
+        <rect x="225" y="107" width="45" height="14" rx="2" fill="#f5d6d4" stroke="#c0392b" stroke-width="0.8"/>
+        <rect x="270" y="107" width="35" height="14" rx="2" fill="#d6e8f5" stroke="#2a5c8a" stroke-width="0.8"/>
+        <text x="221" y="119" text-anchor="end" font-size="8" fill="#c0392b" font-family="sans-serif">&#x2212;27%</text>
+        <text x="309" y="119" font-size="8" fill="#2a5c8a" font-family="sans-serif">+21%</text>
 
-        <!-- Row 4: Catchability trend -->
-        <text x="175" y="150" text-anchor="end" font-size="9" fill="#333" font-family="sans-serif" font-weight="600">Catchability trend</text>
-        <rect x="150" y="137" width="30" height="14" rx="2" fill="#f5d6d4" stroke="#c0392b" stroke-width="0.8"/>
-        <rect x="180" y="137" width="28" height="14" rx="2" fill="#d6e8f5" stroke="#2a5c8a" stroke-width="0.8"/>
-        <text x="145" y="149" text-anchor="end" font-size="8" fill="#c0392b" font-family="sans-serif">&#x2212;17%</text>
-        <text x="211" y="149" font-size="8" fill="#2a5c8a" font-family="sans-serif">+15%</text>
+        <!-- ── Row 4: Catchability trend ──
+             low: -17% => width=28; high: +15% => width=25 -->
+        <text x="135" y="150" text-anchor="end" font-size="9" fill="#333" font-family="sans-serif" font-weight="600">Catchability trend</text>
+        <rect x="242" y="137" width="28" height="14" rx="2" fill="#f5d6d4" stroke="#c0392b" stroke-width="0.8"/>
+        <rect x="270" y="137" width="25" height="14" rx="2" fill="#d6e8f5" stroke="#2a5c8a" stroke-width="0.8"/>
+        <text x="238" y="149" text-anchor="end" font-size="8" fill="#c0392b" font-family="sans-serif">&#x2212;17%</text>
+        <text x="299" y="149" font-size="8" fill="#2a5c8a" font-family="sans-serif">+15%</text>
 
-        <!-- Row 5: Data weighting -->
-        <text x="175" y="180" text-anchor="end" font-size="9" fill="#333" font-family="sans-serif" font-weight="600">Data weighting</text>
-        <rect x="162" y="167" width="18" height="14" rx="2" fill="#f5d6d4" stroke="#c0392b" stroke-width="0.8"/>
-        <rect x="180" y="167" width="16" height="14" rx="2" fill="#d6e8f5" stroke="#2a5c8a" stroke-width="0.8"/>
-        <text x="157" y="179" text-anchor="end" font-size="8" fill="#c0392b" font-family="sans-serif">&#x2212;10%</text>
-        <text x="199" y="179" font-size="8" fill="#2a5c8a" font-family="sans-serif">+9%</text>
+        <!-- ── Row 5: Data weighting ──
+             low: -10% => width=17; high: +9% => width=15 -->
+        <text x="135" y="180" text-anchor="end" font-size="9" fill="#333" font-family="sans-serif" font-weight="600">Data weighting</text>
+        <rect x="253" y="167" width="17" height="14" rx="2" fill="#f5d6d4" stroke="#c0392b" stroke-width="0.8"/>
+        <rect x="270" y="167" width="15" height="14" rx="2" fill="#d6e8f5" stroke="#2a5c8a" stroke-width="0.8"/>
+        <text x="249" y="179" text-anchor="end" font-size="8" fill="#c0392b" font-family="sans-serif">&#x2212;10%</text>
+        <text x="289" y="179" font-size="8" fill="#2a5c8a" font-family="sans-serif">+9%</text>
       </svg>
       <p class="caption">Stylized tornado diagram: bars show OFL response to low/high alternative assumptions. Steepness and M dominate — they should be the focus of data collection and model averaging efforts.</p>
     </div>
@@ -1251,7 +1257,7 @@
         <text x="261" y="70" text-anchor="middle" font-size="8.5" fill="#8b1a12" font-family="sans-serif">S-R form (h) → OFL</text>
 
         <rect x="194" y="81" width="134" height="20" rx="2" fill="#f5d6d4" stroke="#c0392b" stroke-width="0.8"/>
-        <text x="261" y="95" text-anchor="middle" font-size="8.5" fill="#8b1a12" font-family="sans-serif">M assumption → B&#x2098;&#x2093;&#x1D466;</text>
+        <text x="261" y="95" text-anchor="middle" font-size="8.5" fill="#8b1a12" font-family="sans-serif">M assumption → B<tspan baseline-shift="sub" font-size="6.5">MSY</tspan></text>
 
         <rect x="194" y="106" width="134" height="20" rx="2" fill="#f5d6d4" stroke="#c0392b" stroke-width="0.8"/>
         <text x="261" y="120" text-anchor="middle" font-size="8.5" fill="#8b1a12" font-family="sans-serif">Selectivity → available B</text>
