@@ -1,0 +1,1494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How Do We Decide How Much Fish to Catch?</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:       #fdf8f2;
+    --bg-warm:  #f5ede0;
+    --text:     #1e1a14;
+    --muted:    #5a4f40;
+    --subtle:   #9a8e7e;
+    --rule:     #d4c8b8;
+    --ocean:    #2a6e8a;
+    --ocean-lt: #c8e4ef;
+    --ocean-dk: #174d65;
+    --sea:      #3a9e7e;
+    --sea-lt:   #c4e8dc;
+    --sand:     #c9a96e;
+    --sand-lt:  #f0e0c0;
+    --coral:    #c0604a;
+    --coral-lt: #f0d0c8;
+    --panel:    #eee8dc;
+    --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  html, body {
+    width: 100%; height: 100%;
+    background: #4a5a5a;
+    font-family: var(--font-sans);
+    overflow: hidden;
+  }
+
+  .deck {
+    position: relative;
+    width: 100vw; height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .slide {
+    display: none;
+    position: absolute;
+    width: min(177.78vh, 100vw);
+    height: min(56.25vw, 100vh);
+    background: var(--bg);
+    color: var(--text);
+    padding: 3.5% 5%;
+    flex-direction: column;
+    gap: 0;
+    overflow: hidden;
+  }
+
+  .slide.active { display: flex; }
+
+  .slide-num {
+    position: absolute;
+    bottom: 2.5%;
+    right: 3%;
+    font-size: 0.65em;
+    color: var(--subtle);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .headline {
+    font-size: clamp(1rem, 2.3vw, 1.7rem);
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+    max-width: 80%;
+    margin-bottom: 0.5em;
+    border-bottom: 3px solid var(--ocean);
+    padding-bottom: 0.3em;
+  }
+
+  .body {
+    font-size: clamp(0.75rem, 1.45vw, 1.05rem);
+    color: var(--muted);
+    max-width: 46%;
+    line-height: 1.6;
+    margin-bottom: 0.4em;
+  }
+
+  .body p + p { margin-top: 0.6em; }
+  .body strong { color: var(--text); font-weight: 600; }
+
+  .content-area {
+    display: flex;
+    flex: 1;
+    gap: 4%;
+    align-items: flex-start;
+    overflow: hidden;
+  }
+
+  .text-col {
+    flex: 0 0 42%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+  }
+
+  .fig-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+
+  .fig-col svg {
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  .caption {
+    font-size: clamp(0.55rem, 1vw, 0.78rem);
+    color: var(--subtle);
+    margin-top: 0.5em;
+    text-align: center;
+    font-style: italic;
+    max-width: 95%;
+    line-height: 1.3;
+  }
+
+  .full-fig {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+  /* Title slide */
+  .slide-title {
+    background: linear-gradient(160deg, #1a4a5e 0%, #1e6a5a 60%, #2a5a3a 100%);
+    color: #f5f0e8;
+    justify-content: flex-end;
+    padding: 4% 6%;
+  }
+
+  .slide-title .headline {
+    color: #f5f0e8;
+    border-bottom-color: var(--sand);
+    font-size: clamp(1.2rem, 2.9vw, 2.1rem);
+    max-width: 92%;
+  }
+
+  .slide-title .subtitle {
+    font-size: clamp(0.78rem, 1.55vw, 1.12rem);
+    color: rgba(245,240,232,0.75);
+    margin-top: 0.4em;
+    max-width: 75%;
+    line-height: 1.4;
+  }
+
+  .slide-title .tagline {
+    font-size: clamp(0.6rem, 1.1vw, 0.82rem);
+    color: rgba(245,240,232,0.5);
+    margin-top: 1em;
+  }
+
+  .slide-title .slide-num { color: rgba(245,240,232,0.4); }
+
+  /* Closing slide */
+  .slide-closing {
+    background: linear-gradient(160deg, #1a4a5e 0%, #1e6a5a 55%, #2a5a3a 100%);
+    color: #f5f0e8;
+  }
+
+  .slide-closing .headline {
+    color: #f5f0e8;
+    border-bottom-color: var(--sand);
+  }
+
+  .slide-closing .body { color: rgba(245,240,232,0.8); max-width: 48%; }
+  .slide-closing .slide-num { color: rgba(245,240,232,0.4); }
+
+  /* Speaker notes */
+  .notes {
+    display: none;
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: rgba(20,15,8,0.9);
+    color: #e8ddd0;
+    font-size: 0.72em;
+    padding: 0.8em 1.2em;
+    line-height: 1.5;
+    max-height: 32%;
+    overflow-y: auto;
+    z-index: 10;
+    border-top: 2px solid var(--sand);
+  }
+
+  .notes.visible { display: block; }
+  .notes strong { color: #f0c888; }
+
+  /* Nav */
+  .nav-btn {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.12);
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    padding: 0.5em 0.7em;
+    cursor: pointer;
+    border-radius: 4px;
+    z-index: 100;
+    transition: background 0.15s;
+  }
+  .nav-btn:hover { background: rgba(255,255,255,0.28); }
+  #prev-btn { left: 8px; }
+  #next-btn { right: 8px; }
+
+  /* Progress bar */
+  #progress {
+    position: fixed;
+    bottom: 0; left: 0;
+    height: 4px;
+    background: var(--sand);
+    transition: width 0.2s;
+    z-index: 100;
+  }
+
+  #notes-hint {
+    position: fixed;
+    bottom: 7px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255,255,255,0.35);
+    font-size: 0.64rem;
+    font-family: var(--font-sans);
+    pointer-events: none;
+  }
+
+  /* Utility */
+  .text-ocean { color: var(--ocean); }
+  .text-sea   { color: var(--sea); }
+  .text-sand  { color: var(--sand); }
+  .text-coral { color: var(--coral); }
+
+  /* Callout box */
+  .callout {
+    background: var(--panel);
+    border-left: 4px solid var(--ocean);
+    border-radius: 0 6px 6px 0;
+    padding: 0.5em 0.8em;
+    font-size: clamp(0.65rem, 1.2vw, 0.88rem);
+    color: var(--muted);
+    line-height: 1.45;
+    margin-top: 0.4em;
+  }
+
+  .callout.coral { border-left-color: var(--coral); }
+  .callout.sea   { border-left-color: var(--sea); }
+  .callout.sand  { border-left-color: var(--sand); }
+
+  /* Print */
+  @media print {
+    html, body { background: white; overflow: visible; }
+    .slide { display: flex !important; position: relative; page-break-after: always;
+      width: 100%; height: auto; min-height: 56.25vw; }
+    .nav-btn, #progress, #notes-hint { display: none; }
+    .notes { display: block !important; position: relative; max-height: none; }
+    .slide-title, .slide-closing {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+  }
+</style>
+</head>
+<body>
+
+<button class="nav-btn" id="prev-btn" aria-label="Previous slide">&#8249;</button>
+<button class="nav-btn" id="next-btn" aria-label="Next slide">&#8250;</button>
+<div id="progress"></div>
+<div id="notes-hint">press N for notes &nbsp;|&nbsp; &#8592; &#8594; to navigate</div>
+
+<div class="deck" id="deck">
+
+<!-- ===================================================== SLIDE 1: TITLE -->
+<section class="slide slide-title active" id="slide-1" aria-label="Title slide">
+
+  <!-- Ocean scene SVG fills background -->
+  <svg viewBox="0 0 900 506" style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:0.18;" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+    <!-- Deep water gradient -->
+    <defs>
+      <linearGradient id="deepwater" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#0a2a3a"/>
+        <stop offset="100%" stop-color="#1a5a4a"/>
+      </linearGradient>
+    </defs>
+    <rect width="900" height="506" fill="url(#deepwater)"/>
+    <!-- Waves -->
+    <path d="M0 300 Q112 270 225 300 Q337 330 450 300 Q562 270 675 300 Q787 330 900 300 L900 506 L0 506 Z" fill="#1a5a7a" opacity="0.5"/>
+    <path d="M0 340 Q112 310 225 340 Q337 370 450 340 Q562 310 675 340 Q787 370 900 340 L900 506 L0 506 Z" fill="#1a6a6a" opacity="0.5"/>
+    <path d="M0 380 Q112 350 225 380 Q337 410 450 380 Q562 350 675 380 Q787 410 900 380 L900 506 L0 506 Z" fill="#0a4a5a" opacity="0.6"/>
+    <!-- Fish silhouettes scattered -->
+    <g fill="#2af0d0" opacity="0.35">
+      <ellipse cx="180" cy="380" rx="22" ry="9"/>
+      <polygon points="158,380 170,373 170,387"/>
+      <ellipse cx="420" cy="410" rx="18" ry="7"/>
+      <polygon points="402,410 412,404 412,416"/>
+      <ellipse cx="650" cy="360" rx="25" ry="10"/>
+      <polygon points="625,360 638,353 638,367"/>
+      <ellipse cx="780" cy="420" rx="14" ry="6"/>
+      <polygon points="766,420 775,415 775,425"/>
+      <ellipse cx="300" cy="445" rx="20" ry="8"/>
+      <polygon points="280,445 292,439 292,451"/>
+    </g>
+  </svg>
+
+  <!-- Text content in lower portion -->
+  <div style="position:relative;z-index:2;margin-top:auto;">
+    <h1 class="headline">How do we decide how much fish to catch —<br>and how do we know if we're getting it right?</h1>
+    <p class="subtitle">The science and honesty behind fishing limits — explained for everyone</p>
+    <p class="tagline">A plain-language guide to fisheries science &nbsp;|&nbsp; For anyone who eats seafood or cares about the ocean</p>
+  </div>
+
+  <div class="slide-num">1 / 15</div>
+  <div class="notes">
+    <strong>Opening notes:</strong> Welcome everyone. This talk is about something that affects every person who buys fish at the grocery store or orders it at a restaurant — and everyone who cares about ocean health. The question sounds simple: how many fish can we catch? But answering it honestly turns out to be a beautiful puzzle. Let's dig in.
+  </div>
+</section>
+
+<!-- ===================================================== SLIDE 2 -->
+<section class="slide" id="slide-2" aria-label="We can't count the fish">
+  <h2 class="headline">We want healthy fish populations and thriving fishing communities — forever.</h2>
+  <div class="content-area">
+    <div class="text-col">
+      <div class="body">
+        <p>Fishing feeds hundreds of millions of people and supports countless coastal communities. We want it to keep doing that — not just this year, but for generations.</p>
+        <p>That means setting catch limits that are <strong>neither too high</strong> (risking collapse) <strong>nor too low</strong> (leaving fishing families without income).</p>
+      </div>
+      <div class="callout sea">Getting the balance right is genuinely hard — and genuinely important.</div>
+    </div>
+    <div class="fig-col">
+      <svg viewBox="0 0 440 300" width="440" height="300" aria-label="Fishing boat on water with fish beneath">
+        <defs>
+          <linearGradient id="sky2" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#c8e8f5"/>
+            <stop offset="100%" stop-color="#e8f4f0"/>
+          </linearGradient>
+          <linearGradient id="sea2" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#2a6e8a"/>
+            <stop offset="100%" stop-color="#174d65"/>
+          </linearGradient>
+        </defs>
+        <!-- Sky -->
+        <rect width="440" height="300" fill="url(#sky2)"/>
+        <!-- Water surface -->
+        <rect y="145" width="440" height="155" fill="url(#sea2)"/>
+        <!-- Gentle waves -->
+        <path d="M0 145 Q55 138 110 145 Q165 152 220 145 Q275 138 330 145 Q385 152 440 145" fill="none" stroke="#4a9eba" stroke-width="2.5" opacity="0.7"/>
+        <!-- Boat hull -->
+        <path d="M150 148 Q160 160 280 160 Q290 148 290 148 Z" fill="#c9a96e" stroke="#9a7040" stroke-width="1.5"/>
+        <!-- Boat cabin -->
+        <rect x="190" y="120" width="55" height="30" rx="4" fill="#e8d5b0" stroke="#9a7040" stroke-width="1.5"/>
+        <!-- Roof -->
+        <path d="M185 122 L217 108 L250 122 Z" fill="#c9a96e" stroke="#9a7040" stroke-width="1.5"/>
+        <!-- Mast -->
+        <line x1="217" y1="108" x2="217" y2="78" stroke="#7a5828" stroke-width="2.5"/>
+        <!-- Flag -->
+        <polygon points="217,78 240,84 217,90" fill="#c0604a" opacity="0.85"/>
+        <!-- Fishing rod -->
+        <line x1="272" y1="135" x2="320" y2="105" stroke="#5a3a10" stroke-width="2"/>
+        <!-- Fishing line -->
+        <line x1="320" y1="105" x2="325" y2="180" stroke="#888" stroke-width="1" stroke-dasharray="3,2"/>
+        <!-- Hook -->
+        <circle cx="325" cy="181" r="3" fill="none" stroke="#888" stroke-width="1.5"/>
+
+        <!-- Fish family underwater -->
+        <g fill="#4ac8b0" opacity="0.7">
+          <!-- Big fish -->
+          <ellipse cx="180" cy="220" rx="30" ry="12"/>
+          <polygon points="150,220 162,211 162,229"/>
+          <circle cx="192" cy="217" r="3" fill="#174d65"/>
+          <!-- Medium fish -->
+          <ellipse cx="280" cy="240" rx="22" ry="9"/>
+          <polygon points="258,240 268,233 268,247"/>
+          <circle cx="291" cy="237" r="2.5" fill="#174d65"/>
+          <!-- Small fish cluster -->
+          <ellipse cx="130" cy="255" rx="15" ry="6"/>
+          <polygon points="115,255 123,250 123,260"/>
+          <ellipse cx="350" cy="210" rx="18" ry="7"/>
+          <polygon points="332,210 341,205 341,215"/>
+          <ellipse cx="230" cy="265" rx="12" ry="5"/>
+          <polygon points="218,265 225,261 225,269"/>
+        </g>
+
+        <!-- Sunlight shafts underwater -->
+        <polygon points="190,148 210,148 250,300 170,300" fill="#7aeef0" opacity="0.06"/>
+        <polygon points="250,148 265,148 295,300 225,300" fill="#7aeef0" opacity="0.05"/>
+
+        <!-- Community icons on shore left -->
+        <rect x="15" y="115" width="22" height="28" rx="2" fill="#e8d5b0" stroke="#9a7040" stroke-width="1.2"/>
+        <polygon points="15,115 26,103 37,115" fill="#c9a96e" stroke="#9a7040" stroke-width="1.2"/>
+        <rect x="44" y="120" width="18" height="23" rx="2" fill="#e8d5b0" stroke="#9a7040" stroke-width="1.2"/>
+        <polygon points="44,120 53,110 62,120" fill="#c9a96e" stroke="#9a7040" stroke-width="1.2"/>
+
+        <!-- Label -->
+        <text x="220" y="290" text-anchor="middle" font-size="11" fill="#c8e4ef" font-family="sans-serif" opacity="0.8">Healthy oceans + thriving communities — that's the goal</text>
+      </svg>
+      <p class="caption">Fishing communities and ocean health both depend on getting catch limits right.</p>
+    </div>
+  </div>
+  <div class="slide-num">2 / 15</div>
+  <div class="notes">
+    <strong>Notes:</strong> Start with the goal — not the problem. Both fishers and conservationists want the same fundamental thing: a productive ocean that keeps giving. The challenge is purely about how to measure and manage something we can't easily observe.
+  </div>
+</section>
+
+<!-- ===================================================== SLIDE 3 -->
+<section class="slide" id="slide-3" aria-label="We cannot count fish directly">
+  <h2 class="headline">But here's the problem: you can't just count all the fish.</h2>
+  <div class="content-area">
+    <div class="text-col">
+      <div class="body">
+        <p>You can count trees in a forest. You can count cars in a parking lot. But fish live underwater, spread across vast areas of open ocean, and they move.</p>
+        <p>We only ever see a <strong>small, imperfect sample</strong> — from research vessels, from fishing boats' catch records, from underwater surveys.</p>
+        <p>The true number in the ocean is always <strong>an educated estimate.</strong></p>
+      </div>
+      <div class="callout coral">This isn't a failure of science — it's just the nature of the problem.</div>
+    </div>
+    <div class="fig-col">
+      <svg viewBox="0 0 420 290" width="420" height="290" aria-label="Fishing boat above, question mark, fish below">
+        <defs>
+          <linearGradient id="seagrad3" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#3a8aaa"/>
+            <stop offset="100%" stop-color="#174d65"/>
+          </linearGradient>
+        </defs>
+        <!-- Sky zone -->
+        <rect width="420" height="120" fill="#e0f0f8"/>
+        <!-- Water zone -->
+        <rect y="120" width="420" height="170" fill="url(#seagrad3)"/>
+        <!-- Waterline wave -->
+        <path d="M0 120 Q52 113 105 120 Q157 127 210 120 Q262 113 315 120 Q367 127 420 120" fill="none" stroke="#5aaac8" stroke-width="2.5"/>
+
+        <!-- Boat simplified -->
+        <path d="M140 122 Q150 134 270 134 Q280 122 280 122 Z" fill="#c9a96e" stroke="#9a7040" stroke-width="1.5"/>
+        <rect x="180" y="96" width="50" height="28" rx="4" fill="#e8d5b0" stroke="#9a7040" stroke-width="1.5"/>
+        <path d="M175 98 L205 85 L235 98 Z" fill="#c9a96e" stroke="#9a7040" stroke-width="1.5"/>
+
+        <!-- Eyes on boat (scientists looking) -->
+        <circle cx="188" cy="110" r="5" fill="white" stroke="#5a4f40" stroke-width="1.5"/>
+        <circle cx="190" cy="110" r="2.5" fill="#2a4a6a"/>
+        <circle cx="202" cy="110" r="5" fill="white" stroke="#5a4f40" stroke-width="1.5"/>
+        <circle cx="204" cy="110" r="2.5" fill="#2a4a6a"/>
+
+        <!-- Dashed "looking" lines going down -->
+        <line x1="190" y1="122" x2="190" y2="165" stroke="#f0c888" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.8"/>
+        <line x1="204" y1="122" x2="240" y2="175" stroke="#f0c888" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.8"/>
+
+        <!-- Giant question mark in water -->
+        <text x="210" y="195" text-anchor="middle" font-size="72" fill="#4aaac8" opacity="0.25" font-family="Georgia, serif" font-weight="bold">?</text>
+
+        <!-- Fish silhouettes (hidden/dim) -->
+        <g fill="#a0d8c8" opacity="0.45">
+          <ellipse cx="100" cy="175" rx="28" ry="11"/>
+          <polygon points="72,175 84,167 84,183"/>
+          <ellipse cx="310" cy="210" rx="22" ry="9"/>
+          <polygon points="288,210 298,203 298,217"/>
+          <ellipse cx="160" cy="240" rx="18" ry="7"/>
+          <polygon points="142,240 152,234 152,246"/>
+          <ellipse cx="260" cy="155" rx="20" ry="8"/>
+          <polygon points="240,155 250,149 250,161"/>
+          <ellipse cx="350" cy="175" rx="15" ry="6"/>
+          <polygon points="335,175 343,170 343,180"/>
+          <!-- Ghosted extra fish in background -->
+          <ellipse cx="80" cy="235" rx="14" ry="5" opacity="0.3"/>
+          <ellipse cx="380" cy="230" rx="18" ry="7" opacity="0.3"/>
+          <ellipse cx="200" cy="270" rx="20" ry="8" opacity="0.3"/>
+        </g>
+
+        <!-- "Only see a sample" label -->
+        <rect x="10" y="150" width="75" height="24" rx="4" fill="#f0c888" opacity="0.85"/>
+        <text x="48" y="165" text-anchor="middle" font-size="9.5" fill="#3a2a10" font-family="sans-serif" font-weight="600">We only see some</text>
+
+        <!-- Arrow pointing to visible fish -->
+        <line x1="85" y1="163" x2="95" y2="170" stroke="#c9a96e" stroke-width="1.5" marker-end="url(#arr3)"/>
+        <defs>
+          <marker id="arr3" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+            <polygon points="0 0, 7 3.5, 0 7" fill="#c9a96e"/>
+          </marker>
+        </defs>
+
+        <text x="210" y="283" text-anchor="middle" font-size="11" fill="#c8e4ef" font-family="sans-serif" opacity="0.85">The full population stays hidden beneath the surface</text>
+      </svg>
+      <p class="caption">Scientists see only a small fraction of the fish that are actually out there.</p>
+    </div>
+  </div>
+  <div class="slide-num">3 / 15</div>
+  <div class="notes">
+    <strong>Notes:</strong> This is the fundamental challenge. We rely on sampling — trawl surveys, catch records, observer data — and then use mathematics to estimate the full population. It's like a doctor estimating a patient's health from a blood sample rather than examining every cell. The analogy helps make this feel like smart inference, not guesswork.
+  </div>
+</section>
+
+<!-- ===================================================== SLIDE 4 -->
+<section class="slide" id="slide-4" aria-label="Scientists build models">
+  <h2 class="headline">So scientists build a model — a mathematical picture of the fish population.</h2>
+  <div class="content-area">
+    <div class="text-col">
+      <div class="body">
+        <p>Think of it like a recipe that combines everything we know: survey samples, catch records, historical data, and biological knowledge about how the species grows and reproduces.</p>
+        <p>Feed in the ingredients, and the model outputs an estimate — <strong>how many fish are out there, and how fast they're replacing themselves.</strong></p>
+      </div>
+      <div class="callout sand">All models are simplifications of reality. A model that included everything would be as complicated as the ocean itself.</div>
+    </div>
+    <div class="fig-col">
+      <!-- Model machine schematic -->
+      <svg viewBox="0 0 420 285" width="420" height="285" aria-label="A machine that takes in data and outputs an estimate">
+        <defs>
+          <linearGradient id="machinebg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#ddeef5"/>
+            <stop offset="100%" stop-color="#c8e4ef"/>
+          </linearGradient>
+          <linearGradient id="machinebody" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#2a6e8a"/>
+            <stop offset="100%" stop-color="#174d65"/>
+          </linearGradient>
+        </defs>
+        <rect width="420" height="285" fill="#f5ede0" rx="8"/>
+
+        <!-- Inputs on left -->
+        <!-- Input boxes -->
+        <g font-family="sans-serif" font-size="10.5" text-anchor="middle">
+          <!-- Survey data -->
+          <rect x="12" y="35" width="100" height="30" rx="5" fill="#c8e4ef" stroke="#2a6e8a" stroke-width="1.5"/>
+          <text x="62" y="53" fill="#174d65" font-weight="600">Survey samples</text>
+
+          <!-- Catch records -->
+          <rect x="12" y="82" width="100" height="30" rx="5" fill="#c8e4ef" stroke="#2a6e8a" stroke-width="1.5"/>
+          <text x="62" y="100" fill="#174d65" font-weight="600">Catch records</text>
+
+          <!-- Biology -->
+          <rect x="12" y="129" width="100" height="30" rx="5" fill="#c8e4ef" stroke="#2a6e8a" stroke-width="1.5"/>
+          <text x="62" y="147" fill="#174d65" font-weight="600">Biology data</text>
+
+          <!-- Historical data -->
+          <rect x="12" y="176" width="100" height="30" rx="5" fill="#c8e4ef" stroke="#2a6e8a" stroke-width="1.5"/>
+          <text x="62" y="194" fill="#174d65" font-weight="600">Historical data</text>
+        </g>
+
+        <!-- Arrows to machine -->
+        <defs>
+          <marker id="arr4" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+            <polygon points="0 0, 8 4, 0 8" fill="#2a6e8a"/>
+          </marker>
+        </defs>
+        <line x1="112" y1="50" x2="155" y2="90" stroke="#2a6e8a" stroke-width="2" marker-end="url(#arr4)"/>
+        <line x1="112" y1="97" x2="155" y2="108" stroke="#2a6e8a" stroke-width="2" marker-end="url(#arr4)"/>
+        <line x1="112" y1="144" x2="155" y2="125" stroke="#2a6e8a" stroke-width="2" marker-end="url(#arr4)"/>
+        <line x1="112" y1="191" x2="155" y2="142" stroke="#2a6e8a" stroke-width="2" marker-end="url(#arr4)"/>
+
+        <!-- Machine body -->
+        <rect x="155" y="60" width="130" height="115" rx="12" fill="url(#machinebody)" stroke="#0a3a52" stroke-width="2"/>
+        <!-- Gears decorative -->
+        <circle cx="220" cy="110" r="28" fill="none" stroke="#4aaac8" stroke-width="3" stroke-dasharray="10,6" opacity="0.6"/>
+        <circle cx="220" cy="110" r="16" fill="none" stroke="#4aaac8" stroke-width="2" opacity="0.5"/>
+        <circle cx="220" cy="110" r="5" fill="#4aaac8" opacity="0.7"/>
+        <!-- Small gear -->
+        <circle cx="248" cy="83" r="12" fill="none" stroke="#4aaac8" stroke-width="2" stroke-dasharray="5,4" opacity="0.5"/>
+        <!-- Label -->
+        <text x="220" y="152" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#c8e4ef" font-weight="600">The Model</text>
+
+        <!-- Arrow from machine -->
+        <defs>
+          <marker id="arr4b" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+            <polygon points="0 0, 8 4, 0 8" fill="#3a9e7e"/>
+          </marker>
+        </defs>
+        <line x1="285" y1="117" x2="320" y2="117" stroke="#3a9e7e" stroke-width="3" marker-end="url(#arr4b)"/>
+
+        <!-- Output box -->
+        <rect x="320" y="80" width="90" height="75" rx="8" fill="#c4e8dc" stroke="#3a9e7e" stroke-width="2"/>
+        <text x="365" y="110" text-anchor="middle" font-family="sans-serif" font-size="10.5" fill="#1a5a3a" font-weight="700">Population</text>
+        <text x="365" y="125" text-anchor="middle" font-family="sans-serif" font-size="10.5" fill="#1a5a3a" font-weight="700">estimate</text>
+        <text x="365" y="145" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#3a9e7e" font-weight="700">→ limit</text>
+
+        <!-- Bottom note -->
+        <text x="210" y="265" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#9a8e7e" font-style="italic">The model connects what we can observe to what we need to know</text>
+      </svg>
+      <p class="caption">Data goes in, an estimate of fish numbers and a catch limit come out.</p>
+    </div>
+  </div>
+  <div class="slide-num">4 / 15</div>
+  <div class="notes">
+    <strong>Notes:</strong> The model is essentially a structured way to reason from partial evidence to a conclusion. It's similar to how economists build GDP models or climate scientists build climate models. The key point is that a model is a tool for thinking clearly — not a crystal ball.
+  </div>
+</section>
+
+<!-- ===================================================== SLIDE 5 -->
+<section class="slide" id="slide-5" aria-label="Assumptions flow into limits">
+  <h2 class="headline">Every model makes assumptions — and those assumptions flow directly into the catch limit.</h2>
+  <div class="content-area">
+    <div class="text-col">
+      <div class="body">
+        <p>To make the model work, scientists have to fill in things they can't directly measure — how fast the fish reproduce, how well young fish survive, how the population responds to fishing.</p>
+        <p>These aren't guesses — they're <strong>informed judgments</strong>. But they are choices. And different choices lead to different limits.</p>
+      </div>
+      <div class="callout ocean">A single choice deep inside the model can cascade forward and change the catch limit by a surprising amount.</div>
+    </div>
+    <div class="fig-col">
+      <!-- Flow diagram: assumption → model → limit -->
+      <svg viewBox="0 0 420 270" width="420" height="270" aria-label="Three-step causal chain from assumption to catch limit">
+        <rect width="420" height="270" fill="#f5ede0" rx="8"/>
+        <defs>
+          <linearGradient id="stepgrad1" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#e8d5b0"/>
+            <stop offset="100%" stop-color="#d4c0a0"/>
+          </linearGradient>
+          <linearGradient id="stepgrad2" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#c8e4ef"/>
+            <stop offset="100%" stop-color="#a8ccdf"/>
+          </linearGradient>
+          <linearGradient id="stepgrad3" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#c4e8dc"/>
+            <stop offset="100%" stop-color="#a4d0c0"/>
+          </linearGradient>
+          <marker id="arr5" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+            <polygon points="0 0, 10 5, 0 10" fill="#9a8e7e"/>
+          </marker>
+        </defs>
+
+        <!-- Step 1: Assumption -->
+        <rect x="30" y="90" width="100" height="90" rx="10" fill="url(#stepgrad1)" stroke="#c9a96e" stroke-width="2.5"/>
+        <text x="80" y="126" text-anchor="middle" font-family="sans-serif" font-size="11.5" fill="#5a3a10" font-weight="700">Assumption</text>
+        <text x="80" y="143" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#7a5828">"How fast do</text>
+        <text x="80" y="156" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#7a5828">young fish survive?"</text>
+
+        <!-- Arrow 1 -->
+        <line x1="130" y1="135" x2="158" y2="135" stroke="#9a8e7e" stroke-width="2.5" marker-end="url(#arr5)"/>
+        <text x="144" y="128" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="#9a8e7e" font-style="italic">shapes</text>
+
+        <!-- Step 2: Model -->
+        <rect x="158" y="90" width="104" height="90" rx="10" fill="url(#stepgrad2)" stroke="#2a6e8a" stroke-width="2.5"/>
+        <text x="210" y="126" text-anchor="middle" font-family="sans-serif" font-size="11.5" fill="#174d65" font-weight="700">The Model</text>
+        <text x="210" y="143" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#2a5a7a">estimates how</text>
+        <text x="210" y="156" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#2a5a7a">many fish exist</text>
+
+        <!-- Arrow 2 -->
+        <line x1="262" y1="135" x2="290" y2="135" stroke="#9a8e7e" stroke-width="2.5" marker-end="url(#arr5)"/>
+        <text x="276" y="128" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="#9a8e7e" font-style="italic">drives</text>
+
+        <!-- Step 3: Catch limit -->
+        <rect x="290" y="90" width="100" height="90" rx="10" fill="url(#stepgrad3)" stroke="#3a9e7e" stroke-width="2.5"/>
+        <text x="340" y="122" text-anchor="middle" font-family="sans-serif" font-size="11.5" fill="#1a5a3a" font-weight="700">Catch</text>
+        <text x="340" y="138" text-anchor="middle" font-family="sans-serif" font-size="11.5" fill="#1a5a3a" font-weight="700">Limit</text>
+        <text x="340" y="158" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#2a7a5a">tons allowed</text>
+        <text x="340" y="170" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#2a7a5a">this year</text>
+
+        <!-- Highlighting the causal connection -->
+        <path d="M80 190 Q80 225 210 225 Q340 225 340 190" fill="none" stroke="#c0604a" stroke-width="2" stroke-dasharray="6,3" opacity="0.7"/>
+        <text x="210" y="250" text-anchor="middle" font-family="sans-serif" font-size="10.5" fill="#c0604a" font-style="italic" font-weight="600">A single assumption can change the final number significantly</text>
+
+        <!-- Vertical labels above boxes -->
+        <text x="80" y="78" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#9a8e7e">STEP 1</text>
+        <text x="210" y="78" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#9a8e7e">STEP 2</text>
+        <text x="340" y="78" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#9a8e7e">STEP 3</text>
+      </svg>
+      <p class="caption">What scientists assume about the fish directly shapes how many we're allowed to catch.</p>
+    </div>
+  </div>
+  <div class="slide-num">5 / 15</div>
+  <div class="notes">
+    <strong>Notes:</strong> This is the intellectual core of the whole presentation. The causal chain is tight and real: assumption → model output → catch limit. This isn't philosophical — it's mathematical. The assumption literally enters an equation and changes the answer. The audience doesn't need to understand the math to understand that the chain is real.
+  </div>
+</section>
+
+<!-- ===================================================== SLIDE 6 -->
+<section class="slide" id="slide-6" aria-label="Some assumptions are hard to verify">
+  <h2 class="headline">Some of the most important assumptions are ones we can't easily check.</h2>
+  <div class="content-area">
+    <div class="text-col">
+      <div class="body">
+        <p>One key assumption: <strong>how fast do young fish replace the ones that are caught?</strong> This turns out to be very difficult to measure — it requires decades of careful data that many fisheries don't have.</p>
+        <p>Scientists make their best estimate. But the honest range of possibilities is often wide.</p>
+        <p>Wide uncertainty here means <strong>wide uncertainty in the catch limit</strong> — even if the model looks precise.</p>
+      </div>
+    </div>
+    <div class="fig-col">
+      <!-- Dial / gauge showing wide uncertainty -->
+      <svg viewBox="0 0 400 270" width="400" height="270" aria-label="A gauge dial showing wide uncertainty range for a key assumption">
+        <rect width="400" height="270" fill="#f5ede0" rx="8"/>
+        <defs>
+          <linearGradient id="gaugeBg" x1="0" y1="1" x2="0" y2="0">
+            <stop offset="0%" stop-color="#e8f4ef"/>
+            <stop offset="100%" stop-color="#f5ede0"/>
+          </linearGradient>
+        </defs>
+
+        <!-- Gauge background arc -->
+        <circle cx="200" cy="170" r="115" fill="url(#gaugeBg)" stroke="#d4c8b8" stroke-width="1.5"/>
+
+        <!-- Color zones on the gauge arc -->
+        <!-- Low values zone (left) - uncertain low -->
+        <path d="M 105 107 A 115 115 0 0 1 200 55" fill="none" stroke="#c0604a" stroke-width="22" stroke-linecap="butt" opacity="0.3"/>
+        <!-- Middle zone - plausible range -->
+        <path d="M 200 55 A 115 115 0 0 1 295 107" fill="none" stroke="#c9a96e" stroke-width="22" stroke-linecap="butt" opacity="0.35"/>
+        <!-- High values zone (right) - uncertain high -->
+        <path d="M 295 107 A 115 115 0 0 1 315 170" fill="none" stroke="#3a9e7e" stroke-width="22" stroke-linecap="butt" opacity="0.3"/>
+
+        <!-- Tick marks -->
+        <g stroke="#5a4f40" stroke-width="1.5">
+          <!-- Major ticks -->
+          <line x1="87" y1="167" x2="97" y2="167" transform="rotate(-90 200 170)"/>
+          <line x1="87" y1="167" x2="97" y2="167" transform="rotate(-60 200 170)"/>
+          <line x1="87" y1="167" x2="97" y2="167" transform="rotate(-30 200 170)"/>
+          <line x1="87" y1="167" x2="97" y2="167" transform="rotate(0 200 170)"/>
+          <line x1="87" y1="167" x2="97" y2="167" transform="rotate(30 200 170)"/>
+          <line x1="87" y1="167" x2="97" y2="167" transform="rotate(60 200 170)"/>
+          <line x1="87" y1="167" x2="97" y2="167" transform="rotate(90 200 170)"/>
+        </g>
+
+        <!-- Zone labels -->
+        <text x="108" y="100" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#c0604a" font-weight="600">Fewer young</text>
+        <text x="108" y="112" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#c0604a" font-weight="600">fish survive</text>
+        <text x="292" y="100" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#3a9e7e" font-weight="600">More young</text>
+        <text x="292" y="112" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#3a9e7e" font-weight="600">fish survive</text>
+
+        <!-- Needle pointing to a mid-ish value (slightly uncertain) -->
+        <!-- Needle at ~-10 degrees from center top = roughly middle -->
+        <line x1="200" y1="170" x2="200" y2="68"
+              stroke="#c0604a" stroke-width="3.5" stroke-linecap="round"
+              transform="rotate(-15 200 170)"/>
+        <circle cx="200" cy="170" r="8" fill="#5a3a10"/>
+
+        <!-- Uncertainty bracket / brace around a range -->
+        <path d="M 145 62 Q 200 45 255 62" fill="none" stroke="#c0604a" stroke-width="2" stroke-dasharray="5,3" opacity="0.85"/>
+        <line x1="145" y1="62" x2="145" y2="74" stroke="#c0604a" stroke-width="2" opacity="0.85"/>
+        <line x1="255" y1="62" x2="255" y2="74" stroke="#c0604a" stroke-width="2" opacity="0.85"/>
+        <text x="200" y="42" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#c0604a" font-weight="700">Plausible range</text>
+
+        <!-- "We don't really know" label -->
+        <rect x="130" y="190" width="140" height="28" rx="6" fill="#f0d0c8" stroke="#c0604a" stroke-width="1.5"/>
+        <text x="200" y="208" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#8a2a14" font-weight="700">We don't really know — yet</text>
+
+        <!-- Assumption name -->
+        <text x="200" y="250" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#9a8e7e" font-style="italic">"How fast do young fish replace the ones we catch?"</text>
+      </svg>
+      <p class="caption">The honest answer for some key inputs is a wide range, not a single precise number.</p>
+    </div>
+  </div>
+  <div class="slide-num">6 / 15</div>
+  <div class="notes">
+    <strong>Notes:</strong> The "steepness" parameter in stock-recruitment relationships is the canonical example — it describes how much recruitment changes as spawning biomass changes. It's notoriously hard to estimate. Many fisheries use values borrowed from related species, or from published meta-analyses. The key point is that the data often genuinely cannot resolve this, and that's okay to say.
+  </div>
+</section>
+
+<!-- ===================================================== SLIDE 7 -->
+<section class="slide" id="slide-7" aria-label="Same ocean different limits">
+  <h2 class="headline">Same ocean, different assumption — very different catch limits.</h2>
+  <div class="content-area">
+    <div class="text-col">
+      <div class="body">
+        <p>Here's a concrete example of the stakes: take the same survey data, the same fishing records, the same ocean — but change one assumption about how fast young fish survive.</p>
+        <p>The model can return catch limits that <strong>differ by 30%, 50%, even more</strong>.</p>
+        <p>Both are defensible. But they'd lead to very different amounts of fishing.</p>
+      </div>
+      <div class="callout coral">This is not a sign that science has failed. It's a sign that <strong>we need to be honest about uncertainty</strong> when translating models into rules.</div>
+    </div>
+    <div class="fig-col">
+      <!-- Side-by-side bars: two assumptions → two limits -->
+      <svg viewBox="0 0 400 275" width="400" height="275" aria-label="Two bar charts showing same data but different assumptions leading to different catch limits">
+        <rect width="400" height="275" fill="#f5ede0" rx="8"/>
+        <defs>
+          <marker id="arr7" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+            <polygon points="0 0, 8 4, 0 8" fill="#9a8e7e"/>
+          </marker>
+        </defs>
+
+        <!-- Same data inputs label at top -->
+        <rect x="100" y="12" width="200" height="22" rx="5" fill="#e8d5b0" stroke="#c9a96e" stroke-width="1.5"/>
+        <text x="200" y="27" text-anchor="middle" font-family="sans-serif" font-size="10.5" fill="#5a3a10" font-weight="600">Same survey data, same ocean</text>
+
+        <!-- Two scenario columns -->
+        <!-- Scenario A label -->
+        <rect x="42" y="46" width="120" height="22" rx="4" fill="#c8e4ef" stroke="#2a6e8a" stroke-width="1.5"/>
+        <text x="102" y="61" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#174d65" font-weight="700">Assumption A</text>
+
+        <!-- Scenario B label -->
+        <rect x="238" y="46" width="120" height="22" rx="4" fill="#f0d0c8" stroke="#c0604a" stroke-width="1.5"/>
+        <text x="298" y="61" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#8a2a14" font-weight="700">Assumption B</text>
+
+        <!-- Description rows -->
+        <text x="102" y="84" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#5a4f40" font-style="italic">"Moderate survival"</text>
+        <text x="298" y="84" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#5a4f40" font-style="italic">"Low survival"</text>
+
+        <!-- Axis baseline -->
+        <line x1="40" y1="220" x2="360" y2="220" stroke="#d4c8b8" stroke-width="1.5"/>
+
+        <!-- Bar A (taller) -->
+        <rect x="62" y="115" width="80" height="105" rx="4" fill="#3a9e7e" opacity="0.8"/>
+        <text x="102" y="109" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#1a5a3a" font-weight="800">Higher limit</text>
+        <!-- Bar value label -->
+        <rect x="72" y="230" width="60" height="18" rx="3" fill="#c4e8dc"/>
+        <text x="102" y="243" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#1a5a3a" font-weight="600">e.g. 1,000 t</text>
+
+        <!-- Bar B (shorter) -->
+        <rect x="258" y="163" width="80" height="57" rx="4" fill="#c0604a" opacity="0.8"/>
+        <text x="298" y="157" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#8a2a14" font-weight="800">Lower limit</text>
+        <!-- Bar value label -->
+        <rect x="268" y="230" width="60" height="18" rx="3" fill="#f0d0c8"/>
+        <text x="298" y="243" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#8a2a14" font-weight="600">e.g. 550 t</text>
+
+        <!-- Difference arrow -->
+        <line x1="200" y1="160" x2="200" y2="108" stroke="#9a8e7e" stroke-width="1.5" marker-end="url(#arr7)"/>
+        <text x="200" y="175" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#9a8e7e" font-style="italic">45% difference</text>
+        <text x="200" y="188" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#9a8e7e" font-style="italic">one assumption</text>
+
+        <text x="200" y="265" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#9a8e7e" font-style="italic">Same data. Different assumption. Very different advice.</text>
+      </svg>
+      <p class="caption">Changing one model assumption — with the same real-world data — can shift the catch recommendation by nearly half.</p>
+    </div>
+  </div>
+  <div class="slide-num">7 / 15</div>
+  <div class="notes">
+    <strong>Notes:</strong> Real examples exist in Pacific groundfish, Atlantic cod, and many other stocks. The 30-50% range is not an exaggeration. What's important is that both answers can be scientifically defensible — the disagreement comes from genuine uncertainty, not incompetence. The question is whether the management system is robust to that disagreement.
+  </div>
+</section>
+
+<!-- ===================================================== SLIDE 8 -->
+<section class="slide" id="slide-8" aria-label="The cautious rule">
+  <h2 class="headline">The rules are designed to be cautious — but only if we know what we don't know.</h2>
+  <div class="content-area">
+    <div class="text-col">
+      <div class="body">
+        <p>Fisheries managers use a "more fish = can catch more; fewer fish = slow down" formula. It's built-in caution.</p>
+        <p>The formula also has a <strong>built-in safety buffer</strong> — the actual limit is set below the theoretical maximum, to account for uncertainty.</p>
+        <p>This works well — <strong>as long as we've correctly described how uncertain we really are.</strong></p>
+      </div>
+      <div class="callout sand">If we understate our uncertainty when designing the buffer, the buffer becomes too small.</div>
+    </div>
+    <div class="fig-col">
+      <!-- Simple HCR diagram -->
+      <svg viewBox="0 0 410 275" width="410" height="275" aria-label="A simple cautious fishing rule diagram: more fish means more fishing allowed, fewer fish means slow down">
+        <rect width="410" height="275" fill="#f5ede0" rx="8"/>
+        <defs>
+          <linearGradient id="hcrGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#c0604a" stop-opacity="0.2"/>
+            <stop offset="40%" stop-color="#c9a96e" stop-opacity="0.2"/>
+            <stop offset="100%" stop-color="#3a9e7e" stop-opacity="0.2"/>
+          </linearGradient>
+          <marker id="arrhcr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+            <polygon points="0 0, 8 4, 0 8" fill="#5a4f40"/>
+          </marker>
+        </defs>
+
+        <!-- Axis labels -->
+        <text x="30" y="238" font-family="sans-serif" font-size="10" fill="#5a4f40">Very few fish</text>
+        <text x="285" y="238" font-family="sans-serif" font-size="10" fill="#5a4f40">Lots of fish</text>
+
+        <!-- X axis -->
+        <line x1="45" y1="220" x2="375" y2="220" stroke="#9a8e7e" stroke-width="2" marker-end="url(#arrhcr)"/>
+        <text x="380" y="224" font-family="sans-serif" font-size="10" fill="#9a8e7e">→ fish</text>
+
+        <!-- Y axis -->
+        <line x1="45" y1="220" x2="45" y2="45" stroke="#9a8e7e" stroke-width="2" marker-end="url(#arrhcr)"/>
+        <!-- Y label vertical -->
+        <text x="16" y="140" font-family="sans-serif" font-size="9.5" fill="#9a8e7e" transform="rotate(-90 16 140)">catch limit →</text>
+
+        <!-- Background shading -->
+        <rect x="45" y="45" width="330" height="175" fill="url(#hcrGrad)" rx="4"/>
+
+        <!-- Zone shading -->
+        <!-- Red zone: very low fish -->
+        <rect x="45" y="45" width="90" height="175" fill="#c0604a" opacity="0.10" rx="0"/>
+        <!-- Yellow/orange middle -->
+        <rect x="135" y="45" width="90" height="175" fill="#c9a96e" opacity="0.10" rx="0"/>
+        <!-- Green zone: plenty of fish -->
+        <rect x="225" y="45" width="150" height="175" fill="#3a9e7e" opacity="0.10" rx="0"/>
+
+        <!-- Vertical threshold lines -->
+        <line x1="135" y1="45" x2="135" y2="220" stroke="#c0604a" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.5"/>
+        <line x1="225" y1="45" x2="225" y2="220" stroke="#c9a96e" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.5"/>
+
+        <!-- The HCR line (piecewise linear) -->
+        <!-- Flat zero in collapse zone -->
+        <line x1="45" y1="220" x2="135" y2="220" stroke="#c0604a" stroke-width="3.5" stroke-linecap="round"/>
+        <!-- Ramp up through caution zone -->
+        <line x1="135" y1="220" x2="225" y2="155" stroke="#c9a96e" stroke-width="3.5" stroke-linecap="round"/>
+        <!-- Flat at target level -->
+        <line x1="225" y1="155" x2="375" y2="105" stroke="#3a9e7e" stroke-width="3.5" stroke-linecap="round"/>
+
+        <!-- Safety buffer indication -->
+        <!-- Show where max would be vs where we set limit -->
+        <line x1="225" y1="80" x2="225" y2="105" stroke="#c0604a" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <text x="237" y="87" font-family="sans-serif" font-size="8.5" fill="#c0604a">theoretical max</text>
+        <line x1="225" y1="105" x2="225" y2="155" stroke="#3a9e7e" stroke-width="1.5"/>
+        <rect x="228" y="118" width="62" height="16" rx="3" fill="#c4e8dc"/>
+        <text x="259" y="130" font-family="sans-serif" font-size="8.5" fill="#1a5a3a" font-weight="600">safety buffer</text>
+
+        <!-- Zone labels -->
+        <text x="90" y="60" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#c0604a" font-weight="700">Stop</text>
+        <text x="180" y="60" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#8a6020" font-weight="700">Caution</text>
+        <text x="300" y="60" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#1a5a3a" font-weight="700">Steady fishing</text>
+
+        <!-- "We are here" pointer example -->
+        <circle cx="290" cy="122" r="7" fill="none" stroke="#2a6e8a" stroke-width="2"/>
+        <text x="308" y="115" font-family="sans-serif" font-size="8.5" fill="#2a6e8a" font-weight="600">current</text>
+        <text x="308" y="126" font-family="sans-serif" font-size="8.5" fill="#2a6e8a" font-weight="600">situation</text>
+
+        <text x="205" y="260" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#9a8e7e" font-style="italic">The cautious rule: fewer fish → smaller limit, stop if too few</text>
+      </svg>
+      <p class="caption">The "slow down when fish are scarce" rule works — but only if the safety buffer is set using the right amount of uncertainty.</p>
+    </div>
+  </div>
+  <div class="slide-num">8 / 15</div>
+  <div class="notes">
+    <strong>Notes:</strong> The harvest control rule (HCR) is the formula that converts "how many fish are out there" into "how many we can catch this year." The buffer (the gap between the theoretical maximum and the actual limit) is meant to absorb uncertainty. But if the uncertainty was underestimated when the buffer was designed, the buffer is too small and won't protect adequately.
+  </div>
+</section>
+
+<!-- ===================================================== SLIDE 9 -->
+<section class="slide" id="slide-9" aria-label="Risk gap">
+  <h2 class="headline">If we've underestimated our uncertainty, we may be fishing harder than we think — and the safety cushion isn't big enough.</h2>
+  <div class="content-area">
+    <div class="text-col">
+      <div class="body">
+        <p>Every catch limit comes with a stated risk: "there's less than a 50% chance we'll harm the population this year." But that statement depends on the model being right.</p>
+        <p>If the model's assumptions were overconfident, the <strong>real risk can be higher</strong> than what we said.</p>
+        <p>This is the core problem — not bad intentions, just honest overconfidence in a difficult model.</p>
+      </div>
+      <div class="callout coral">Honesty about uncertainty is not a weakness — it's the foundation of trustworthy science.</div>
+    </div>
+    <div class="fig-col">
+      <!-- Gap diagram: stated risk vs actual risk -->
+      <svg viewBox="0 0 410 280" width="410" height="280" aria-label="Gap between stated risk and actual risk">
+        <rect width="410" height="280" fill="#f5ede0" rx="8"/>
+        <defs>
+          <marker id="arr9" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+            <polygon points="0 0, 8 4, 0 8" fill="#9a8e7e"/>
+          </marker>
+        </defs>
+
+        <!-- Y axis label -->
+        <text x="15" y="145" font-family="sans-serif" font-size="9" fill="#9a8e7e" transform="rotate(-90 15 145)">Risk of harming the population →</text>
+
+        <!-- Y axis -->
+        <line x1="40" y1="230" x2="40" y2="40" stroke="#9a8e7e" stroke-width="1.5" marker-end="url(#arr9)"/>
+
+        <!-- Baseline (X axis, metaphor) -->
+        <line x1="40" y1="230" x2="380" y2="230" stroke="#d4c8b8" stroke-width="1.5"/>
+
+        <!-- Y-axis labels -->
+        <text x="38" y="234" text-anchor="end" font-family="sans-serif" font-size="9" fill="#9a8e7e">0%</text>
+        <text x="38" y="174" text-anchor="end" font-family="sans-serif" font-size="9" fill="#9a8e7e">25%</text>
+        <text x="38" y="114" text-anchor="end" font-family="sans-serif" font-size="9" fill="#9a8e7e">50%</text>
+        <line x1="40" y1="174" x2="46" y2="174" stroke="#9a8e7e" stroke-width="1.5"/>
+        <line x1="40" y1="114" x2="46" y2="114" stroke="#9a8e7e" stroke-width="1.5"/>
+
+        <!-- Stated risk bar -->
+        <rect x="90" y="154" width="90" height="76" rx="5" fill="#3a9e7e" opacity="0.8"/>
+        <text x="135" y="148" text-anchor="middle" font-family="sans-serif" font-size="10.5" fill="#1a5a3a" font-weight="700">Stated risk</text>
+        <text x="135" y="200" text-anchor="middle" font-family="sans-serif" font-size="13" fill="white" font-weight="800">~20%</text>
+        <text x="135" y="250" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#3a9e7e" font-style="italic">"what we said"</text>
+
+        <!-- Actual risk bar (taller) -->
+        <rect x="230" y="94" width="90" height="136" rx="5" fill="#c0604a" opacity="0.8"/>
+        <text x="275" y="88" text-anchor="middle" font-family="sans-serif" font-size="10.5" fill="#8a2a14" font-weight="700">Actual risk</text>
+        <text x="275" y="158" text-anchor="middle" font-family="sans-serif" font-size="13" fill="white" font-weight="800">~40%</text>
+        <text x="275" y="250" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#c0604a" font-style="italic">"what it really was"</text>
+
+        <!-- Gap arrow and label -->
+        <line x1="180" y1="154" x2="230" y2="94" stroke="#c0604a" stroke-width="2" stroke-dasharray="5,3" opacity="0.8"/>
+        <rect x="188" y="108" width="48" height="28" rx="4" fill="#f0d0c8" stroke="#c0604a" stroke-width="1.2" opacity="0.95"/>
+        <text x="212" y="120" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#8a2a14" font-weight="600">The gap</text>
+        <text x="212" y="132" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#8a2a14">= hidden risk</text>
+
+        <text x="210" y="268" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#9a8e7e" font-style="italic">When we underestimate uncertainty, actual risk is higher than declared</text>
+      </svg>
+      <p class="caption">The gap between "what we said the risk was" and "what the risk actually was" comes from underestimated uncertainty.</p>
+    </div>
+  </div>
+  <div class="slide-num">9 / 15</div>
+  <div class="notes">
+    <strong>Notes:</strong> This is what researchers call "probability of overfishing" — the chance that the real catch rate is above the sustainable maximum. When the operating model used to derive the harvest control rule doesn't include enough structural uncertainty, the HCR performs worse than advertised. Real simulations have shown this gap can double or triple the actual overfishing probability.
+  </div>
+</section>
+
+<!-- ===================================================== SLIDE 10 -->
+<section class="slide" id="slide-10" aria-label="Which assumptions matter most">
+  <h2 class="headline">We can figure out which assumptions matter most — and focus our honesty there.</h2>
+  <div class="content-area">
+    <div class="text-col">
+      <div class="body">
+        <p>Not all uncertainties are equal. Some assumptions, even if slightly wrong, barely change the catch limit. Others — especially around reproduction — can flip the advice dramatically.</p>
+        <p>Scientists can rank these and <strong>be transparent about which ones deserve the most scrutiny.</strong></p>
+        <p>This is progress: knowing what we don't know, and saying so clearly.</p>
+      </div>
+      <div class="callout sea">Transparency isn't just honest — it helps managers and the public understand where caution is most needed.</div>
+    </div>
+    <div class="fig-col">
+      <!-- Ranked bar chart: which assumptions matter most -->
+      <svg viewBox="0 0 400 275" width="400" height="275" aria-label="Horizontal bar chart ranking which assumptions matter most for catch limits">
+        <rect width="400" height="275" fill="#f5ede0" rx="8"/>
+
+        <!-- Title -->
+        <text x="200" y="22" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#5a3a10" font-weight="700">Which assumptions change the limit most?</text>
+
+        <!-- Bars (horizontal) -->
+        <!-- Bar 1: Reproduction rate (biggest impact) -->
+        <rect x="150" y="36" width="200" height="24" rx="4" fill="#c0604a" opacity="0.85"/>
+        <text x="146" y="52" text-anchor="end" font-family="sans-serif" font-size="9.5" fill="#5a3a10" font-weight="700">How fast young fish survive</text>
+        <text x="354" y="52" font-family="sans-serif" font-size="9.5" fill="#8a2a14" font-weight="700">Very large</text>
+
+        <!-- Bar 2: Natural mortality -->
+        <rect x="150" y="70" width="160" height="24" rx="4" fill="#c9a96e" opacity="0.85"/>
+        <text x="146" y="86" text-anchor="end" font-family="sans-serif" font-size="9.5" fill="#5a3a10" font-weight="700">Natural death rate</text>
+        <text x="314" y="86" font-family="sans-serif" font-size="9.5" fill="#7a5828" font-weight="700">Large</text>
+
+        <!-- Bar 3: Survey accuracy -->
+        <rect x="150" y="104" width="115" height="24" rx="4" fill="#2a6e8a" opacity="0.75"/>
+        <text x="146" y="120" text-anchor="end" font-family="sans-serif" font-size="9.5" fill="#5a3a10" font-weight="700">Survey accuracy</text>
+        <text x="269" y="120" font-family="sans-serif" font-size="9.5" fill="#174d65" font-weight="700">Moderate</text>
+
+        <!-- Bar 4: Growth rate -->
+        <rect x="150" y="138" width="80" height="24" rx="4" fill="#3a9e7e" opacity="0.75"/>
+        <text x="146" y="154" text-anchor="end" font-family="sans-serif" font-size="9.5" fill="#5a3a10" font-weight="700">Fish growth speed</text>
+        <text x="234" y="154" font-family="sans-serif" font-size="9.5" fill="#1a5a3a" font-weight="700">Smaller</text>
+
+        <!-- Bar 5: Gear type -->
+        <rect x="150" y="172" width="45" height="24" rx="4" fill="#3a9e7e" opacity="0.45"/>
+        <text x="146" y="188" text-anchor="end" font-family="sans-serif" font-size="9.5" fill="#5a3a10" font-weight="700">Fishing gear type</text>
+        <text x="199" y="188" font-family="sans-serif" font-size="9.5" fill="#5a8e7e" font-weight="700">Small</text>
+
+        <!-- Bar 6: Data collection timing -->
+        <rect x="150" y="206" width="25" height="24" rx="4" fill="#9a8e7e" opacity="0.45"/>
+        <text x="146" y="222" text-anchor="end" font-family="sans-serif" font-size="9.5" fill="#5a3a10" font-weight="700">Survey timing</text>
+        <text x="179" y="222" font-family="sans-serif" font-size="9.5" fill="#9a8e7e" font-weight="700">Minimal</text>
+
+        <!-- Impact scale label -->
+        <text x="150" y="258" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#9a8e7e" font-style="italic">← Less impact on catch limit    More impact on catch limit →</text>
+
+        <!-- Vertical baseline -->
+        <line x1="150" y1="32" x2="150" y2="240" stroke="#d4c8b8" stroke-width="1.5"/>
+
+        <!-- "Focus here" arrow on top bar -->
+        <line x1="350" y1="48" x2="370" y2="48" stroke="#c0604a" stroke-width="2"/>
+        <text x="374" y="52" font-family="sans-serif" font-size="8.5" fill="#c0604a" font-weight="700">focus!</text>
+      </svg>
+      <p class="caption">Some assumptions move the needle far more than others — those deserve extra scrutiny and transparency.</p>
+    </div>
+  </div>
+  <div class="slide-num">10 / 15</div>
+  <div class="notes">
+    <strong>Notes:</strong> This is sensitivity analysis — testing which inputs drive the most variation in outputs. The ranking here is illustrative but realistic: recruitment/steepness and natural mortality (M) tend to dominate, while some other parameters have surprisingly little effect on the final limit. This is useful information for both science and management.
+  </div>
+</section>
+
+<!-- ===================================================== SLIDE 11 -->
+<section class="slide" id="slide-11" aria-label="Testing our rules in a simulated ocean">
+  <h2 class="headline">What if we could test our fishing rules in a simulated ocean — before using them for real?</h2>
+  <div class="content-area">
+    <div class="text-col">
+      <div class="body">
+        <p>That's exactly what fisheries scientists now do. They build a <strong>simulated version of the ocean</strong> — complete with all the messy reality they can model — and then run the fishing rule against it thousands of times.</p>
+        <p>This reveals: "Does this rule actually work across all the ways the ocean might really be?"</p>
+      </div>
+      <div class="callout sea">It's like a flight simulator for fisheries management — find the problems before lives depend on it.</div>
+    </div>
+    <div class="fig-col">
+      <!-- Circular feedback loop: simulated ocean → model → rule → fishing → back -->
+      <svg viewBox="0 0 400 280" width="400" height="280" aria-label="Circular feedback loop showing simulated ocean testing cycle">
+        <rect width="400" height="280" fill="#f5ede0" rx="8"/>
+        <defs>
+          <marker id="arr11" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+            <polygon points="0 0, 9 4.5, 0 9" fill="#2a6e8a"/>
+          </marker>
+        </defs>
+
+        <!-- Central label -->
+        <rect x="148" y="113" width="104" height="40" rx="8" fill="#e8d5b0" stroke="#c9a96e" stroke-width="2"/>
+        <text x="200" y="130" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#5a3a10" font-weight="700">Test cycle</text>
+        <text x="200" y="145" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#7a5828">1000s of runs</text>
+
+        <!-- Four nodes on a circle -->
+        <!-- Top: Simulated ocean -->
+        <rect x="130" y="20" width="140" height="34" rx="6" fill="#c8e4ef" stroke="#2a6e8a" stroke-width="2"/>
+        <text x="200" y="38" text-anchor="middle" font-family="sans-serif" font-size="10.5" fill="#174d65" font-weight="700">Simulated ocean</text>
+        <text x="200" y="50" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#2a6e8a">(all the uncertainty)</text>
+
+        <!-- Right: The model -->
+        <rect x="305" y="110" width="85" height="40" rx="6" fill="#c4e8dc" stroke="#3a9e7e" stroke-width="2"/>
+        <text x="347" y="128" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#1a5a3a" font-weight="700">The model</text>
+        <text x="347" y="142" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="#3a9e7e">estimates fish</text>
+
+        <!-- Bottom: The fishing rule -->
+        <rect x="130" y="218" width="140" height="34" rx="6" fill="#f0e0c0" stroke="#c9a96e" stroke-width="2"/>
+        <text x="200" y="235" text-anchor="middle" font-family="sans-serif" font-size="10.5" fill="#5a3a10" font-weight="700">Fishing rule</text>
+        <text x="200" y="248" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#7a5828">sets the limit</text>
+
+        <!-- Left: Simulated fishing -->
+        <rect x="10" y="110" width="85" height="40" rx="6" fill="#f0d0c8" stroke="#c0604a" stroke-width="2"/>
+        <text x="52" y="127" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#8a2a14" font-weight="700">Simulated</text>
+        <text x="52" y="140" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#8a2a14" font-weight="700">fishing</text>
+
+        <!-- Curved arrows around the loop -->
+        <!-- Top → Right -->
+        <path d="M 268 37 Q 340 50 340 110" fill="none" stroke="#2a6e8a" stroke-width="2.5" marker-end="url(#arr11)"/>
+        <!-- Right → Bottom -->
+        <path d="M 340 150 Q 340 220 268 230" fill="none" stroke="#3a9e7e" stroke-width="2.5" marker-end="url(#arr11)"/>
+        <!-- Bottom → Left -->
+        <path d="M 132 230 Q 60 220 60 150" fill="none" stroke="#c9a96e" stroke-width="2.5" marker-end="url(#arr11)"/>
+        <!-- Left → Top -->
+        <path d="M 60 110 Q 60 50 132 37" fill="none" stroke="#c0604a" stroke-width="2.5" marker-end="url(#arr11)"/>
+
+        <!-- Step labels on arrows -->
+        <text x="315" y="78" font-family="sans-serif" font-size="8.5" fill="#2a6e8a" font-style="italic">observe</text>
+        <text x="305" y="200" font-family="sans-serif" font-size="8.5" fill="#3a9e7e" font-style="italic">advise</text>
+        <text x="65" y="228" font-family="sans-serif" font-size="8.5" fill="#c9a96e" font-style="italic">fish</text>
+        <text x="14" y="78" font-family="sans-serif" font-size="8.5" fill="#c0604a" font-style="italic">affects</text>
+
+        <text x="200" y="270" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#9a8e7e" font-style="italic">Run this loop thousands of times to see if the rule holds up</text>
+      </svg>
+      <p class="caption">Testing a fishing rule in a simulated ocean before using it for real is like stress-testing a bridge before opening it to traffic.</p>
+    </div>
+  </div>
+  <div class="slide-num">11 / 15</div>
+  <div class="notes">
+    <strong>Notes:</strong> This is Management Strategy Evaluation (MSE). The "operating model" is the simulated ocean — it's meant to represent the range of ways the real ocean might actually be. The estimation model (what managers use) is separate from the operating model, and crucially, it doesn't have to be "right" — it just has to generate advice that leads to good outcomes. MSE lets us test that connection explicitly.
+  </div>
+</section>
+
+<!-- ===================================================== SLIDE 12 -->
+<section class="slide" id="slide-12" aria-label="Trade-offs between goals">
+  <h2 class="headline">More fish now, or healthier stocks long-term? These goals don't always point the same way.</h2>
+  <div class="content-area">
+    <div class="text-col">
+      <div class="body">
+        <p>When we run the simulated ocean, we can see: some fishing rules deliver higher catches in the short run but leave the population more fragile. Others protect the population well but yield less fish each year.</p>
+        <p>This is a genuine trade-off — there is <strong>no single "best" rule</strong> without first agreeing on what matters most.</p>
+        <p>Science can show the trade-offs clearly. But <strong>choosing between them is a values decision.</strong></p>
+      </div>
+    </div>
+    <div class="fig-col">
+      <!-- Two-axis trade-off frontier curve -->
+      <svg viewBox="0 0 400 275" width="400" height="275" aria-label="A frontier curve showing the trade-off between catch now and stock health long-term">
+        <rect width="400" height="275" fill="#f5ede0" rx="8"/>
+        <defs>
+          <marker id="arr12" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+            <polygon points="0 0, 8 4, 0 8" fill="#5a4f40"/>
+          </marker>
+          <marker id="arr12g" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+            <polygon points="0 0, 8 4, 0 8" fill="#3a9e7e"/>
+          </marker>
+          <marker id="arr12b" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+            <polygon points="0 0, 8 4, 0 8" fill="#2a6e8a"/>
+          </marker>
+        </defs>
+
+        <!-- Axes -->
+        <line x1="55" y1="220" x2="370" y2="220" stroke="#9a8e7e" stroke-width="2" marker-end="url(#arr12)"/>
+        <line x1="55" y1="220" x2="55" y2="30" stroke="#9a8e7e" stroke-width="2" marker-end="url(#arr12)"/>
+
+        <!-- Axis labels -->
+        <text x="210" y="248" text-anchor="middle" font-family="sans-serif" font-size="10.5" fill="#5a4f40" font-weight="600">Long-term stock health</text>
+        <text x="210" y="262" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#9a8e7e" font-style="italic">(more fish left in the ocean)</text>
+        <!-- Y-axis label -->
+        <text x="18" y="130" font-family="sans-serif" font-size="10.5" fill="#5a4f40" font-weight="600" transform="rotate(-90 18 130)">Catch this year</text>
+
+        <!-- Frontier curve (concave) -->
+        <path d="M 70 50 Q 100 55 140 80 Q 195 120 250 170 Q 295 205 360 215"
+              fill="none" stroke="#2a6e8a" stroke-width="3.5" stroke-linecap="round"/>
+
+        <!-- Shading below frontier -->
+        <path d="M 70 50 Q 100 55 140 80 Q 195 120 250 170 Q 295 205 360 215 L 360 220 L 55 220 Z"
+              fill="#2a6e8a" opacity="0.07"/>
+
+        <!-- Infeasible zone label -->
+        <text x="100" y="42" font-family="sans-serif" font-size="9" fill="#c0604a" font-style="italic">← impossible</text>
+        <text x="100" y="54" font-family="sans-serif" font-size="9" fill="#c0604a" font-style="italic">(too ambitious)</text>
+
+        <!-- Points on the frontier representing different strategies -->
+        <!-- High catch, lower health -->
+        <circle cx="95" cy="65" r="8" fill="#c0604a" stroke="white" stroke-width="2"/>
+        <text x="110" y="60" font-family="sans-serif" font-size="9" fill="#8a2a14" font-weight="600">Max catch now</text>
+        <text x="110" y="72" font-family="sans-serif" font-size="9" fill="#c0604a" font-style="italic">(higher risk)</text>
+
+        <!-- Balanced middle -->
+        <circle cx="200" cy="143" r="8" fill="#c9a96e" stroke="white" stroke-width="2"/>
+        <text x="215" y="136" font-family="sans-serif" font-size="9" fill="#7a5028" font-weight="600">Balanced</text>
+
+        <!-- Conservation first -->
+        <circle cx="315" cy="200" r="8" fill="#3a9e7e" stroke="white" stroke-width="2"/>
+        <text x="252" y="198" font-family="sans-serif" font-size="9" fill="#1a5a3a" font-weight="600">Stock health</text>
+        <text x="252" y="210" font-family="sans-serif" font-size="9" fill="#3a9e7e" font-style="italic">priority</text>
+
+        <!-- All points are "on the frontier" -->
+        <path d="M 95 73 Q 150 100 200 143" fill="none" stroke="#9a8e7e" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.6"/>
+        <path d="M 200 151 Q 260 175 315 192" fill="none" stroke="#9a8e7e" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.6"/>
+
+        <text x="210" y="265" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#9a8e7e" font-style="italic">All points on the curve are achievable — which you pick is a values choice</text>
+      </svg>
+      <p class="caption">Science can map the trade-offs. But which trade-off to make is a question for society, not just scientists.</p>
+    </div>
+  </div>
+  <div class="slide-num">12 / 15</div>
+  <div class="notes">
+    <strong>Notes:</strong> The "performance frontier" or Pareto frontier concept: any point on the curve is efficient — you can't improve one objective without harming another. Points inside the curve are waste (achieving less than possible). Points above the curve are impossible. The key insight: science tells us where the curve is; values tell us where on it we want to be.
+  </div>
+</section>
+
+<!-- ===================================================== SLIDE 13 -->
+<section class="slide" id="slide-13" aria-label="Public input on trade-offs">
+  <h2 class="headline">Those trade-offs should be made openly — with input from everyone who has a stake.</h2>
+  <div class="content-area">
+    <div class="text-col">
+      <div class="body">
+        <p>Fishing rules affect fishing families, coastal communities, seafood buyers, and anyone who cares about ocean ecosystems. These groups sometimes have different priorities — and those differences are legitimate.</p>
+        <p>The role of science is to <strong>show the trade-offs clearly.</strong> The role of governance is to <strong>make the choice transparently,</strong> with everyone at the table.</p>
+      </div>
+      <div class="callout ocean">Decisions that affect everyone should be made by everyone — not just the people with the most technical knowledge.</div>
+    </div>
+    <div class="fig-col">
+      <!-- Stakeholders around a table with trade-off chart in middle -->
+      <svg viewBox="0 0 420 275" width="420" height="275" aria-label="Different stakeholders gathered around a shared table with the trade-off chart in the center">
+        <rect width="420" height="275" fill="#f5ede0" rx="8"/>
+
+        <!-- Table in center -->
+        <ellipse cx="210" cy="148" rx="85" ry="55" fill="#e8d5b0" stroke="#c9a96e" stroke-width="2.5"/>
+
+        <!-- Trade-off chart on table (mini version) -->
+        <path d="M 155 155 Q 175 140 195 148 Q 215 158 240 155 Q 255 152 265 148"
+              fill="none" stroke="#2a6e8a" stroke-width="2.5" stroke-linecap="round"/>
+        <text x="210" y="170" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="#5a3a10" font-style="italic">trade-off options</text>
+
+        <!-- Stakeholder silhouettes around the table -->
+        <!-- Fisher (top left) -->
+        <circle cx="112" cy="82" r="18" fill="#2a6e8a" opacity="0.8"/>
+        <rect x="97" y="100" width="30" height="22" rx="5" fill="#2a6e8a" opacity="0.6"/>
+        <text x="112" y="138" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#174d65" font-weight="700">Fisher</text>
+
+        <!-- Scientist (top center) -->
+        <circle cx="210" cy="65" r="18" fill="#3a9e7e" opacity="0.8"/>
+        <rect x="195" y="83" width="30" height="22" rx="5" fill="#3a9e7e" opacity="0.6"/>
+        <text x="210" y="120" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#1a5a3a" font-weight="700">Scientist</text>
+
+        <!-- Environmental advocate (top right) -->
+        <circle cx="308" cy="82" r="18" fill="#3a9e7e" opacity="0.8"/>
+        <rect x="293" y="100" width="30" height="22" rx="5" fill="#3a9e7e" opacity="0.6"/>
+        <text x="308" y="138" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#1a5a3a" font-weight="700">Conservationist</text>
+
+        <!-- Consumer / public (bottom left) -->
+        <circle cx="112" cy="215" r="18" fill="#c9a96e" opacity="0.8"/>
+        <rect x="97" y="197" width="30" height="22" rx="5" fill="#c9a96e" opacity="0.6"/>
+        <text x="112" y="248" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#5a3a10" font-weight="700">Seafood</text>
+        <text x="112" y="260" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#5a3a10" font-weight="700">buyer</text>
+
+        <!-- Manager / regulator (bottom right) -->
+        <circle cx="308" cy="215" r="18" fill="#c0604a" opacity="0.8"/>
+        <rect x="293" y="197" width="30" height="22" rx="5" fill="#c0604a" opacity="0.6"/>
+        <text x="308" y="248" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#8a2a14" font-weight="700">Manager</text>
+
+        <!-- Coastal community (bottom center) -->
+        <circle cx="210" cy="235" r="18" fill="#c9a96e" opacity="0.65"/>
+        <rect x="195" y="217" width="30" height="22" rx="5" fill="#c9a96e" opacity="0.5"/>
+        <text x="210" y="266" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#5a3a10" font-weight="700">Coastal community</text>
+
+        <!-- Speech bubbles / connection lines to table -->
+        <line x1="124" y1="96" x2="155" y2="128" stroke="#d4c8b8" stroke-width="1.5" stroke-dasharray="3,2"/>
+        <line x1="210" y1="83" x2="210" y2="105" stroke="#d4c8b8" stroke-width="1.5" stroke-dasharray="3,2"/>
+        <line x1="296" y1="96" x2="266" y2="128" stroke="#d4c8b8" stroke-width="1.5" stroke-dasharray="3,2"/>
+        <line x1="124" y1="197" x2="155" y2="170" stroke="#d4c8b8" stroke-width="1.5" stroke-dasharray="3,2"/>
+        <line x1="296" y1="197" x2="266" y2="170" stroke="#d4c8b8" stroke-width="1.5" stroke-dasharray="3,2"/>
+        <line x1="210" y1="217" x2="210" y2="197" stroke="#d4c8b8" stroke-width="1.5" stroke-dasharray="3,2"/>
+      </svg>
+      <p class="caption">Everyone with a stake in the fishery — fishers, scientists, conservationists, communities, seafood buyers — deserves a seat at the table.</p>
+    </div>
+  </div>
+  <div class="slide-num">13 / 15</div>
+  <div class="notes">
+    <strong>Notes:</strong> This is about the governance dimension. MSE is most powerful when stakeholders help define the performance metrics and the scenarios tested. When the public helps set the objectives, the resulting rule has more legitimacy and is more likely to be followed. Science informs the conversation; it doesn't replace it.
+  </div>
+</section>
+
+<!-- ===================================================== SLIDE 14 -->
+<section class="slide" id="slide-14" aria-label="Science is improving">
+  <h2 class="headline">The science is getting better at showing trade-offs clearly. But using these tools consistently still needs work.</h2>
+  <div class="content-area">
+    <div class="text-col">
+      <div class="body">
+        <p>The old approach: "Here's the number. Trust us." The new approach shows a range of outcomes and trade-offs honestly.</p>
+        <p>The tools exist. But <strong>making sure every fishery actually uses them</strong> — and that results are communicated accessibly — requires ongoing commitment from scientists, managers, and the public.</p>
+      </div>
+      <div class="callout sand">Better science, consistently applied, is within reach. It's a goal worth pushing for.</div>
+    </div>
+    <div class="fig-col">
+      <!-- Before/after: one number vs range + trade-offs -->
+      <svg viewBox="0 0 420 270" width="420" height="270" aria-label="Before and after: old approach gave one number, new approach shows a range and trade-offs">
+        <rect width="420" height="270" fill="#f5ede0" rx="8"/>
+
+        <!-- Dividing line -->
+        <line x1="210" y1="20" x2="210" y2="245" stroke="#d4c8b8" stroke-width="2" stroke-dasharray="6,4"/>
+
+        <!-- BEFORE label -->
+        <rect x="30" y="18" width="145" height="22" rx="4" fill="#e8d5b0" stroke="#c9a96e" stroke-width="1.5"/>
+        <text x="102" y="33" text-anchor="middle" font-family="sans-serif" font-size="10.5" fill="#5a3a10" font-weight="700">Before</text>
+
+        <!-- AFTER label -->
+        <rect x="245" y="18" width="145" height="22" rx="4" fill="#c4e8dc" stroke="#3a9e7e" stroke-width="1.5"/>
+        <text x="317" y="33" text-anchor="middle" font-family="sans-serif" font-size="10.5" fill="#1a5a3a" font-weight="700">Now (and improving)</text>
+
+        <!-- Before: single number box -->
+        <rect x="50" y="58" width="110" height="60" rx="8" fill="white" stroke="#c9a96e" stroke-width="2"/>
+        <text x="105" y="84" text-anchor="middle" font-family="sans-serif" font-size="22" fill="#5a3a10" font-weight="800">847t</text>
+        <text x="105" y="106" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#9a8e7e" font-style="italic">catch limit (one number)</text>
+
+        <!-- Before: limitations -->
+        <text x="105" y="135" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#c0604a">✗ No range shown</text>
+        <text x="105" y="150" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#c0604a">✗ Uncertainty hidden</text>
+        <text x="105" y="165" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#c0604a">✗ One scenario only</text>
+        <text x="105" y="180" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#c0604a">✗ Rule not stress-tested</text>
+
+        <!-- After: range + trade-offs mini chart -->
+        <rect x="225" y="55" width="165" height="85" rx="6" fill="white" stroke="#3a9e7e" stroke-width="2"/>
+        <!-- Mini range display -->
+        <line x1="240" y1="90" x2="375" y2="90" stroke="#d4c8b8" stroke-width="1.5"/>
+        <!-- Range bar -->
+        <rect x="270" y="78" width="80" height="24" rx="4" fill="#3a9e7e" opacity="0.3"/>
+        <line x1="270" y1="90" x2="270" y2="80" stroke="#3a9e7e" stroke-width="2"/>
+        <line x1="350" y1="90" x2="350" y2="80" stroke="#3a9e7e" stroke-width="2"/>
+        <circle cx="308" cy="90" r="4" fill="#2a6e8a"/>
+        <text x="308" y="108" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="#1a5a3a">best estimate + range</text>
+        <text x="308" y="130" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="#9a8e7e" font-style="italic">across many scenarios</text>
+
+        <!-- After: advantages -->
+        <text x="307" y="155" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#3a9e7e">✓ Range of outcomes shown</text>
+        <text x="307" y="170" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#3a9e7e">✓ Trade-offs made visible</text>
+        <text x="307" y="185" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#3a9e7e">✓ Many scenarios tested</text>
+        <text x="307" y="200" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#3a9e7e">✓ Rule stress-tested first</text>
+
+        <!-- Arrow between them -->
+        <text x="210" y="108" text-anchor="middle" font-family="sans-serif" font-size="22" fill="#c9a96e" font-weight="300">→</text>
+
+        <text x="210" y="258" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#9a8e7e" font-style="italic">Modern fisheries science shows honest ranges — not false precision</text>
+      </svg>
+      <p class="caption">The shift from "one number, trust us" to "here are the trade-offs across many scenarios" represents genuine scientific progress.</p>
+    </div>
+  </div>
+  <div class="slide-num">14 / 15</div>
+  <div class="notes">
+    <strong>Notes:</strong> The governance challenge is real. MSE is computationally intensive and requires defining objectives upfront — which requires stakeholder engagement before the analysis, not just review of results afterward. Many fisheries still don't use MSE. Where it is used, it's often not communicated to the public. Closing that gap is the unfinished business.
+  </div>
+</section>
+
+<!-- ===================================================== SLIDE 15: CLOSING -->
+<section class="slide slide-closing" id="slide-15" aria-label="Closing slide">
+
+  <!-- Background ocean scene -->
+  <svg viewBox="0 0 900 506" style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:0.22;" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <linearGradient id="closingBg" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#1a4a5e"/>
+        <stop offset="100%" stop-color="#1e6a5a"/>
+      </linearGradient>
+    </defs>
+    <rect width="900" height="506" fill="url(#closingBg)"/>
+    <!-- Water layers -->
+    <path d="M0 280 Q112 255 225 280 Q337 305 450 280 Q562 255 675 280 Q787 305 900 280 L900 506 L0 506 Z" fill="#1a5a7a" opacity="0.6"/>
+    <path d="M0 320 Q112 300 225 320 Q337 340 450 320 Q562 300 675 320 Q787 340 900 320 L900 506 L0 506 Z" fill="#1a6a6a" opacity="0.5"/>
+    <path d="M0 360 Q112 345 225 360 Q337 380 450 360 Q562 345 675 360 Q787 380 900 360 L900 506 L0 506 Z" fill="#0a4a5a" opacity="0.55"/>
+    <!-- Larger fish family -->
+    <g fill="#4ac8b0" opacity="0.4">
+      <ellipse cx="150" cy="390" rx="38" ry="15"/>
+      <polygon points="112,390 128,380 128,400"/>
+      <ellipse cx="400" cy="420" rx="30" ry="12"/>
+      <polygon points="370,420 382,412 382,428"/>
+      <ellipse cx="650" cy="385" rx="35" ry="14"/>
+      <polygon points="615,385 630,376 630,394"/>
+      <ellipse cx="820" cy="410" rx="22" ry="9"/>
+      <polygon points="798,410 808,403 808,417"/>
+      <ellipse cx="270" cy="445" rx="26" ry="10"/>
+      <polygon points="244,445 256,438 256,452"/>
+    </g>
+    <!-- Boat on horizon -->
+    <path d="M420 282 Q435 292 510 292 Q520 282 520 282 Z" fill="#c9a96e" opacity="0.6"/>
+    <rect x="458" y="261" width="36" height="22" rx="3" fill="#e8d5b0" opacity="0.5"/>
+    <path d="M454 263 L476 252 L498 263 Z" fill="#c9a96e" opacity="0.5"/>
+    <!-- Shore houses left -->
+    <rect x="30" y="255" width="40" height="50" rx="3" fill="#e8d5b0" opacity="0.35"/>
+    <polygon points="30,255 50,235 70,255" fill="#c9a96e" opacity="0.35"/>
+    <rect x="80" y="262" width="32" height="42" rx="3" fill="#e8d5b0" opacity="0.35"/>
+    <polygon points="80,262 96,246 112,262" fill="#c9a96e" opacity="0.35"/>
+  </svg>
+
+  <div style="position:relative;z-index:2;display:flex;flex-direction:column;height:100%;justify-content:center;padding:4% 6%;">
+    <h2 class="headline">Getting this right matters — for the fish, for fishing families, and for everyone who eats seafood.</h2>
+    <div class="body" style="max-width:60%;margin-top:0.5em;">
+      <p>The science of fisheries management is genuinely hard — and genuinely improving. Honest models, transparent trade-offs, and open governance aren't just good science. They're the foundation of fisheries that can feed the world for generations.</p>
+      <p style="margin-top:0.8em;"><strong style="color:#f0e0b0;">We don't always know everything. But we're getting better at knowing what we don't know — and saying so.</strong></p>
+    </div>
+
+    <!-- Three-column summary -->
+    <div style="display:flex;gap:2%;margin-top:1.5em;max-width:78%;">
+      <div style="background:rgba(42,110,138,0.4);border:1.5px solid rgba(200,228,239,0.4);border-radius:8px;padding:0.6em 0.8em;flex:1;">
+        <div style="font-size:clamp(0.6rem,1.1vw,0.82rem);color:#c8e4ef;font-weight:700;margin-bottom:0.3em;">For the ocean</div>
+        <div style="font-size:clamp(0.55rem,1vw,0.75rem);color:rgba(245,240,232,0.75);line-height:1.4;">Honest uncertainty means better-calibrated protection for fish populations</div>
+      </div>
+      <div style="background:rgba(58,158,126,0.35);border:1.5px solid rgba(196,232,220,0.4);border-radius:8px;padding:0.6em 0.8em;flex:1;">
+        <div style="font-size:clamp(0.6rem,1.1vw,0.82rem);color:#c4e8dc;font-weight:700;margin-bottom:0.3em;">For fishing families</div>
+        <div style="font-size:clamp(0.55rem,1vw,0.75rem);color:rgba(245,240,232,0.75);line-height:1.4;">Transparent trade-offs and public input lead to rules people trust and follow</div>
+      </div>
+      <div style="background:rgba(201,169,110,0.3);border:1.5px solid rgba(240,224,192,0.4);border-radius:8px;padding:0.6em 0.8em;flex:1;">
+        <div style="font-size:clamp(0.6rem,1.1vw,0.82rem);color:#f0e0b0;font-weight:700;margin-bottom:0.3em;">For everyone</div>
+        <div style="font-size:clamp(0.55rem,1vw,0.75rem);color:rgba(245,240,232,0.75);line-height:1.4;">Good governance of shared ocean resources benefits all of us, now and in the future</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-num">15 / 15</div>
+  <div class="notes">
+    <strong>Closing notes:</strong> End on hope and agency. The improvements described in this talk are real and ongoing. MSE adoption is growing. More fisheries are moving toward transparent uncertainty communication. The public can play a role by asking good questions, engaging in comment processes, and supporting science-based governance. Thank you.
+  </div>
+</section>
+
+</div><!-- /deck -->
+
+<script>
+(function() {
+  'use strict';
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const total = slides.length;
+  let current = 0;
+  let notesVisible = false;
+
+  function goTo(n) {
+    if (n < 0 || n >= total) return;
+    slides[current].classList.remove('active');
+    current = n;
+    slides[current].classList.add('active');
+    updateProgress();
+    updateNotes();
+  }
+
+  function updateProgress() {
+    const pct = total > 1 ? (current / (total - 1)) * 100 : 100;
+    document.getElementById('progress').style.width = pct + '%';
+  }
+
+  function updateNotes() {
+    const note = slides[current].querySelector('.notes');
+    if (note) {
+      if (notesVisible) note.classList.add('visible');
+      else note.classList.remove('visible');
+    }
+    // Hide notes on other slides
+    slides.forEach((s, i) => {
+      if (i !== current) {
+        const n = s.querySelector('.notes');
+        if (n) n.classList.remove('visible');
+      }
+    });
+  }
+
+  function toggleNotes() {
+    notesVisible = !notesVisible;
+    updateNotes();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    switch(e.key) {
+      case 'ArrowRight': case 'ArrowDown': case ' ': case 'PageDown':
+        e.preventDefault(); goTo(current + 1); break;
+      case 'ArrowLeft': case 'ArrowUp': case 'PageUp':
+        e.preventDefault(); goTo(current - 1); break;
+      case 'Home': e.preventDefault(); goTo(0); break;
+      case 'End': e.preventDefault(); goTo(total - 1); break;
+      case 'n': case 'N': e.preventDefault(); toggleNotes(); break;
+    }
+  });
+
+  document.getElementById('prev-btn').addEventListener('click', function() { goTo(current - 1); });
+  document.getElementById('next-btn').addEventListener('click', function() { goTo(current + 1); });
+
+  // Touch support
+  let touchStartX = 0;
+  document.addEventListener('touchstart', function(e) { touchStartX = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', function(e) {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 40) { if (dx < 0) goTo(current + 1); else goTo(current - 1); }
+  }, { passive: true });
+
+  updateProgress();
+})();
+</script>
+</body>
+</html>
