@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Sparse NUTS Proposal (Sections)</title>
+  <style>
+    body { font-family: "Georgia", "Times New Roman", serif; line-height: 1.45; margin: 2.5rem; max-width: 900px; }
+    h2 { margin-top: 2rem; }
+  </style>
+</head>
+<body>
+  <section id="abstract">
+    <h2>Abstract</h2>
+    <p>
+      Sparse NUTS (SNUTS) preconditions posteriors using a sparse precision matrix Q
+      computed with Template Model Builder (TMB) at the Laplace marginal mode, then
+      samples the preconditioned posterior with Stan's NUTS. Across seventeen case
+      studies, preconditioning with Q converges one to two orders of magnitude faster
+      than Stan's diagonal or dense preconditioners and outperforms using
+      Pathfinder-based covariance. SNUTS scales beyond 10^4 parameters when posteriors
+      are approximately Gaussian with sparse, correlated structure, but it does not
+      help funnel, heavy-tail, or multimodal geometries. An open-source implementation
+      is provided in the R package SparseNUTS.
+    </p>
+  </section>
+
+  <section id="introduction">
+    <h2>Introduction</h2>
+    <p>
+      NUTS is widely used for Bayesian hierarchical models, but large correlations and
+      scale differences can make warmup long and sampling inefficient. Default workflows
+      adapt a diagonal mass matrix during warmup and therefore do not address correlations,
+      which limits practical model size.
+    </p>
+    <p>
+      Template Model Builder (TMB) provides sparse precision matrices for a broad class of
+      hierarchical models via Laplace-based marginal optimization. We leverage this to build
+      Sparse NUTS (SNUTS), which preconditions a posterior using Q before NUTS sampling.
+      We implement SNUTS in an R package and evaluate it on simulated models and seventeen
+      case studies, including embedded Laplace variants.
+    </p>
+  </section>
+
+  <section id="methods">
+    <h2>Methods</h2>
+    <p>
+      We describe the NUTS preconditioning problem, introduce sparse decorrelation using Q,
+      and outline the SNUTS workflow and evaluation design.
+    </p>
+  </section>
+</body>
+</html>
