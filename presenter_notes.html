@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Presenter Notes — Assessment Assumptions and Management Advice</title>
+<style>
+  /* ── Base ─────────────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #fafaf8;
+    color: #1a1a1a;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 15px;
+    line-height: 1.65;
+    padding: 48px 0;
+  }
+
+  .page {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 48px;
+  }
+
+  /* ── Document header ──────────────────────────────────── */
+  .doc-header {
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 24px;
+    margin-bottom: 36px;
+  }
+
+  .doc-title {
+    font-size: 21px;
+    font-weight: bold;
+    letter-spacing: -0.01em;
+    margin-bottom: 6px;
+  }
+
+  .doc-subtitle {
+    font-size: 13px;
+    color: #666;
+    font-style: italic;
+    margin-bottom: 18px;
+  }
+
+  /* ── Color key legend ─────────────────────────────────── */
+  .legend {
+    background: #f2f2ef;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 14px 18px;
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+  }
+
+  .legend-title {
+    font-weight: bold;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #555;
+    margin-bottom: 8px;
+  }
+
+  .legend-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 5px;
+  }
+
+  .legend-swatch {
+    flex-shrink: 0;
+    width: 14px;
+    height: 14px;
+    margin-top: 3px;
+    border-radius: 1px;
+  }
+
+  .swatch-tension  { background: #b85c52; }
+  .swatch-consequence { background: #3a6a9a; }
+  .swatch-frame    { background: #888; }
+
+  /* ── Slide blocks ─────────────────────────────────────── */
+  .slide-block {
+    margin-bottom: 32px;
+    padding: 20px 22px 20px 24px;
+    border-left: 3px solid transparent;
+    border-radius: 0 3px 3px 0;
+    page-break-inside: avoid;
+  }
+
+  /* BUT: tension/contradiction */
+  .slide-block.tension {
+    border-left-color: #b85c52;
+    background: #fdf5f4;
+  }
+
+  /* THEREFORE: consequence/resolution */
+  .slide-block.consequence {
+    border-left-color: #3a6a9a;
+    background: #f4f7fc;
+  }
+
+  /* FRAMING */
+  .slide-block.frame {
+    border-left-color: #888;
+    background: transparent;
+  }
+
+  /* ── Inside a slide block ─────────────────────────────── */
+  .slide-number {
+    font-size: 11px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: #999;
+    margin-bottom: 4px;
+  }
+
+  .slide-number.tension-label  { color: #b07068; }
+  .slide-number.consequence-label { color: #5a85b0; }
+  .slide-number.frame-label    { color: #888; }
+
+  .slide-headline {
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 1.3;
+    margin-bottom: 10px;
+    color: #111;
+  }
+
+  .slide-role {
+    font-style: italic;
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 14px;
+    line-height: 1.5;
+  }
+
+  .notes-label {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #aaa;
+    margin-bottom: 5px;
+  }
+
+  .slide-notes {
+    font-size: 14.5px;
+    color: #2a2a2a;
+    margin-bottom: 14px;
+  }
+
+  .slide-notes p {
+    margin-bottom: 8px;
+  }
+
+  .slide-notes p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Key claim */
+  .key-claim {
+    font-size: 13.5px;
+    font-variant: small-caps;
+    letter-spacing: 0.03em;
+    color: #111;
+    font-weight: bold;
+    border-top: 1px solid rgba(0,0,0,0.1);
+    padding-top: 10px;
+    margin-top: 12px;
+    line-height: 1.5;
+  }
+
+  /* Watch-for / transition cue */
+  .cue {
+    font-size: 13px;
+    color: #777;
+    font-style: italic;
+    margin-top: 10px;
+    padding-left: 12px;
+    border-left: 2px solid #ddd;
+    line-height: 1.5;
+  }
+
+  /* ── Print styles ─────────────────────────────────────── */
+  @media print {
+    body { padding: 0; font-size: 12pt; }
+    .page { max-width: 100%; padding: 0.5in 0.75in; }
+    .slide-block { page-break-inside: avoid; margin-bottom: 20pt; }
+    .doc-header { margin-bottom: 24pt; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Document header -->
+  <div class="doc-header">
+    <div class="doc-title">Assessment Assumptions and Management Advice</div>
+    <div class="doc-subtitle">Presenter notes — 15-slide scientific presentation</div>
+    <div class="legend">
+      <div class="legend-title">Reading guide</div>
+      <div class="legend-row">
+        <div class="legend-swatch swatch-tension"></div>
+        <span>A slide whose left edge is terracotta introduces structural tension, contradiction, or a gap that the previous claim cannot resolve on its own.</span>
+      </div>
+      <div class="legend-row">
+        <div class="legend-swatch swatch-consequence"></div>
+        <span>A slide whose left edge is steel blue draws a logical consequence from what preceded it — the thread advances or a resolution is offered.</span>
+      </div>
+      <div class="legend-row">
+        <div class="legend-swatch swatch-frame"></div>
+        <span>A slide with a grey edge sets framing context outside the dialectical sequence.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Slide 1 ────────────────────────────────────────── -->
+  <div class="slide-block frame">
+    <div class="slide-number frame-label">Slide 1 &mdash; Framing</div>
+    <div class="slide-headline">How structural choices in stock assessments propagate into management advice — and what we can do about it</div>
+    <div class="slide-role">Opening frame — sets up the causal question, not a historical review.</div>
+
+    <div class="notes-label">Notes</div>
+    <div class="slide-notes">
+      <p>The central question is not whether assessments are "right" but how structural choices — model form, priors, data weighting — shape the advice we deliver. This talk traces that causal chain and asks what we can do about it.</p>
+      <p>Position this explicitly as a causal argument, not a critique of practitioners. The choices under discussion are often unavoidable; the issue is how their consequences flow through the system.</p>
+    </div>
+
+    <div class="key-claim">Key claim: Every piece of advice we give is downstream of modeling decisions that predate the data.</div>
+  </div>
+
+  <!-- ── Slide 2 ────────────────────────────────────────── -->
+  <div class="slide-block consequence">
+    <div class="slide-number consequence-label">Slide 2</div>
+    <div class="slide-headline">We want management advice that is stable, precautionary, and defensible.</div>
+    <div class="slide-role">Establishes the normative baseline — what the harvest control rule system is designed to achieve.</div>
+
+    <div class="notes-label">Notes</div>
+    <div class="slide-notes">
+      <p>The HCR is the mechanism that translates assessment output into precautionary advice. The buffer between OFL and ABC is explicitly designed to absorb uncertainty. The question this talk addresses: does it actually absorb the right kind of uncertainty?</p>
+      <p>Anchor the audience in shared purpose before introducing the tension. Everyone in the room wants the system to work; the goal is to examine whether it does.</p>
+    </div>
+
+    <div class="key-claim">Key claim: The ABC buffer only works if uncertainty is correctly characterized.</div>
+    <div class="cue">Transition: "But does the assessment actually give us that?"</div>
+  </div>
+
+  <!-- ── Slide 3 ────────────────────────────────────────── -->
+  <div class="slide-block tension">
+    <div class="slide-number tension-label">Slide 3</div>
+    <div class="slide-headline">Every assessment embeds structural assumptions that are not in the data.</div>
+    <div class="slide-role">First major tension — the assessment is not a neutral data summary.</div>
+
+    <div class="notes-label">Notes</div>
+    <div class="slide-notes">
+      <p>These assumptions reflect genuine scientific knowledge but are commitments. When they are wrong, the model cannot self-correct because the likelihood surface is defined over parameters given a fixed structure. Misspecification is invisible to within-model diagnostics.</p>
+      <p>Distinguish structural assumptions (model form, functional relationships, fixed parameters) from estimation uncertainty (sampling error around fitted parameters). The talk is about the former.</p>
+    </div>
+
+    <div class="key-claim">Key claim: The model cannot flag its own structural errors.</div>
+    <div class="cue">Watch for: Audience may push back — "we use model selection." Note that AIC compares likelihoods under the same structural family; it cannot detect misspecification of the family itself.</div>
+  </div>
+
+  <!-- ── Slide 4 ────────────────────────────────────────── -->
+  <div class="slide-block consequence">
+    <div class="slide-number consequence-label">Slide 4</div>
+    <div class="slide-headline">Management advice inherits every structural assumption.</div>
+    <div class="slide-role">Logical consequence — if the model is downstream of assumptions, so is the OFL.</div>
+
+    <div class="notes-label">Notes</div>
+    <div class="slide-notes">
+      <p>The DAG is the core causal diagram for the talk. Red nodes are inputs the data cannot fully constrain. The blue node is the ultimate output — ABC. The entire system is downstream of structural choices made before data are fitted.</p>
+      <p>Emphasize that this is an architectural fact, not a critique of any particular assessment team or agency. The structure is the issue, not the people working within it.</p>
+    </div>
+
+    <div class="key-claim">Key claim: The OFL is not an empirical quantity — it is a model-derived quantity that inherits structural commitments.</div>
+  </div>
+
+  <!-- ── Slide 5 ────────────────────────────────────────── -->
+  <div class="slide-block tension">
+    <div class="slide-number tension-label">Slide 5</div>
+    <div class="slide-headline">Many structural assumptions are weakly informed by available data.</div>
+    <div class="slide-role">Deepens the tension — the assumptions driving advice are often poorly constrained.</div>
+
+    <div class="notes-label">Notes</div>
+    <div class="slide-notes">
+      <p>Steepness and natural mortality (M) are canonical examples, but selectivity patterns and catchability trends face similar problems. When the likelihood surface is flat over a parameter, the maximum likelihood estimate is not meaningfully different from many alternative values across a wide range.</p>
+      <p>The prior — explicit or implicit (e.g., a fixed value) — is doing the real work of determining the estimate. This is not a failure of the analyst; it is an information-theoretic constraint.</p>
+    </div>
+
+    <div class="key-claim">Key claim: A flat likelihood means the data cannot distinguish the assumption from its alternatives.</div>
+    <div class="cue">Watch for: This is the natural entry point for steepness (h) as the running example through slides 6 and 7.</div>
+  </div>
+
+  <!-- ── Slide 6 ────────────────────────────────────────── -->
+  <div class="slide-block consequence">
+    <div class="slide-number consequence-label">Slide 6</div>
+    <div class="slide-headline">Uncertainty propagates nonlinearly through the assessment.</div>
+    <div class="slide-role">Shows the quantitative consequence — small assumption changes cause large ABC swings.</div>
+
+    <div class="notes-label">Notes</div>
+    <div class="slide-notes">
+      <p>The ABC difference between h = 0.6 and h = 0.8 is not within-model estimation uncertainty — it is structural uncertainty that the standard framework does not acknowledge. The buffer between OFL and ABC was not designed to absorb this.</p>
+      <p>This pattern has been documented in real Pacific groundfish assessments. The numbers are not hypothetical. Lead with a specific case if the audience is familiar with the stock.</p>
+    </div>
+
+    <div class="key-claim">Key claim: A 0.2-unit steepness shift can move ABC by 40–60% — outside any within-model confidence interval.</div>
+  </div>
+
+  <!-- ── Slide 7 ────────────────────────────────────────── -->
+  <div class="slide-block tension">
+    <div class="slide-number tension-label">Slide 7</div>
+    <div class="slide-headline">Management frameworks typically treat point estimates as sufficient statistics.</div>
+    <div class="slide-role">The system was not built to handle this kind of uncertainty.</div>
+
+    <div class="notes-label">Notes</div>
+    <div class="slide-notes">
+      <p>The P* approach (PFMC, NPFMC) correctly accounts for within-model estimation uncertainty but takes model structure as given. If the true structural uncertainty spans a wide distribution and the buffer is calibrated to a narrow within-model distribution, the system is systematically under-buffered for the most consequential source of error.</p>
+      <p>The buffer absorbs the uncertainty it can see. It is blind to structural uncertainty by design — not by negligence.</p>
+    </div>
+
+    <div class="key-claim">Key claim: Structural uncertainty enters the harvest control rule as zero.</div>
+    <div class="cue">Watch for: This is the crux for a NPFMC/PFMC audience — frame it as a gap in an otherwise rigorous system, not a failure of the system.</div>
+  </div>
+
+  <!-- ── Slide 8 ────────────────────────────────────────── -->
+  <div class="slide-block consequence">
+    <div class="slide-number consequence-label">Slide 8</div>
+    <div class="slide-headline">Risk is mischaracterized: the stated probability of overfishing is optimistic.</div>
+    <div class="slide-role">Consequence of treating point estimates as truth — nominal P[overfishing] diverges from realized P[overfishing].</div>
+
+    <div class="notes-label">Notes</div>
+    <div class="slide-notes">
+      <p>MSE studies (Punt et al. 2016; Wiedenmann et al. 2017) demonstrate that real management systems applied to simulated populations with misspecified models produce realized overfishing rates far above nominal targets. The gap has a structural origin, not a random one — it does not average out over time.</p>
+      <p>This is the consequence the audience should find alarming: the precautionary intent of the P* framework is undermined if the uncertainty it acts on is systematically understated.</p>
+    </div>
+
+    <div class="key-claim">Key claim: Nominal P* &ne; realized overfishing probability when structural bias is present and unmodeled.</div>
+  </div>
+
+  <!-- ── Slide 9 ────────────────────────────────────────── -->
+  <div class="slide-block tension">
+    <div class="slide-number tension-label">Slide 9</div>
+    <div class="slide-headline">Making causal structure explicit makes assumption sensitivity diagnosable.</div>
+    <div class="slide-role">First pivot toward solutions — the directed acyclic graph is not just descriptive, it is a diagnostic tool.</div>
+
+    <div class="notes-label">Notes</div>
+    <div class="slide-notes">
+      <p>Making the causal DAG explicit serves two functions: (1) it identifies which nodes to investigate through sensitivity analysis; (2) it provides a defensible, documented record of the causal claims embedded in the assessment — a form of model transparency that supports peer review and institutional memory.</p>
+      <p>The pivot here is from diagnosis to remedy. Slides 9–12 build the methodological argument for what better practice looks like. This slide frames why any of it matters.</p>
+    </div>
+
+    <div class="key-claim">Key claim: You cannot systematically test what you have not made explicit.</div>
+  </div>
+
+  <!-- ── Slide 10 ───────────────────────────────────────── -->
+  <div class="slide-block consequence">
+    <div class="slide-number consequence-label">Slide 10</div>
+    <div class="slide-headline">Sensitivity analysis locates where assumptions drive advice most strongly.</div>
+    <div class="slide-role">Consequence of having explicit structure — we can rank and prioritize the sources of uncertainty.</div>
+
+    <div class="notes-label">Notes</div>
+    <div class="slide-notes">
+      <p>Tornado diagrams showing OFL sensitivity to each structural assumption should be standard assessment reporting. They are not methodologically exotic — they are straightforward to produce and immediately legible to decision-makers.</p>
+      <p>The goal is not a single "best" sensitivity scenario but to reveal the architecture of uncertainty: which assumptions, if wrong by a plausible amount, move the advice the most? That is exactly the information a council needs to prioritize data collection and research investment.</p>
+    </div>
+
+    <div class="key-claim">Key claim: Steepness and M dominate OFL sensitivity — they should be the focus of data collection and model averaging efforts.</div>
+    <div class="cue">Transition: "But knowing where the leverage is doesn't tell us whether our management strategy survives it."</div>
+  </div>
+
+  <!-- ── Slide 11 ───────────────────────────────────────── -->
+  <div class="slide-block tension">
+    <div class="slide-number tension-label">Slide 11</div>
+    <div class="slide-headline">Sensitivity analysis alone cannot tell us whether a management strategy performs acceptably.</div>
+    <div class="slide-role">Limits of diagnostics — static sensitivity analysis is not the same as dynamic performance evaluation.</div>
+
+    <div class="notes-label">Notes</div>
+    <div class="slide-notes">
+      <p>In open-loop (static) analysis, you hold the stock at a fixed state and ask how advice changes as assumptions vary. In closed-loop MSE, the stock evolves in response to harvest generated by potentially misspecified advice, and you measure actual performance outcomes against management objectives over time.</p>
+      <p>Performance is path-dependent. A strategy that looks acceptable under the base-case assumption may be catastrophically poor under an alternative once cumulative harvest effects compound over a decade. Static analysis cannot reveal this dynamic.</p>
+    </div>
+
+    <div class="key-claim">Key claim: The stock does not observe our model — it responds to harvest.</div>
+  </div>
+
+  <!-- ── Slide 12 ───────────────────────────────────────── -->
+  <div class="slide-block consequence">
+    <div class="slide-number consequence-label">Slide 12</div>
+    <div class="slide-headline">MSE tests strategy performance across the space of plausible operating models.</div>
+    <div class="slide-role">MSE as the appropriate tool for evaluating robustness — the logical resolution of the dynamic evaluation problem.</div>
+
+    <div class="notes-label">Notes</div>
+    <div class="slide-notes">
+      <p>The key output of MSE is not a single number but a performance profile across operating models. The OM set should span the range of structural uncertainty identified in sensitivity analysis — this directly links slides 9 and 10 with the evaluation framework here.</p>
+      <p>The selection criterion shifts from "performs best under the base-case assumption" to "performs acceptably under all plausible cases." Robustness replaces base-case optimality as the standard of evidence.</p>
+    </div>
+
+    <div class="key-claim">Key claim: Robustness, not base-case performance, is the appropriate selection criterion for harvest control rules.</div>
+  </div>
+
+  <!-- ── Slide 13 ───────────────────────────────────────── -->
+  <div class="slide-block tension">
+    <div class="slide-number tension-label">Slide 13</div>
+    <div class="slide-headline">Management objectives conflict: conservation performance trades off against yield and stability.</div>
+    <div class="slide-role">MSE reveals trade-offs that cannot be resolved by science alone.</div>
+
+    <div class="notes-label">Notes</div>
+    <div class="slide-notes">
+      <p>Once MSE has mapped the efficient frontier — the set of strategies where no objective can be improved without worsening another — science has done its job. The choice of where to operate on that frontier requires explicit stakeholder deliberation. This is where MSE connects to council governance and its statutory mandate.</p>
+      <p>No single HCR simultaneously maximizes yield, minimizes collapse risk, and minimizes catch variability. Presenting trade-offs honestly is a scientific responsibility; resolving them is not.</p>
+    </div>
+
+    <div class="key-claim">Key claim: No single harvest control rule simultaneously maximizes yield, minimizes collapse risk, and minimizes catch variability.</div>
+    <div class="cue">Watch for: This is the key handoff moment — from what science can say to what governance must decide. Handle it as a strength of the framework, not a limitation.</div>
+  </div>
+
+  <!-- ── Slide 14 ───────────────────────────────────────── -->
+  <div class="slide-block tension">
+    <div class="slide-number tension-label">Slide 14</div>
+    <div class="slide-headline">Transparency about assumptions and trade-offs is uneven across assessments and jurisdictions.</div>
+    <div class="slide-role">Even if the tools exist, institutional reporting practice is inconsistent — a compounding structural problem.</div>
+
+    <div class="notes-label">Notes</div>
+    <div class="slide-notes">
+      <p>Most assessment teams are under-resourced relative to the full reporting task that structural uncertainty transparency would require. Standardizing sensitivity analysis and OM-based uncertainty reporting requires investment in tools, templates, and review capacity — not just scientific willingness.</p>
+      <p>The ICES Transparent Assessment Framework and some NPFMC/PFMC initiatives are moving in this direction, but uptake is uneven and the standards are inconsistently enforced in review. This is an institutional bottleneck, not a methodological one.</p>
+    </div>
+
+    <div class="key-claim">Key claim: The bottleneck is not methodological — it is institutional.</div>
+  </div>
+
+  <!-- ── Slide 15 ───────────────────────────────────────── -->
+  <div class="slide-block consequence">
+    <div class="slide-number consequence-label">Slide 15 &mdash; Conclusion</div>
+    <div class="slide-headline">Governance must integrate quantitative diagnostics — not as optional addenda but as standard products.</div>
+    <div class="slide-role">Final resolution — the argument closes with a governance prescription grounded in the full causal chain traced above.</div>
+
+    <div class="notes-label">Notes</div>
+    <div class="slide-notes">
+      <p>We do not need more research before acting. We need to reorganize existing research products into a more transparent and decision-relevant format. DAGs, sensitivity analysis, operating model sets, and MSE are not new methods; they exist in the literature and in the toolboxes of most stock assessment scientists.</p>
+      <p>What is needed is their institutionalization as standard deliverables, with review criteria that explicitly evaluate structural uncertainty reporting. This is a governance reform as much as a scientific one — it requires councils, agencies, and review bodies to change what they ask for and what they reward.</p>
+    </div>
+
+    <div class="key-claim">Key claim: Structural uncertainty must be reported, not absorbed silently.</div>
+    <div class="cue">Closing line: "The question is not whether we can do this — it is whether we will."</div>
+  </div>
+
+</div><!-- /.page -->
+</body>
+</html>
