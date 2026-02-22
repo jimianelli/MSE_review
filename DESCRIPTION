@@ -1,0 +1,28 @@
+Package: MSEreview
+Title: Closed-Loop Management Strategy Evaluation for Alaska Groundfish
+Version: 0.1.0
+Authors@R: person("Jim", "Ianelli", email = "james.ianelli@noaa.gov",
+    role = c("aut", "cre"))
+Description: Implements a closed-loop Management Strategy Evaluation (MSE)
+    framework based on Walters (2004), including an operating model using a
+    delay-difference population dynamics equations, lognormal observation
+    error, Kalman filter stock assessment, harvest control rules, and
+    performance metrics. Supports comparison of management procedures under
+    structural uncertainty relevant to Alaska groundfish fisheries.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Depends:
+    R (>= 4.1.0)
+Imports:
+    stats
+Suggests:
+    ggplot2,
+    grid,
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown
+Config/testthat/edition: 3
+URL: https://github.com/jimianelli/MSE_review
+BugReports: https://github.com/jimianelli/MSE_review/issues

@@ -1,0 +1,16 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^doc$
+^docs$
+^walters$
+^\.github$
+^\.claude$
+^\.vscode$
+^README\.Rmd$
+^.*\.html$
+^.*\.qmd$
+^sparse_nuts_proposed_sections\.html$
+^presenter_notes\.html$
+^public_slides\.html$
+^assessment_assumptions_slides\.html$
+^LICENSE\.md$
